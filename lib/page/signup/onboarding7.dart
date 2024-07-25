@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
+import 'package:dreamer/page/signup/onboarding_done.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,7 +17,9 @@ class Signup7 extends StatelessWidget {
         step: 7,
         title: titleList[6],
         subTitle: subTitleList[6],
-        onNext: () {},
+        onNext: () {
+          Navigator.of(context).push(Right2LeftRouter(child: const SignupDonePage()));
+        },
         child: const Padding(
           padding: EdgeInsets.only(top: 40),
           child: PicturePicker(),

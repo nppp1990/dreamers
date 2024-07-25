@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
+import 'package:dreamer/page/signup/onboarding7.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +23,7 @@ class _Signup6State extends State<Signup6> {
       title: titleList[5],
       subTitle: subTitleList[5],
       onNext: () {
+        Navigator.of(context).push(Right2LeftRouter(child: const Signup7()));
         // if (_value.isNotEmpty) {
         //   // Navigator.of(context).push(Right2LeftRouter(child: const Signup4()));
         // } else {

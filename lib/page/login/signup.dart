@@ -1,6 +1,8 @@
+import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/dash.dart';
 import 'package:dreamer/page/login/widgets.dart';
+import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatelessWidget {
@@ -49,7 +51,9 @@ class SignupPage extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  LoginButton(text: 'Sign up', onPressed: () {}),
+                  LoginButton(text: 'Sign up', onPressed: () {
+                    _onClickSignup(context);
+                  },),
                   const SizedBox(
                     height: 8,
                   ),
@@ -97,11 +101,17 @@ class SignupPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   // sign in with google
-                  AuthLogin(text: 'Sign in with Google', svgName: 'assets/images/icons/ic_google.svg', onPressed: (){}),
+                  AuthLogin(
+                      text: 'Sign in with Google', svgName: 'assets/images/icons/ic_google.svg', onPressed: () {}),
                   const SizedBox(height: 12),
                   // sign in with apple
-                  AuthLogin(text: 'Sign in with Apple', svgName: 'assets/images/icons/ic_apple.svg', onPressed: (){}),
+                  AuthLogin(text: 'Sign in with Apple', svgName: 'assets/images/icons/ic_apple.svg', onPressed: () {}),
                 ]))));
+  }
+
+  _onClickSignup(BuildContext context) {
+    // todo test
+    Navigator.push(context, Right2LeftRouter(child: const OnboardingPage()));
   }
 
   Widget _buildFieldLabel(String label) {

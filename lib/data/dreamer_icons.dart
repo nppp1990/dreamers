@@ -7,4 +7,5 @@ class DreamerIcons {
   static const IconData notification = IconData(0xe601, fontFamily: 'dreamer-icons');
   static const IconData arrowDown = IconData(0xe602, fontFamily: 'dreamer-icons');
   static const IconData camera = IconData(0xe603, fontFamily: 'dreamer-icons');
+  static const IconData arrowLeft = IconData(0xe605, fontFamily: 'dreamer-icons');
 }

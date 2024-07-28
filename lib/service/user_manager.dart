@@ -7,7 +7,7 @@ class UserManager {
 
   isLogin() {
     // todo: 判断是否登录
-    return false;
+    return true;
   }
 
 // String _token;

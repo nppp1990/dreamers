@@ -1,6 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
-import 'package:dreamer/page/home/HomeListPage.dart';
+import 'package:dreamer/page/home/home_list_page.dart';
 import 'package:dreamer/page/login/login.dart';
 import 'package:dreamer/page/splash/dreamer_icon_text.dart';
 import 'package:dreamer/service/user_manager.dart';
@@ -32,7 +32,7 @@ class _DreamerSplashState extends State<DreamerSplash> {
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         if (UserManager().isLogin()) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage(index: 3)));
         } else {
           Navigator.of(context).pushReplacement(FadeRouter(child: const LoginPage()));
         }

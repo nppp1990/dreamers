@@ -1,6 +1,7 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/dash.dart';
+import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/login/widgets.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ class SignupPage extends StatelessWidget {
                   const SizedBox(
                     width: double.infinity,
                     child: DashedLine(
-                      color: Color(0xFFB5B5B5),
+                      color: Color(DreamerColors.divider),
                     ),
                   ),
                   const SizedBox(height: 24),

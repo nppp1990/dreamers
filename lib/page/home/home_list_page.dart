@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:dreamer/common/widget/fix_page_child.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
+import 'package:dreamer/page/profile/home_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int index;
+
+  const HomePage({super.key, required this.index});
 
   @override
   State<StatefulWidget> createState() => _HomePageState();
@@ -21,13 +24,13 @@ class _HomePageState extends State<HomePage> {
     FixPageViewChild(child: HomeListPage()),
     Center(child: Text('Index 1: Chat')),
     Center(child: Text('Index 2: Activity')),
-    Center(child: Text('Index 3: Profile')),
+    FixPageViewChild(child: HomeProfilePage()),
   ];
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _pageController = PageController(initialPage: widget.index);
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -51,6 +54,7 @@ class _HomePageState extends State<HomePage> {
         children: _widgetOptions,
       ),
       bottomNavigationBar: _HomeBottomNavigationBar(
+        index: widget.index,
         onTap: (index) {
           _pageController.jumpToPage(index);
         },
@@ -60,9 +64,10 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _HomeBottomNavigationBar extends StatefulWidget {
+  final int index;
   final ValueChanged<int> onTap;
 
-  const _HomeBottomNavigationBar({required this.onTap});
+  const _HomeBottomNavigationBar({required this.onTap, required this.index});
 
   @override
   State<StatefulWidget> createState() => _HomeBottomNavigationBarState();
@@ -70,6 +75,12 @@ class _HomeBottomNavigationBar extends StatefulWidget {
 
 class _HomeBottomNavigationBarState extends State<_HomeBottomNavigationBar> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.index;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -116,7 +116,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   width: double.infinity,
                   child: DashedLine(
-                    color: Color(0xFFB5B5B5),
+                    color: Color(DreamerColors.divider),
                   ),
                 ),
                 const SizedBox(height: 24),

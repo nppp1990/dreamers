@@ -1,5 +1,7 @@
+import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
+import 'package:dreamer/page/profile/dream_list.dart';
 import 'package:dreamer/page/profile/profile_detail.dart';
 import 'package:flutter/material.dart';
 
@@ -19,18 +21,32 @@ class HomeProfilePage extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.only(top: statusBarHeight),
-        child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-          print(
-              '----constraints.maxHeight: ${constraints.maxHeight}---constraints.maxWidth: ${constraints.maxWidth}---');
-          return const ProfileView();
-        }),
+        child: const ProfileView(isOthers: false),
+      ),
+    );
+  }
+}
+
+class OtherProfilePage extends StatelessWidget {
+  const OtherProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+    return PageBackground(
+      assetImage: const AssetImage('assets/images/bg_base1.png'),
+      child: Padding(
+        padding: EdgeInsets.only(top: statusBarHeight),
+        child: const ProfileView(isOthers: true),
       ),
     );
   }
 }
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  final bool isOthers;
+
+  const ProfileView({super.key, required this.isOthers});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -56,9 +72,9 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: _ItemHeader(showSetting: false),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: _ItemHeader(showSetting: !widget.isOthers),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -77,22 +93,9 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
             ),
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                SingleChildScrollView(child: ProfileDetail()),
-                SingleChildScrollView(
-                  child: Column(children: [
-                    SizedBox(height: 200),
-                    Text('p1'),
-                    SizedBox(height: 200),
-                    Text('p2'),
-                    SizedBox(height: 200),
-                    Text('p3'),
-                    SizedBox(height: 200),
-                    Text('p4'),
-                    SizedBox(height: 200),
-                    Text('p5'),
-                  ]),
-                ),
+              children: [
+                ProfileDetail(isOthers: widget.isOthers),
+                const SingleChildScrollView(child: DreamList()),
               ],
             ),
           ),
@@ -118,7 +121,7 @@ class _ItemHeader extends StatelessWidget {
           child: GestureDetector(
             child: Image.asset('assets/images/icons/ic_setting.png', width: 24, height: 24),
             onTap: () {
-              // todo setting
+
             },
           ),
         ),
@@ -141,7 +144,7 @@ class _ItemHeader extends StatelessWidget {
             const Spacer(),
             GestureDetector(
                 onTap: () {
-                  // todo more
+                  _showReportDialog(context);
                 },
                 child: Image.asset(
                   'assets/images/icons/ic_menu_more.png',
@@ -149,6 +152,134 @@ class _ItemHeader extends StatelessWidget {
                   height: 24,
                 )),
           ]));
+    }
+  }
+
+  Future<void> _showReportDialog(BuildContext context) async {
+    final res = await showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.only(top: 30, left: 16, right: 16, bottom: 40),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24),
+              topRight: Radius.circular(24),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: (){
+                  Navigator.pop(context, 0);
+                },
+                child: Container(
+                  height: 48,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Color(DreamerColors.grey150),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                  ),
+                  child: const Row(
+                    children: [
+                      SizedBox(width: 16),
+                      Icon(DreamerIcons.block, color: Color(DreamerColors.danger), size: 24),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text('Block this account',
+                          style: TextStyle(
+                            fontFamily: 'SF Pro Text',
+                            color: Color(DreamerColors.danger),
+                            fontSize: 12,
+                            height: 14 / 12,
+                            fontWeight: FontWeight.w500,
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 1,
+                color: const Color(DreamerColors.divider2),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context, 1);
+                },
+                child: Container(
+                  height: 48,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Color(DreamerColors.grey150),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                  ),
+                  child: const Row(
+                    children: [
+                      SizedBox(width: 16),
+                      Icon(DreamerIcons.report, color: Color(DreamerColors.danger), size: 24),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text('Report',
+                          style: TextStyle(
+                            fontFamily: 'SF Pro Text',
+                            color: Color(DreamerColors.danger),
+                            fontSize: 12,
+                            height: 14 / 12,
+                            fontWeight: FontWeight.w500,
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: ButtonStyle(
+                    minimumSize: WidgetStateProperty.all(const Size(double.infinity, 36)),
+                    backgroundColor: WidgetStateProperty.all(const Color(DreamerColors.grey150)),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                  child:  const Text('Cancel',
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Text',
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ))),
+            ],
+          ),
+        );
+      },
+    );
+    if (res == 0) {
+      // block
+      print('block');
+    } else if (res == 1) {
+      // report
+      print('report');
     }
   }
 }

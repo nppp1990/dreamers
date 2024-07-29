@@ -1,8 +1,11 @@
 import 'package:dreamer/constants/colors.dart';
+import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:flutter/material.dart';
 
 class ProfileDetail extends StatelessWidget {
-  const ProfileDetail({super.key});
+  final bool isOthers;
+
+  const ProfileDetail({super.key, required this.isOthers});
 
   static const testAbout =
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
@@ -47,51 +50,106 @@ class ProfileDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const _Item(
-              title: 'About',
-              child: Text(testAbout,
-                  overflow: TextOverflow.visible,
-                  maxLines: null,
-                  softWrap: true,
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Text',
-                    fontSize: 13,
-                    height: 15.5 / 13,
-                    fontWeight: FontWeight.w400,
-                    color: Color(DreamerColors.grey800),
-                  ))),
-          _Divider(),
-          _Item(
-            title: 'Personality labels',
-            child: Wrap(
-              spacing: 4,
-              runSpacing: 4,
-              children: testLabelList.map((e) => _LabelItem(label: e)).toList(),
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _Item(
+                    title: 'About',
+                    child: Text(testAbout,
+                        overflow: TextOverflow.visible,
+                        maxLines: null,
+                        softWrap: true,
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Text',
+                          fontSize: 13,
+                          height: 15.5 / 13,
+                          fontWeight: FontWeight.w400,
+                          color: Color(DreamerColors.grey800),
+                        ))),
+                _Divider(),
+                _Item(
+                  title: 'Personality labels',
+                  child: Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: testLabelList.map((e) => _LabelItem(label: e)).toList(),
+                  ),
+                ),
+                _Divider(),
+                _Item(
+                  title: 'Interests',
+                  child: Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: testInterestList.map((e) => _InterestItem(interest: e)).toList(),
+                  ),
+                ),
+                _Divider(),
+                const _Item(
+                  title: 'Basic Information',
+                  child: _BasicInfoItem(pairList: testBasicInfoPairList),
+                ),
+                _Divider(),
+              ],
             ),
           ),
-          _Divider(),
-          _Item(
-            title: 'Interests',
-            child: Wrap(
-              spacing: 4,
-              runSpacing: 4,
-              children: testInterestList.map((e) => _InterestItem(interest: e)).toList(),
+        ),
+        Positioned(
+          bottom: 24,
+          left: 40,
+          right: 40,
+          child: Container(
+            width: double.infinity,
+            height: 52,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: const Color(DreamerColors.primary),
+              borderRadius: BorderRadius.circular(100),
+              // box-shadow: 0px 3px 5px 0px #00000040;
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(DreamerColors.primary),
+                  offset: Offset(0, 3),
+                  blurRadius: 5,
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                Center(
+                  child: Text(
+                    isOthers ? 'Like' : 'Edit',
+                    style: const TextStyle(
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 16,
+                      height: 1,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      isOthers ? DreamerIcons.like : DreamerIcons.edit,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
-          _Divider(),
-          const _Item(
-            title: 'Basic Information',
-            child: _BasicInfoItem(pairList: testBasicInfoPairList),
-          ),
-          _Divider(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

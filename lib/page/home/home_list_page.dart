@@ -1,9 +1,12 @@
 import 'dart:math';
 
+import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/fix_page_child.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
-import 'package:dreamer/page/profile/home_profile_page.dart';
+import 'package:dreamer/page/profile/profile_page.dart';
+import 'package:dreamer/page/profile/profile_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gradient_borders/gradient_borders.dart';
@@ -85,13 +88,14 @@ class _HomeBottomNavigationBarState extends State<_HomeBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed, // display all items
+      type: BottomNavigationBarType.fixed,
+      // display all items
       selectedItemColor: const Color(DreamerColors.primary),
       unselectedItemColor: const Color(DreamerColors.grey300),
       iconSize: 28,
       selectedFontSize: 10,
       unselectedFontSize: 10,
-      items:  const <BottomNavigationBarItem>[
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
@@ -127,19 +131,18 @@ class HomeListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/bg_base2.png'),
-              fit: BoxFit.cover,
-            ),
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg_base2.png'),
+            fit: BoxFit.cover,
           ),
-          child: AvatarRandomListView(height: constraints.maxHeight),
-        );
-      });
-      // },
+        ),
+        child: AvatarRandomListView(height: constraints.maxHeight),
+      );
+    });
+    // },
     //   child: Container(
     //     decoration: const BoxDecoration(
     //       image: DecorationImage(
@@ -154,7 +157,6 @@ class HomeListPage extends StatelessWidget {
 }
 
 class AvatarRandomListView extends StatelessWidget {
-
   final double height;
 
   static const originBubbleHeight = 406.0;
@@ -244,26 +246,31 @@ class AvatarRandomListView extends StatelessWidget {
         Positioned(
           left: positions[i].left,
           top: positions[i].top,
-          child: Container(
-            width: positions[i].width,
-            height: positions[i].height,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: GradientBoxBorder(
-                  width: borderWidth,
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFF0C7FF),
-                      Color(0xFFAE42D4),
-                    ],
-                  )),
-            ),
-            child: ClipOval(
-              child: Image.asset(
-                testImages[i],
-                width: positions[i].width - borderWidth * 2,
-                height: positions[i].height - borderWidth * 2,
-                fit: BoxFit.cover,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(Right2LeftRouter(child: const OtherProfilePage()));
+            },
+            child: Container(
+              width: positions[i].width,
+              height: positions[i].height,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: GradientBoxBorder(
+                    width: borderWidth,
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFFF0C7FF),
+                        Color(0xFFAE42D4),
+                      ],
+                    )),
+              ),
+              child: ClipOval(
+                child: Image.asset(
+                  testImages[i],
+                  width: positions[i].width - borderWidth * 2,
+                  height: positions[i].height - borderWidth * 2,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

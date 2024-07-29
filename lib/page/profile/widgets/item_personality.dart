@@ -13,9 +13,6 @@ class PersonalityItem extends StatelessWidget with BaseDetailItemMixin {
   bool get edit => isEdit;
 
   @override
-  get onTap => () {};
-
-  @override
   String get title => 'Personality';
 
   @override
@@ -25,6 +22,11 @@ class PersonalityItem extends StatelessWidget with BaseDetailItemMixin {
       runSpacing: 4,
       children: value.map((e) => _LabelItem(label: e)).toList(),
     );
+  }
+
+  @override
+  void onTap(BuildContext context) {
+    // TODO: implement onTap
   }
 }
 

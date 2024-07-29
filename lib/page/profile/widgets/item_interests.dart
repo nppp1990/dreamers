@@ -13,9 +13,6 @@ class InterestsItem extends StatelessWidget with BaseDetailItemMixin {
   bool get edit => isEdit;
 
   @override
-  get onTap => () {};
-
-  @override
   String get title => 'Interests';
 
   @override
@@ -25,6 +22,11 @@ class InterestsItem extends StatelessWidget with BaseDetailItemMixin {
       runSpacing: 4,
       children: value.map((e) => _InterestItem(interest: e)).toList(),
     );
+  }
+
+  @override
+  void onTap(BuildContext context) {
+    // TODO: implement onTap
   }
 }
 

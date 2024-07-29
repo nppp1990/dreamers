@@ -2,21 +2,20 @@ import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:flutter/material.dart';
 
-mixin BaseDetailItemMixin on StatelessWidget {
+mixin BaseDetailItemMixin {
   bool get edit;
 
   bool get isRightArrow => true;
 
-  Function get onTap;
-
   String get title;
 
-  @override
   Widget build(BuildContext context) {
     if (edit) {
       return _EditItemWithArrow(
         isRightArrow: isRightArrow,
-        onTap: onTap,
+        onTap: () {
+          onTap(context);
+        },
         child: DetailItem(title: title, child: buildChild(context)),
       );
     } else {
@@ -25,6 +24,8 @@ mixin BaseDetailItemMixin on StatelessWidget {
   }
 
   Widget buildChild(BuildContext context);
+
+  void onTap(BuildContext context);
 }
 
 /// profile detail item with title
@@ -67,7 +68,7 @@ class DetailItem extends StatelessWidget {
 
 class _EditItemWithArrow extends StatelessWidget {
   final bool isRightArrow;
-  final Function onTap;
+  final VoidCallback onTap;
   final Widget child;
 
   const _EditItemWithArrow({this.isRightArrow = true, required this.onTap, required this.child});
@@ -96,7 +97,7 @@ class _EditItemWithArrow extends StatelessWidget {
     }
     return GestureDetector(
       onTap: () {
-        onTap.call();
+        onTap();
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

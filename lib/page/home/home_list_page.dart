@@ -179,7 +179,7 @@ class AvatarRandomListView extends StatelessWidget {
   Widget build(BuildContext context) {
     Random random = Random();
 
-    double statusBarHeight = MediaQuery.of(context).padding.top;
+    double statusBarHeight = MediaQuery.viewPaddingOf(context).top;
     // in figma: 406 is the height of bubble,726 is the height of background image
     // figma bubble height is 406, so we need to scale it to the screen height
     double bubbleHeight = height * originBubbleHeight / originBackgroundHeight;
@@ -196,7 +196,7 @@ class AvatarRandomListView extends StatelessWidget {
         // Generate a random position that does not overlap with any existing positions
         int tryCount = 0;
         while (!isPositionValid) {
-          double left = random.nextDouble() * (MediaQuery.of(context).size.width - size);
+          double left = random.nextDouble() * (MediaQuery.sizeOf(context).width - size);
           double top = random.nextDouble() * (maxTop - minTop) + minTop;
           position = Rect.fromLTWH(left, top, size, size);
 
@@ -234,7 +234,7 @@ class AvatarRandomListView extends StatelessWidget {
         top: statusBarHeight,
         child: Image.asset(
           'assets/images/bg_bubble.png',
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.sizeOf(context).width,
           height: bubbleHeight,
           fit: BoxFit.cover,
         ),

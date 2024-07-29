@@ -10,7 +10,7 @@ class HomeProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusBarHeight = MediaQuery.of(context).padding.top;
+    final statusBarHeight = MediaQuery.viewPaddingOf(context).top;
 
     return Container(
       decoration: const BoxDecoration(
@@ -32,7 +32,7 @@ class OtherProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusBarHeight = MediaQuery.of(context).padding.top;
+    final statusBarHeight = MediaQuery.viewPaddingOf(context).top;
     return PageBackground(
       assetImage: const AssetImage('assets/images/bg_base1.png'),
       child: Padding(

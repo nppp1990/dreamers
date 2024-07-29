@@ -154,7 +154,7 @@ class StepIndicator extends StatelessWidget {
           children: List.generate(totalStep, (index) {
         // 横向间距6.5，高度4，宽度平均分布
         return Container(
-          width: (MediaQuery.of(context).size.width - 32 - 6.5 * (totalStep - 1)) / totalStep,
+          width: (MediaQuery.sizeOf(context).width - 32 - 6.5 * (totalStep - 1)) / totalStep,
           height: 4,
           margin: EdgeInsets.only(right: index == totalStep - 1 ? 0 : 6.5),
           decoration: BoxDecoration(

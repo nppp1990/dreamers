@@ -23,7 +23,7 @@ class _EditSingleItemPageState extends State<EditSingleItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    final statusBarHeight = MediaQuery.of(context).padding.top;
+    final statusBarHeight = MediaQuery.viewPaddingOf(context).top;
     return PageBackground(
       assetImage: const AssetImage('assets/images/bg_base1.png'),
       child: Column(

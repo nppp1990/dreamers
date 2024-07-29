@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DreamerIcons {
+final class DreamerIcons {
   DreamerIcons._();
 
   static const IconData profile = IconData(0xe600, fontFamily: 'dreamer-icons');
@@ -13,4 +13,6 @@ class DreamerIcons {
   static const IconData edit = IconData(0xe607, fontFamily: 'dreamer-icons');
   static const IconData block = IconData(0xe608, fontFamily: 'dreamer-icons');
   static const IconData report = IconData(0xe609, fontFamily: 'dreamer-icons');
+  static const IconData arrowRight = IconData(0xe60b, fontFamily: 'dreamer-icons');
+  static const IconData arrowBigDown = IconData(0xe60a, fontFamily: 'dreamer-icons');
 }

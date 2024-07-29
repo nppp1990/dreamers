@@ -254,6 +254,7 @@ class _ItemHeader extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: ButtonStyle(
+                    elevation: WidgetStateProperty.all(0),
                     minimumSize: WidgetStateProperty.all(const Size(double.infinity, 36)),
                     backgroundColor: WidgetStateProperty.all(const Color(DreamerColors.grey150)),
                     shape: WidgetStateProperty.all(

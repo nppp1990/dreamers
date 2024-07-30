@@ -1,8 +1,10 @@
+import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/page/profile/dream_list.dart';
 import 'package:dreamer/page/profile/profile_detail.dart';
+import 'package:dreamer/page/profile/report_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeProfilePage extends StatelessWidget {
@@ -215,6 +217,7 @@ class _ItemHeader extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context, 1);
+                  Navigator.push(context, Right2LeftRouter(child: const ProfileReportPage()));
                 },
                 child: Container(
                   height: 48,

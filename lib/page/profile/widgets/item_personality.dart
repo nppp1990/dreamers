@@ -40,7 +40,7 @@ class _LabelItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(
-        color: const Color(DreamerColors.secondary),
+        color: DreamerColors.secondary,
         borderRadius: BorderRadius.circular(100),
       ),
       child: Text(
@@ -50,7 +50,7 @@ class _LabelItem extends StatelessWidget {
           fontSize: 12,
           height: 14 / 12,
           fontWeight: FontWeight.w500,
-          color: Color(DreamerColors.primary),
+          color: DreamerColors.primary,
         ),
       ),
     );

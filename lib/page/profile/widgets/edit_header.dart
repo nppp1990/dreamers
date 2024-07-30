@@ -24,7 +24,7 @@ class EditHeader extends StatelessWidget {
               child: GestureDetector(
                   child: const Icon(
                     DreamerIcons.arrowLeft,
-                    color: Color(DreamerColors.primary),
+                    color: DreamerColors.primary,
                     size: 24,
                   ),
                   onTap: () {
@@ -55,7 +55,7 @@ class EditHeader extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(0),
-                    backgroundColor: const Color(DreamerColors.primary),
+                    backgroundColor: DreamerColors.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),

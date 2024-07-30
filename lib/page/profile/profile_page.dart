@@ -119,9 +119,7 @@ class _ItemHeader extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: GestureDetector(
             child: Image.asset('assets/images/icons/ic_setting.png', width: 24, height: 24),
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
         ),
       );
@@ -134,7 +132,7 @@ class _ItemHeader extends StatelessWidget {
             GestureDetector(
                 child: const Icon(
                   DreamerIcons.arrowLeft,
-                  color: Color(DreamerColors.primary),
+                  color: DreamerColors.primary,
                   size: 24,
                 ),
                 onTap: () {
@@ -177,14 +175,14 @@ class _ItemHeader extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context, 0);
                 },
                 child: Container(
                   height: 48,
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                    color: Color(DreamerColors.grey150),
+                    color: DreamerColors.grey150,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),
                       topRight: Radius.circular(8),
@@ -193,14 +191,14 @@ class _ItemHeader extends StatelessWidget {
                   child: const Row(
                     children: [
                       SizedBox(width: 16),
-                      Icon(DreamerIcons.block, color: Color(DreamerColors.danger), size: 24),
+                      Icon(DreamerIcons.block, color: DreamerColors.danger, size: 24),
                       SizedBox(
                         width: 16,
                       ),
                       Text('Block this account',
                           style: TextStyle(
                             fontFamily: 'SF Pro Text',
-                            color: Color(DreamerColors.danger),
+                            color: DreamerColors.danger,
                             fontSize: 12,
                             height: 14 / 12,
                             fontWeight: FontWeight.w500,
@@ -212,7 +210,7 @@ class _ItemHeader extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 1,
-                color: const Color(DreamerColors.divider2),
+                color: DreamerColors.divider2,
               ),
               GestureDetector(
                 onTap: () {
@@ -222,7 +220,7 @@ class _ItemHeader extends StatelessWidget {
                   height: 48,
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                    color: Color(DreamerColors.grey150),
+                    color: DreamerColors.grey150,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(8),
                       bottomRight: Radius.circular(8),
@@ -231,14 +229,14 @@ class _ItemHeader extends StatelessWidget {
                   child: const Row(
                     children: [
                       SizedBox(width: 16),
-                      Icon(DreamerIcons.report, color: Color(DreamerColors.danger), size: 24),
+                      Icon(DreamerIcons.report, color: DreamerColors.danger, size: 24),
                       SizedBox(
                         width: 16,
                       ),
                       Text('Report',
                           style: TextStyle(
                             fontFamily: 'SF Pro Text',
-                            color: Color(DreamerColors.danger),
+                            color: DreamerColors.danger,
                             fontSize: 12,
                             height: 14 / 12,
                             fontWeight: FontWeight.w500,
@@ -255,14 +253,14 @@ class _ItemHeader extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: WidgetStateProperty.all(0),
                     minimumSize: WidgetStateProperty.all(const Size(double.infinity, 36)),
-                    backgroundColor: WidgetStateProperty.all(const Color(DreamerColors.grey150)),
+                    backgroundColor: WidgetStateProperty.all(DreamerColors.grey150),
                     shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                   ),
-                  child:  const Text('Cancel',
+                  child: const Text('Cancel',
                       style: TextStyle(
                         fontFamily: 'SF Pro Text',
                         color: Colors.black,
@@ -306,7 +304,7 @@ class _InfoHeader extends StatelessWidget {
             Text('Hello! I’m John.',
                 style: TextStyle(
                   fontFamily: 'SF Pro Text',
-                  color: Color(DreamerColors.grey800),
+                  color: DreamerColors.grey800,
                   fontSize: 12,
                   height: 14 / 12,
                   fontWeight: FontWeight.w400,
@@ -345,7 +343,7 @@ class _TabHeader extends StatelessWidget {
         indicator: const UnderlineTabIndicator(
           borderSide: BorderSide(
             width: 2,
-            color: Color(DreamerColors.primary),
+            color: DreamerColors.primary,
           ),
           insets: EdgeInsets.symmetric(horizontal: 7),
         ),

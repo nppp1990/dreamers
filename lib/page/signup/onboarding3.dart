@@ -47,11 +47,11 @@ class _Signup3State extends State<Signup3> {
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Color(DreamerColors.secondary), width: 1),
+            borderSide: const BorderSide(color: DreamerColors.secondary, width: 1),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Color(DreamerColors.secondary), width: 1),
+            borderSide: const BorderSide(color: DreamerColors.secondary, width: 1),
           ),
         ),
         onChanged: (value) {

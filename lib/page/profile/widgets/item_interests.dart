@@ -42,7 +42,7 @@ class _InterestItem extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
         border: Border.all(
-          color: const Color(DreamerColors.greyBorder),
+          color: DreamerColors.greyBorder,
           width: 1,
         ),
       ),
@@ -53,7 +53,7 @@ class _InterestItem extends StatelessWidget {
           fontSize: 12,
           height: 14 / 12,
           fontWeight: FontWeight.w500,
-          color: Color(DreamerColors.grey600),
+          color: DreamerColors.grey600,
         ),
       ),
     );

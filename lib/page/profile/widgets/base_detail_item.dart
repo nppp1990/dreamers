@@ -51,7 +51,7 @@ class DetailItem extends StatelessWidget {
             fontSize: 15,
             height: 18 / 15,
             fontWeight: FontWeight.w700,
-            color: Color(DreamerColors.primary),
+            color: DreamerColors.primary,
           ),
         ),
         const SizedBox(
@@ -82,7 +82,7 @@ class _EditItemWithArrow extends StatelessWidget {
         child: Icon(
           size: 24,
           DreamerIcons.arrowRight,
-          color: Color(DreamerColors.grey600),
+          color: DreamerColors.grey600,
         ),
       );
     } else {
@@ -91,7 +91,7 @@ class _EditItemWithArrow extends StatelessWidget {
         height: 8,
         child: Icon(
           DreamerIcons.arrowDown,
-          color: Color(DreamerColors.grey600),
+          color: DreamerColors.grey600,
         ),
       );
     }

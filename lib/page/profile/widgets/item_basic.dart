@@ -2,8 +2,10 @@ import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/page/profile/edit_pages/edit_single_page.dart';
+import 'package:dreamer/page/profile/edit_pages/edit_single_select_dialog.dart';
 import 'package:dreamer/page/profile/edit_pages/edit_two_select_page.dart';
 import 'package:dreamer/page/profile/widgets/base_detail_item.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,11 +14,57 @@ import 'package:flutter/services.dart';
 /// [value] is the content of the information
 /// [type] is the type of the information, default is [BasicType.right]
 class BasicInfoBean {
-  final String key;
+  final BasicInfoKey key;
   final Object value;
   final BasicType type;
 
   BasicInfoBean({required this.key, required this.value, required this.type});
+}
+
+enum BasicInfoKey {
+  nickName,
+  age,
+  language,
+  living,
+  education,
+  occupation,
+  height,
+  bodyType,
+  marital,
+  relationshipGoal,
+  test1,
+  test2,
+}
+
+extension BasicInfoKeyExtension on BasicInfoKey {
+  String get value {
+    switch (this) {
+      case BasicInfoKey.nickName:
+        return 'NickName';
+      case BasicInfoKey.age:
+        return 'Age';
+      case BasicInfoKey.language:
+        return 'Language';
+      case BasicInfoKey.living:
+        return 'Living';
+      case BasicInfoKey.education:
+        return 'Education';
+      case BasicInfoKey.occupation:
+        return 'Occupation';
+      case BasicInfoKey.height:
+        return 'Height';
+      case BasicInfoKey.bodyType:
+        return 'Body type';
+      case BasicInfoKey.marital:
+        return 'Marital';
+      case BasicInfoKey.relationshipGoal:
+        return 'Relationship goal';
+      case BasicInfoKey.test1:
+        return 'test test test test test test very Long key';
+      case BasicInfoKey.test2:
+        return 'test2';
+    }
+  }
 }
 
 class TwoSelectData {
@@ -30,6 +78,47 @@ class TwoSelectData {
     return '$value2, $value1';
   }
 }
+
+const educationList = [
+  'High School',
+  'Bachelor\'s Degree',
+  'Master',
+  'PHD',
+];
+
+const bodyTypeList = [
+  'Slim',
+  'Medium',
+  'Obesity',
+];
+
+const maritalStatusList = [
+  'Single',
+  'Married',
+  'Married and had children',
+  // 'Divorced',
+  // 'Widowed',
+];
+
+const relationshipGoalList = [
+  'Serious',
+  'Relaxed',
+  'Want to have kids',
+];
+
+// todo this just test
+const heightList = [
+  '150cm',
+  '155cm',
+  '160cm',
+  '165cm',
+  '170cm',
+  '175cm',
+  '180cm',
+  '185cm',
+  '190cm',
+  '195cm',
+];
 
 enum BasicType {
   textField, // just edit in same page
@@ -59,13 +148,30 @@ class BasicInfoItem extends StatelessWidget {
             }).toList()));
   }
 
+  List<String> _getSingleItems(BasicInfoKey key) {
+    switch (key) {
+      case BasicInfoKey.education:
+        return educationList;
+      case BasicInfoKey.bodyType:
+        return bodyTypeList;
+      case BasicInfoKey.marital:
+        return maritalStatusList;
+      case BasicInfoKey.relationshipGoal:
+        return relationshipGoalList;
+      case BasicInfoKey.height:
+        return heightList;
+      default:
+        return [];
+    }
+  }
+
   Widget _buildListItem(int index) {
     debugPrint('BasicInfoItem _buildListItem $index');
     BasicInfoBean bean = pairList[index];
     switch (bean.type) {
       case BasicType.singleEdit:
         return _SingleInfoItem(
-          name: bean.key,
+          name: bean.key.value,
           value: bean.value.toString(),
           isEdit: isEdit,
           onChanged: (value) {
@@ -74,13 +180,31 @@ class BasicInfoItem extends StatelessWidget {
         );
       case BasicType.twoSelect:
         return _TwoSelectItem(
-          name: bean.key,
-          value: bean.value as TwoSelectData,
+            name: bean.key.value,
+            value: bean.value as TwoSelectData,
+            isEdit: isEdit,
+            onChanged: (value) {
+              pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
+            });
+      case BasicType.singleSelect:
+        return _SingleSelectItem(
+          name: bean.key.value,
+          value: bean.value.toString(),
           isEdit: isEdit,
           onChanged: (value) {
             pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
-          }
+          },
+          items: _getSingleItems(bean.key),
         );
+      case BasicType.textField:
+        return _SingleTextFieldItem(
+            name: bean.key.value,
+            value: bean.value.toString(),
+            isEdit: isEdit,
+            onChanged: (value) {
+              debugPrint('${bean.key.value} onChanged $value');
+              pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
+            });
       default:
         break;
     }
@@ -93,7 +217,7 @@ class BasicInfoItem extends StatelessWidget {
           child: SizedBox(
             child: Icon(
               DreamerIcons.arrowRight,
-              color: Color(DreamerColors.grey600),
+              color: DreamerColors.grey600,
               size: 24,
             ),
           ),
@@ -103,7 +227,7 @@ class BasicInfoItem extends StatelessWidget {
           padding: EdgeInsets.only(left: 8),
           child: Icon(
             DreamerIcons.arrowDown,
-            color: Color(DreamerColors.grey600),
+            color: DreamerColors.grey600,
             size: 24,
           ),
         );
@@ -130,7 +254,7 @@ class BasicInfoItem extends StatelessWidget {
           fontSize: 13,
           height: 15.5 / 13,
           fontWeight: FontWeight.w400,
-          color: Color(DreamerColors.grey800),
+          color: DreamerColors.grey800,
         ),
         onChanged: (value) {
           // bean.value = value;
@@ -145,7 +269,7 @@ class BasicInfoItem extends StatelessWidget {
           fontSize: 13,
           height: 15.5 / 13,
           fontWeight: FontWeight.w400,
-          color: Color(DreamerColors.grey800),
+          color: DreamerColors.grey800,
         ),
       );
     }
@@ -157,7 +281,7 @@ class BasicInfoItem extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Text(
-              bean.key,
+              bean.key.value,
               style: const TextStyle(
                 fontFamily: 'SF Pro Text',
                 fontSize: 13,
@@ -184,7 +308,7 @@ class BasicInfoItem extends StatelessWidget {
         Container(
           width: double.infinity,
           height: 1,
-          color: const Color(DreamerColors.divider),
+          color: DreamerColors.divider,
         ),
       ]);
       if (bean.type != BasicType.textField) {
@@ -240,7 +364,7 @@ class _ValueText extends StatelessWidget {
         fontSize: 13,
         height: 15.5 / 13,
         fontWeight: FontWeight.w400,
-        color: Color(DreamerColors.grey800),
+        color: DreamerColors.grey800,
       ),
     );
   }
@@ -254,7 +378,7 @@ class _RightArrow extends StatelessWidget {
       child: SizedBox(
         child: Icon(
           DreamerIcons.arrowRight,
-          color: Color(DreamerColors.grey600),
+          color: DreamerColors.grey600,
           size: 24,
         ),
       ),
@@ -269,7 +393,7 @@ class _DownArrow extends StatelessWidget {
       padding: EdgeInsets.only(left: 8),
       child: Icon(
         DreamerIcons.arrowDown,
-        color: Color(DreamerColors.grey600),
+        color: DreamerColors.grey600,
         size: 24,
       ),
     );
@@ -278,28 +402,39 @@ class _DownArrow extends StatelessWidget {
 
 class _ItemWithDivider extends StatelessWidget {
   final Widget child;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
-  const _ItemWithDivider({required this.child, required this.onTap});
+  const _ItemWithDivider({required this.child, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      GestureDetector(
-        onTap: () {
-          onTap();
-        },
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 38),
-          child: child,
+    if (onTap == null) {
+      return Column(mainAxisSize: MainAxisSize.min, children: [
+        child,
+        Container(
+          width: double.infinity,
+          height: 1,
+          color: DreamerColors.divider,
         ),
-      ),
-      Container(
-        width: double.infinity,
-        height: 1,
-        color: const Color(DreamerColors.divider),
-      ),
-    ]);
+      ]);
+    } else {
+      return Column(mainAxisSize: MainAxisSize.min, children: [
+        GestureDetector(
+          onTap: () {
+            onTap!();
+          },
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 38),
+            child: child,
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          height: 1,
+          color: DreamerColors.divider,
+        ),
+      ]);
+    }
   }
 }
 
@@ -452,6 +587,158 @@ class _TwoSelectItemState extends State<_TwoSelectItem> {
             });
           }
         },
+      );
+    } else {
+      return _ItemNoDivider(child: content);
+    }
+  }
+}
+
+class _SingleSelectItem extends StatefulWidget {
+  final String name;
+  final String value;
+  final bool isEdit;
+  final ValueChanged<String>? onChanged;
+  final List<String> items;
+
+  const _SingleSelectItem(
+      {required this.name, required this.value, required this.isEdit, this.onChanged, required this.items});
+
+  @override
+  State<StatefulWidget> createState() => _SingleSelectItemState();
+}
+
+class _SingleSelectItemState extends State<_SingleSelectItem> {
+  late String _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget? arrow;
+    if (widget.isEdit) {
+      arrow = _DownArrow();
+    } else {
+      arrow = null;
+    }
+    Widget content = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 3,
+          child: _KeyText(value: widget.name),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Expanded(
+          flex: 5,
+          child: _ValueText(value: _value),
+        ),
+        if (arrow != null) arrow
+      ],
+    );
+    if (widget.isEdit) {
+      return _ItemWithDivider(
+        child: content,
+        onTap: () async {
+          _showBottomSheet(context, widget.name, widget.items, _value);
+        },
+      );
+    } else {
+      return _ItemNoDivider(child: content);
+    }
+  }
+
+  _showBottomSheet(BuildContext context, String title, List<String> items, String value) async {
+    final res = await showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+      builder: (context) {
+        return EditSingleDialogContent(
+          title: title,
+          items: items,
+          value: value,
+        );
+      },
+    );
+    if (res != null && res is String) {
+      setState(() {
+        _value = res;
+        widget.onChanged?.call(res);
+      });
+    }
+  }
+}
+
+class _SingleTextFieldItem extends StatelessWidget {
+  final String name;
+  final String value;
+  final bool isEdit;
+  final ValueChanged<String>? onChanged;
+
+  const _SingleTextFieldItem({required this.name, required this.value, required this.isEdit, this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget? arrow;
+    if (isEdit) {
+      // just for edit align
+      arrow = const SizedBox(
+        width: 32,
+      );
+    }
+    Widget valueView;
+    if (isEdit) {
+      valueView = TextField(
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        controller: TextEditingController(text: value),
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(vertical: 10),
+        ),
+        style: const TextStyle(
+          fontFamily: 'SF Pro Text',
+          fontSize: 13,
+          height: 15.5 / 13,
+          fontWeight: FontWeight.w400,
+          color: DreamerColors.grey800,
+        ),
+        onChanged: (value) {
+          onChanged?.call(value);
+        },
+      );
+    } else {
+      valueView = _ValueText(value: value);
+    }
+    Widget content = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 3,
+          child: _KeyText(value: name),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Expanded(
+          flex: 5,
+          child: valueView,
+        ),
+        if (arrow != null) arrow
+      ],
+    );
+    if (isEdit) {
+      return _ItemWithDivider(
+        child: content,
       );
     } else {
       return _ItemNoDivider(child: content);

@@ -97,7 +97,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(DreamerColors.secondary), width: 1),
+            border: Border.all(color: DreamerColors.secondary, width: 1),
           ),
           padding: const EdgeInsets.only(left: 16, right: 8),
           child: Row(

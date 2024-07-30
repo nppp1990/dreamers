@@ -57,7 +57,7 @@ class _PicturePickerState extends State<PicturePicker> {
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-                color: const Color(DreamerColors.grey300),
+                color: DreamerColors.grey300,
                 borderRadius: BorderRadius.circular(60),
                 image: _image != null ? DecorationImage(image: FileImage(_image!), fit: BoxFit.cover) : null),
             child: _image == null

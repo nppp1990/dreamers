@@ -39,7 +39,7 @@ class _AboutItemState extends State<AboutItem> with BaseDetailItemMixin {
         fontSize: 15,
         height: 18 / 15,
         fontWeight: FontWeight.w400,
-        color: Color(DreamerColors.grey600),
+        color: DreamerColors.grey600,
       ),
     );
   }

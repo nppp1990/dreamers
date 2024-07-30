@@ -65,7 +65,7 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'SF Pro Text',
                       fontSize: 12,
-                      color: Color(DreamerColors.grey800),
+                      color: DreamerColors.grey800,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -116,7 +116,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   width: double.infinity,
                   child: DashedLine(
-                    color: Color(DreamerColors.divider),
+                    color: DreamerColors.divider,
                   ),
                 ),
                 const SizedBox(height: 24),

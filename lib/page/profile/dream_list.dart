@@ -26,7 +26,7 @@ class DreamList extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               backgroundColor: WidgetStateProperty.all<Color>(
-                const Color(DreamerColors.primary),
+                DreamerColors.primary,
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -80,7 +80,7 @@ class _DreamItem extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(DreamerColors.primary),
+                color: DreamerColors.primary,
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Text(

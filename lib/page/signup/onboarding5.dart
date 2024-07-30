@@ -61,7 +61,7 @@ class _Signup5PageState extends State<Signup5> {
             fontFamily: 'SF Pro Text',
             fontSize: 12,
             height: 14 / 12,
-            color: Color(DreamerColors.grey800),
+            color: DreamerColors.grey800,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -130,7 +130,7 @@ class RegionSelector extends StatelessWidget {
         ),
       ),
       iconStyleData: const IconStyleData(
-        icon: Icon(DreamerIcons.arrowDown, color: Color(DreamerColors.grey600)),
+        icon: Icon(DreamerIcons.arrowDown, color: DreamerColors.grey600),
         iconSize: 24,
       ),
       // remove underline
@@ -142,7 +142,7 @@ class RegionSelector extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(DreamerColors.secondary), width: 1),
+          border: Border.all(color: DreamerColors.secondary, width: 1),
         ),
         // backgroundColor: Colors.white,
         // shape: const RoundedRectangleBorder(

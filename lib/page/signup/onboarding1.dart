@@ -59,12 +59,12 @@ class _PhoneNumberEditViewState extends State<_PhoneNumberEditView> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: const Color(DreamerColors.secondary), width: 1),
+            border: Border.all(color: DreamerColors.secondary, width: 1),
           ),
           child: DropdownButton<String>(
             // width of DropdownButton depends on the maxWidth of the child
             value: _prefix,
-            icon: const Icon(DreamerIcons.arrowDown, color: Color(DreamerColors.grey600)),
+            icon: const Icon(DreamerIcons.arrowDown, color: DreamerColors.grey600),
             // remove underline
             underline: Container(),
             iconSize: 24,
@@ -76,17 +76,17 @@ class _PhoneNumberEditViewState extends State<_PhoneNumberEditView> {
             },
             items: PhoneUtils.prefixList
                 .map((e) => DropdownMenuItem<String>(
-                value: e,
-                child: Text(
-                  e,
-                  style: const TextStyle(
-                    fontFamily: 'SF Pro Text',
-                    fontSize: 16,
-                    height: 1,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                  ),
-                )))
+                    value: e,
+                    child: Text(
+                      e,
+                      style: const TextStyle(
+                        fontFamily: 'SF Pro Text',
+                        fontSize: 16,
+                        height: 1,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )))
                 .toList(),
           ),
         ),

@@ -97,7 +97,7 @@ class SignupPage extends StatelessWidget {
                   const SizedBox(
                     width: double.infinity,
                     child: DashedLine(
-                      color: Color(DreamerColors.divider),
+                      color: DreamerColors.divider,
                     ),
                   ),
                   const SizedBox(height: 24),

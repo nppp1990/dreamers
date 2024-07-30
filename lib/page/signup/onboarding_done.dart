@@ -12,7 +12,7 @@ class SignupDonePage extends StatelessWidget {
       fontSize: 24,
       height: 28 / 24,
       fontWeight: FontWeight.w700,
-      color: Color(DreamerColors.primary)
+      color: DreamerColors.primary,
     );
     return PageBackground(
       assetImage: const AssetImage('assets/images/bg_base1.png'),
@@ -45,7 +45,7 @@ class SignupDonePage extends StatelessWidget {
                     onPressed: () {},
                     style: ButtonStyle(
                       padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 0)),
-                      backgroundColor: WidgetStateProperty.all(const Color(DreamerColors.primary)),
+                      backgroundColor: WidgetStateProperty.all(DreamerColors.primary),
                       shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),

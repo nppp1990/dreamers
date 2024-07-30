@@ -57,7 +57,7 @@ class _Signup2State extends State<Signup2> {
                           fontFamily: 'SF Pro Text',
                           fontSize: 12,
                           height: 14 / 12,
-                          color: Color(DreamerColors.grey800),
+                          color: DreamerColors.grey800,
                           decoration: TextDecoration.underline))),
               const SizedBox(width: 6),
               if (_hasSend) Image.asset('assets/images/icons/ic_checked.png', width: 15, height: 15),

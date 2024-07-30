@@ -90,8 +90,8 @@ class _HomeBottomNavigationBarState extends State<_HomeBottomNavigationBar> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       // display all items
-      selectedItemColor: const Color(DreamerColors.primary),
-      unselectedItemColor: const Color(DreamerColors.grey300),
+      selectedItemColor: DreamerColors.primary,
+      unselectedItemColor: DreamerColors.grey300,
       iconSize: 28,
       selectedFontSize: 10,
       unselectedFontSize: 10,

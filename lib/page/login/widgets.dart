@@ -24,7 +24,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       style: const TextStyle(
         fontFamily: 'SF Pro Text',
         fontSize: 16,
-        color: Color(DreamerColors.grey800),
+        color: DreamerColors.grey800,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(
@@ -36,11 +36,11 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(DreamerColors.primary)),
+          borderSide: const BorderSide(color: DreamerColors.primary),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(DreamerColors.secondary)),
+          borderSide: const BorderSide(color: DreamerColors.secondary),
         ),
         suffixIconConstraints: const BoxConstraints(
           minHeight: 40,
@@ -56,7 +56,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             padding: const EdgeInsets.only(right: 9),
             child: Icon(
               _obscureText ? Icons.visibility_off : Icons.visibility,
-              color: const Color(DreamerColors.grey600),
+              color: DreamerColors.grey600,
               size: 24,
             ),
           ),
@@ -80,7 +80,7 @@ class NameTextField extends StatelessWidget {
       style: const TextStyle(
         fontFamily: 'SF Pro Text',
         fontSize: 16,
-        color: Color(DreamerColors.grey800),
+        color: DreamerColors.grey800,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(
@@ -92,11 +92,11 @@ class NameTextField extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(DreamerColors.primary)),
+          borderSide: const BorderSide(color: DreamerColors.primary),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(DreamerColors.secondary)),
+          borderSide: const BorderSide(color: DreamerColors.secondary),
         ),
       ),
     );
@@ -178,7 +178,7 @@ class AuthLogin extends StatelessWidget {
                       style: const TextStyle(
                         fontFamily: 'SF Pro Text',
                         fontSize: 13,
-                        color: Color(DreamerColors.grey600),
+                        color: DreamerColors.grey600,
                         fontWeight: FontWeight.w400,
                       ),
                     ),

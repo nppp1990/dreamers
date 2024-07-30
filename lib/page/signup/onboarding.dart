@@ -59,12 +59,12 @@ class SignupBasePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (step > 0)
-                        _buildStepButton('Back', const Color(DreamerColors.black1), () {
+                        _buildStepButton('Back', DreamerColors.black1, () {
                           Navigator.of(context).pop();
                           onBack?.call();
                         }),
                       const Spacer(),
-                      _buildStepButton('Next', const Color(DreamerColors.primary), onNext),
+                      _buildStepButton('Next', DreamerColors.primary, onNext),
                     ],
                   ),
                 ),
@@ -103,7 +103,7 @@ class SignupBasePage extends StatelessWidget {
                         height: 14 / 12,
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: Color(DreamerColors.grey800),
+                        color: DreamerColors.grey800,
                       )),
                 SizedBox(height: subTitle == null ? 22 : 8),
                 StepIndicator(step: step),
@@ -158,7 +158,7 @@ class StepIndicator extends StatelessWidget {
           height: 4,
           margin: EdgeInsets.only(right: index == totalStep - 1 ? 0 : 6.5),
           decoration: BoxDecoration(
-            color: index == step - 1 ? const Color(DreamerColors.primary) : Colors.white,
+            color: index == step - 1 ? DreamerColors.primary : Colors.white,
             borderRadius: BorderRadius.circular(2),
           ),
         );
@@ -193,11 +193,11 @@ class NumberTextField extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(DreamerColors.secondary), width: 1),
+          borderSide: const BorderSide(color: DreamerColors.secondary, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(DreamerColors.secondary), width: 1),
+          borderSide: const BorderSide(color: DreamerColors.secondary, width: 1),
         ),
       ),
       onChanged: onChanged,
@@ -231,7 +231,7 @@ class DataSelector<T> extends StatelessWidget {
             )
           : null,
       iconStyleData: const IconStyleData(
-        icon: Icon(DreamerIcons.arrowDown, color: Color(DreamerColors.grey600)),
+        icon: Icon(DreamerIcons.arrowDown, color: DreamerColors.grey600),
         iconSize: 24,
       ),
       // remove underline
@@ -243,7 +243,7 @@ class DataSelector<T> extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(DreamerColors.secondary), width: 1),
+          border: Border.all(color: DreamerColors.secondary, width: 1),
         ),
         // backgroundColor: Colors.white,
         // shape: const RoundedRectangleBorder(

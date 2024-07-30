@@ -29,23 +29,23 @@ const testInterestList = [
 ];
 
 final testBasicInfoPairList = [
-  BasicInfoBean(key: 'NickName', value: 'Jon Doe', type: BasicType.singleEdit),
-  BasicInfoBean(key: 'Age', value: 24, type: BasicType.textField),
-  BasicInfoBean(key: 'Language', value: 'English, Japanese, Korean', type: BasicType.multiSelect),
-  BasicInfoBean(key: 'Living', value: TwoSelectData(value1: 'USA', value2: 'Seattle'), type: BasicType.twoSelect),
-  BasicInfoBean(key: 'Education', value: 'Bachelor of Computer Science', type: BasicType.singleSelect),
-  BasicInfoBean(key: 'Occupation', value: 'Software Engineer', type: BasicType.singleEdit),
-  BasicInfoBean(key: 'Height', value: '170cm', type: BasicType.singleSelect),
-  BasicInfoBean(key: 'Body type', value: 'Slim', type: BasicType.singleSelect),
-  BasicInfoBean(key: 'Marital', value: 'Single', type: BasicType.singleSelect),
-  BasicInfoBean(key: 'Relationship goal', value: 'Serious', type: BasicType.singleSelect),
-  BasicInfoBean(key: 'test test test test test test very Long key', value: 'value1', type: BasicType.singleEdit),
-  BasicInfoBean(key: 'test2', value: 'test test test test test test very Long value', type: BasicType.singleEdit),
-  BasicInfoBean(key: 'test3', value: 'value3', type: BasicType.singleEdit),
-  BasicInfoBean(key: 'test4', value: 'value4', type: BasicType.singleEdit),
-  BasicInfoBean(key: 'test5', value: 'value5', type: BasicType.singleEdit),
-  BasicInfoBean(key: 'test6', value: 'value6', type: BasicType.singleEdit),
-  BasicInfoBean(key: 'test7', value: 'value7', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.nickName, value: 'Jon Doe', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.age, value: 24, type: BasicType.textField),
+  BasicInfoBean(key: BasicInfoKey.language, value: 'English, Japanese, Korean', type: BasicType.multiSelect),
+  BasicInfoBean(key: BasicInfoKey.living, value: TwoSelectData(value1: 'USA', value2: 'Seattle'), type: BasicType.twoSelect),
+  BasicInfoBean(key: BasicInfoKey.education, value: 'Bachelor of Computer Science', type: BasicType.singleSelect),
+  BasicInfoBean(key: BasicInfoKey.occupation, value: 'Software Engineer', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.height, value: '170cm', type: BasicType.singleSelect),
+  BasicInfoBean(key: BasicInfoKey.bodyType, value: 'Slim', type: BasicType.singleSelect),
+  BasicInfoBean(key: BasicInfoKey.marital, value: 'Single', type: BasicType.singleSelect),
+  BasicInfoBean(key: BasicInfoKey.relationshipGoal, value: 'Serious', type: BasicType.singleSelect),
+  BasicInfoBean(key: BasicInfoKey.test1, value: 'value1', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.test2, value: 'test test test test test test very Long value', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.test2, value: 'value3', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.test2, value: 'value4', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.test2, value: 'value5', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.test2, value: 'value6', type: BasicType.singleEdit),
+  BasicInfoBean(key: BasicInfoKey.test2, value: 'value7', type: BasicType.singleEdit),
 ];
 
 class ProfileDetail extends StatelessWidget {
@@ -94,12 +94,12 @@ class ProfileDetail extends StatelessWidget {
               height: 52,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
-                color: const Color(DreamerColors.primary),
+                color: DreamerColors.primary,
                 borderRadius: BorderRadius.circular(100),
                 // box-shadow: 0px 3px 5px 0px #00000040;
                 boxShadow: const [
                   BoxShadow(
-                    color: Color(DreamerColors.primary),
+                    color: DreamerColors.primary,
                     offset: Offset(0, 3),
                     blurRadius: 5,
                   ),
@@ -176,7 +176,7 @@ class _Divider extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 1,
-      color: const Color(DreamerColors.divider),
+      color: DreamerColors.divider,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/page/profile/edit_pages/edit_single_page.dart';
+import 'package:dreamer/page/profile/edit_pages/edit_two_select_page.dart';
 import 'package:dreamer/page/profile/widgets/base_detail_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,7 @@ class TwoSelectData {
 
   @override
   String toString() {
-    return '$value1, $value2';
+    return '$value2, $value1';
   }
 }
 
@@ -70,6 +71,15 @@ class BasicInfoItem extends StatelessWidget {
           onChanged: (value) {
             pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
           },
+        );
+      case BasicType.twoSelect:
+        return _TwoSelectItem(
+          name: bean.key,
+          value: bean.value as TwoSelectData,
+          isEdit: isEdit,
+          onChanged: (value) {
+            pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
+          }
         );
       default:
         break;
@@ -379,14 +389,72 @@ class _SingleInfoItemState extends State<_SingleInfoItem> {
   }
 }
 
-// class _TwoSelectItem extends StatefulWidget {
-//   final String name;
-//   final String value;
-//   final bool isEdit;
-//   final ValueChanged<String>? onChanged;
-//
-//   const _TwoSelectItem({required this.name, required this.value, required this.isEdit, this.onChanged});
-//
-//   @override
-//   State<StatefulWidget> createState() => _TwoSelectItemState();
-// }
+class _TwoSelectItem extends StatefulWidget {
+  final String name;
+  final TwoSelectData value;
+  final bool isEdit;
+  final ValueChanged<TwoSelectData>? onChanged;
+
+  const _TwoSelectItem({required this.name, required this.value, required this.isEdit, this.onChanged});
+
+  @override
+  State<StatefulWidget> createState() => _TwoSelectItemState();
+}
+
+class _TwoSelectItemState extends State<_TwoSelectItem> {
+  late TwoSelectData _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget? arrow;
+    if (widget.isEdit) {
+      arrow = _RightArrow();
+    } else {
+      arrow = null;
+    }
+    Widget content = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 3,
+          child: _KeyText(value: widget.name),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Expanded(
+          flex: 5,
+          child: _ValueText(value: _value.toString()),
+        ),
+        if (arrow != null) arrow
+      ],
+    );
+    if (widget.isEdit) {
+      return _ItemWithDivider(
+        child: content,
+        onTap: () async {
+          final res = await Navigator.of(context).push(Right2LeftRouter(
+            child: EditTwoSelectItemPage(
+              title: widget.name,
+              value: _value,
+            ),
+          ));
+          if (res != null && res is TwoSelectData) {
+            setState(() {
+              _value = res;
+              widget.onChanged?.call(res);
+            });
+          }
+        },
+      );
+    } else {
+      return _ItemNoDivider(child: content);
+    }
+  }
+}

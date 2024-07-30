@@ -32,7 +32,7 @@ final testBasicInfoPairList = [
   BasicInfoBean(key: 'NickName', value: 'Jon Doe', type: BasicType.singleEdit),
   BasicInfoBean(key: 'Age', value: 24, type: BasicType.textField),
   BasicInfoBean(key: 'Language', value: 'English, Japanese, Korean', type: BasicType.multiSelect),
-  BasicInfoBean(key: 'Living', value: 'Seoul, Korea', type: BasicType.twoSelect),
+  BasicInfoBean(key: 'Living', value: TwoSelectData(value1: 'USA', value2: 'Seattle'), type: BasicType.twoSelect),
   BasicInfoBean(key: 'Education', value: 'Bachelor of Computer Science', type: BasicType.singleSelect),
   BasicInfoBean(key: 'Occupation', value: 'Software Engineer', type: BasicType.singleEdit),
   BasicInfoBean(key: 'Height', value: '170cm', type: BasicType.singleSelect),

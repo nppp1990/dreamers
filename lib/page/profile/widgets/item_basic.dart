@@ -1,6 +1,7 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
+import 'package:dreamer/page/profile/edit_pages/edit_multi_select_page.dart';
 import 'package:dreamer/page/profile/edit_pages/edit_single_page.dart';
 import 'package:dreamer/page/profile/edit_pages/edit_single_select_dialog.dart';
 import 'package:dreamer/page/profile/edit_pages/edit_two_select_page.dart';
@@ -79,6 +80,17 @@ class TwoSelectData {
   }
 }
 
+class MultiSelectData {
+  final List<String> values;
+
+  MultiSelectData({required this.values});
+
+  @override
+  String toString() {
+    return values.join(', ');
+  }
+}
+
 const educationList = [
   'High School',
   'Bachelor\'s Degree',
@@ -118,6 +130,36 @@ const heightList = [
   '185cm',
   '190cm',
   '195cm',
+];
+
+const testLanguageList = [
+  'English',
+  'Japanese',
+  'Korean',
+  'Chinese',
+  'Spanish',
+  'French',
+  'German',
+  'Italian',
+  'Russian',
+  'Portuguese',
+  'Arabic',
+  'Hindi',
+  'Bengali',
+  'Punjabi',
+  'Telugu',
+  'Marathi',
+  'Tamil',
+  'Urdu',
+  'Gujarati',
+  'Kannada',
+  'Malayalam',
+  'Sindhi',
+  'Odia',
+  'Nepali',
+  'Assamese',
+  'Maithili',
+  'Santali',
 ];
 
 enum BasicType {
@@ -165,6 +207,15 @@ class BasicInfoItem extends StatelessWidget {
     }
   }
 
+  List<String> _getMultiItems(BasicInfoKey key) {
+    switch (key) {
+      case BasicInfoKey.language:
+        return testLanguageList;
+      default:
+        return [];
+    }
+  }
+
   Widget _buildListItem(int index) {
     debugPrint('BasicInfoItem _buildListItem $index');
     BasicInfoBean bean = pairList[index];
@@ -205,125 +256,13 @@ class BasicInfoItem extends StatelessWidget {
               debugPrint('${bean.key.value} onChanged $value');
               pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
             });
-      default:
-        break;
-    }
-
-    Widget? arrow;
-    if (isEdit) {
-      if (bean.type == BasicType.singleEdit || bean.type == BasicType.twoSelect || bean.type == BasicType.multiSelect) {
-        arrow = const Padding(
-          padding: EdgeInsets.only(left: 8),
-          child: SizedBox(
-            child: Icon(
-              DreamerIcons.arrowRight,
-              color: DreamerColors.grey600,
-              size: 24,
-            ),
-          ),
+      case BasicType.multiSelect:
+        return _MultiSelectItem(
+          name: bean.key.value,
+          value: bean.value as MultiSelectData,
+          isEdit: isEdit,
+          items: _getMultiItems(bean.key),
         );
-      } else if (bean.type == BasicType.singleSelect) {
-        arrow = const Padding(
-          padding: EdgeInsets.only(left: 8),
-          child: Icon(
-            DreamerIcons.arrowDown,
-            color: DreamerColors.grey600,
-            size: 24,
-          ),
-        );
-      } else {
-        // just for edit align
-        arrow = const SizedBox(
-          width: 32,
-        );
-      }
-    }
-    Widget valueView;
-    if (isEdit && bean.type == BasicType.textField) {
-      valueView = TextField(
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        controller: TextEditingController(text: bean.value.toString()),
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 10),
-        ),
-        style: const TextStyle(
-          fontFamily: 'SF Pro Text',
-          fontSize: 13,
-          height: 15.5 / 13,
-          fontWeight: FontWeight.w400,
-          color: DreamerColors.grey800,
-        ),
-        onChanged: (value) {
-          // bean.value = value;
-          // onChanged?.call(pairList);
-        },
-      );
-    } else {
-      valueView = Text(
-        bean.value.toString(),
-        style: const TextStyle(
-          fontFamily: 'SF Pro Text',
-          fontSize: 13,
-          height: 15.5 / 13,
-          fontWeight: FontWeight.w400,
-          color: DreamerColors.grey800,
-        ),
-      );
-    }
-    Widget content = Container(
-      constraints: BoxConstraints(minHeight: isEdit ? 38 : 25),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(
-              bean.key.value,
-              style: const TextStyle(
-                fontFamily: 'SF Pro Text',
-                fontSize: 13,
-                height: 15.5 / 13,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Expanded(
-            flex: 5,
-            child: valueView,
-          ),
-          if (arrow != null) arrow
-        ],
-      ),
-    );
-    if (isEdit) {
-      Widget itemWithDivider = Column(mainAxisSize: MainAxisSize.min, children: [
-        content,
-        Container(
-          width: double.infinity,
-          height: 1,
-          color: DreamerColors.divider,
-        ),
-      ]);
-      if (bean.type != BasicType.textField) {
-        return GestureDetector(
-          onTap: () {
-            // onChanged?.call(pairList);
-            print('onTap todo');
-          },
-          child: itemWithDivider,
-        );
-      } else {
-        return itemWithDivider;
-      }
-    } else {
-      return content;
     }
   }
 }
@@ -739,6 +678,84 @@ class _SingleTextFieldItem extends StatelessWidget {
     if (isEdit) {
       return _ItemWithDivider(
         child: content,
+      );
+    } else {
+      return _ItemNoDivider(child: content);
+    }
+  }
+}
+
+class _MultiSelectItem extends StatefulWidget {
+  final String name;
+  final MultiSelectData value;
+  final bool isEdit;
+  final ValueChanged<MultiSelectData>? onChanged;
+  final List<String> items;
+
+  const _MultiSelectItem({
+    required this.name,
+    required this.value,
+    required this.isEdit,
+    required this.items,
+    this.onChanged,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _MultiSelectItemState();
+}
+
+class _MultiSelectItemState extends State<_MultiSelectItem> {
+  late MultiSelectData _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget? arrow;
+    if (widget.isEdit) {
+      arrow = _RightArrow();
+    } else {
+      arrow = null;
+    }
+    Widget content = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 3,
+          child: _KeyText(value: widget.name),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Expanded(
+          flex: 5,
+          child: _ValueText(value: _value.toString()),
+        ),
+        if (arrow != null) arrow
+      ],
+    );
+    if (widget.isEdit) {
+      return _ItemWithDivider(
+        child: content,
+        onTap: () async {
+          final res = await Navigator.of(context).push(Right2LeftRouter(
+            child: EditMultiSelectItemPage(
+              title: widget.name,
+              value: _value,
+              items: widget.items,
+            ),
+          ));
+          if (res != null && res is MultiSelectData) {
+            setState(() {
+              _value = res;
+              widget.onChanged?.call(res);
+            });
+          }
+        },
       );
     } else {
       return _ItemNoDivider(child: content);

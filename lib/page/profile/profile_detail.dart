@@ -31,8 +31,13 @@ const testInterestList = [
 final testBasicInfoPairList = [
   BasicInfoBean(key: BasicInfoKey.nickName, value: 'Jon Doe', type: BasicType.singleEdit),
   BasicInfoBean(key: BasicInfoKey.age, value: 24, type: BasicType.textField),
-  BasicInfoBean(key: BasicInfoKey.language, value: 'English, Japanese, Korean', type: BasicType.multiSelect),
-  BasicInfoBean(key: BasicInfoKey.living, value: TwoSelectData(value1: 'USA', value2: 'Seattle'), type: BasicType.twoSelect),
+  BasicInfoBean(
+    key: BasicInfoKey.language,
+    value: MultiSelectData(values: ['English', 'Japanese']),
+    type: BasicType.multiSelect,
+  ),
+  BasicInfoBean(
+      key: BasicInfoKey.living, value: TwoSelectData(value1: 'USA', value2: 'Seattle'), type: BasicType.twoSelect),
   BasicInfoBean(key: BasicInfoKey.education, value: 'Bachelor of Computer Science', type: BasicType.singleSelect),
   BasicInfoBean(key: BasicInfoKey.occupation, value: 'Software Engineer', type: BasicType.singleEdit),
   BasicInfoBean(key: BasicInfoKey.height, value: '170cm', type: BasicType.singleSelect),
@@ -40,7 +45,8 @@ final testBasicInfoPairList = [
   BasicInfoBean(key: BasicInfoKey.marital, value: 'Single', type: BasicType.singleSelect),
   BasicInfoBean(key: BasicInfoKey.relationshipGoal, value: 'Serious', type: BasicType.singleSelect),
   BasicInfoBean(key: BasicInfoKey.test1, value: 'value1', type: BasicType.singleEdit),
-  BasicInfoBean(key: BasicInfoKey.test2, value: 'test test test test test test very Long value', type: BasicType.singleEdit),
+  BasicInfoBean(
+      key: BasicInfoKey.test2, value: 'test test test test test test very Long value', type: BasicType.singleEdit),
   BasicInfoBean(key: BasicInfoKey.test2, value: 'value3', type: BasicType.singleEdit),
   BasicInfoBean(key: BasicInfoKey.test2, value: 'value4', type: BasicType.singleEdit),
   BasicInfoBean(key: BasicInfoKey.test2, value: 'value5', type: BasicType.singleEdit),

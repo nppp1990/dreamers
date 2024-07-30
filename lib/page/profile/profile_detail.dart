@@ -29,23 +29,23 @@ const testInterestList = [
 ];
 
 final testBasicInfoPairList = [
-  BasicInfoBean(key: 'NickName', value: 'Jon Doe'),
-  BasicInfoBean(key: 'Age', value: 24, type: BasicType.edit),
-  BasicInfoBean(key: 'Language', value: 'English, Japanese, Korean'),
-  BasicInfoBean(key: 'Living', value: 'Seoul, Korea'),
-  BasicInfoBean(key: 'Education', value: 'Bachelor of Computer Science', type: BasicType.down),
-  BasicInfoBean(key: 'Occupation', value: 'Software Engineer'),
-  BasicInfoBean(key: 'Height', value: '170cm', type: BasicType.down),
-  BasicInfoBean(key: 'Body type', value: 'Slim', type: BasicType.down),
-  BasicInfoBean(key: 'Marital', value: 'Single', type: BasicType.down),
-  BasicInfoBean(key: 'Relationship goal', value: 'Serious', type: BasicType.down),
-  BasicInfoBean(key: 'test test test test test test very Long key', value: 'value1'),
-  BasicInfoBean(key: 'test2', value: 'test test test test test test very Long value'),
-  BasicInfoBean(key: 'test3', value: 'value3'),
-  BasicInfoBean(key: 'test4', value: 'value4'),
-  BasicInfoBean(key: 'test5', value: 'value5'),
-  BasicInfoBean(key: 'test6', value: 'value6'),
-  BasicInfoBean(key: 'test7', value: 'value7'),
+  BasicInfoBean(key: 'NickName', value: 'Jon Doe', type: BasicType.singleEdit),
+  BasicInfoBean(key: 'Age', value: 24, type: BasicType.textField),
+  BasicInfoBean(key: 'Language', value: 'English, Japanese, Korean', type: BasicType.multiSelect),
+  BasicInfoBean(key: 'Living', value: 'Seoul, Korea', type: BasicType.twoSelect),
+  BasicInfoBean(key: 'Education', value: 'Bachelor of Computer Science', type: BasicType.singleSelect),
+  BasicInfoBean(key: 'Occupation', value: 'Software Engineer', type: BasicType.singleEdit),
+  BasicInfoBean(key: 'Height', value: '170cm', type: BasicType.singleSelect),
+  BasicInfoBean(key: 'Body type', value: 'Slim', type: BasicType.singleSelect),
+  BasicInfoBean(key: 'Marital', value: 'Single', type: BasicType.singleSelect),
+  BasicInfoBean(key: 'Relationship goal', value: 'Serious', type: BasicType.singleSelect),
+  BasicInfoBean(key: 'test test test test test test very Long key', value: 'value1', type: BasicType.singleEdit),
+  BasicInfoBean(key: 'test2', value: 'test test test test test test very Long value', type: BasicType.singleEdit),
+  BasicInfoBean(key: 'test3', value: 'value3', type: BasicType.singleEdit),
+  BasicInfoBean(key: 'test4', value: 'value4', type: BasicType.singleEdit),
+  BasicInfoBean(key: 'test5', value: 'value5', type: BasicType.singleEdit),
+  BasicInfoBean(key: 'test6', value: 'value6', type: BasicType.singleEdit),
+  BasicInfoBean(key: 'test7', value: 'value7', type: BasicType.singleEdit),
 ];
 
 class ProfileDetail extends StatelessWidget {
@@ -150,7 +150,13 @@ class ProfileDetailEdit extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AboutItem(value: testAbout, isEdit: true),
+          AboutItem(
+            value: testAbout,
+            isEdit: true,
+            onChanged: (value) {
+              debugPrint('about changed: $value');
+            },
+          ),
           _Divider(),
           const PersonalityItem(value: testLabelList, isEdit: true),
           _Divider(),

@@ -1,9 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
-import 'package:dreamer/constants/colors.dart';
-import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:dreamer/page/signup/onboarding5.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 /// choose region

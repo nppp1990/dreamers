@@ -11,7 +11,6 @@ class HomeProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusBarHeight = MediaQuery.viewPaddingOf(context).top;
-
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(

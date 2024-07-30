@@ -1,7 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/signup/onboarding4.dart';
-import 'package:dreamer/page/signup/onboarding6.dart';
 import 'package:flutter/material.dart';
 
 import 'onboarding.dart';

@@ -58,7 +58,7 @@ class SignupBasePage extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      if (step > 0)
+                      if (step > 1)
                         _buildStepButton('Back', DreamerColors.black1, () {
                           Navigator.of(context).pop();
                           onBack?.call();

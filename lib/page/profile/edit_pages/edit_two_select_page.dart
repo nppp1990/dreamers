@@ -58,7 +58,7 @@ class _EditTwoSelectItemPageState extends State<EditTwoSelectItemPage> {
           SizedBox(height: statusBarHeight),
           EditHeader(
             title: widget.title,
-            btnStr: 'Done',
+            btnStr: 'Save',
             onDone: () {
               if (_value1 == null) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

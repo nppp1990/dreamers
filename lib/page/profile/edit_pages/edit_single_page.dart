@@ -33,7 +33,7 @@ class _EditSingleItemPageState extends State<EditSingleItemPage> {
           SizedBox(height: statusBarHeight),
           EditHeader(
             title: widget.title,
-            btnStr: 'Done',
+            btnStr: 'Save',
             onDone: () {
               Navigator.of(context).pop(_controller.text);
             },

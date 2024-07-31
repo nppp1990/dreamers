@@ -10,6 +10,7 @@ final class DreamerColors {
   static const grey300 = Color(0xFF91989F);
   static const grey150 = Color(0xFFEFEFEF);
   static const grey100 = Color(0xFFF3F3F3);
+  static const grey = Color(0xFFB5B5B5);
   static const black1 = Color(0xFF363636);
   static const greyBorder = Color(0xFFB5B5B5);
   static const divider = Color(0xFFB5B5B5);

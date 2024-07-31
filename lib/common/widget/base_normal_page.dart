@@ -7,12 +7,16 @@ class NormalPage extends StatelessWidget {
   final String title;
   final VoidCallback? onBack;
   final AssetImage assetImage;
+  final String? rightBtnStr;
+  final VoidCallback? onRightBtn;
 
   const NormalPage({
     super.key,
     required this.title,
     this.onBack,
     this.assetImage = const AssetImage('assets/images/bg_base1.png'),
+    this.rightBtnStr,
+    this.onRightBtn,
     required this.child,
   });
 
@@ -23,7 +27,7 @@ class NormalPage extends StatelessWidget {
       assetImage: assetImage,
       child: Column(
         children: [
-          NormalHeader(title: title, onBack: onBack),
+          NormalHeader(title: title, onBack: onBack, rightBtnStr: rightBtnStr, onRightBtn: onRightBtn),
           Expanded(child: child),
           SizedBox(height: paddingBottom),
         ],

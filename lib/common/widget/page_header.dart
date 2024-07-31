@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 class NormalHeader extends StatelessWidget {
   final String title;
   final VoidCallback? onBack;
+  final String? rightBtnStr;
+  final VoidCallback? onRightBtn;
 
-  const NormalHeader({super.key, required this.title, this.onBack});
+  const NormalHeader({super.key, required this.title, this.onBack, this.rightBtnStr, this.onRightBtn});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,32 @@ class NormalHeader extends StatelessWidget {
                     color: Colors.black),
               ),
             ),
+            if (rightBtnStr != null && onRightBtn != null)
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    backgroundColor: DreamerColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  onPressed: onRightBtn,
+                  child: Text(
+                    rightBtnStr!,
+                    style: const TextStyle(
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 12,
+                      height: 14.3 / 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

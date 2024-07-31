@@ -5,6 +5,7 @@ import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/page/profile/dream_list.dart';
 import 'package:dreamer/page/profile/profile_detail.dart';
 import 'package:dreamer/page/profile/report_page.dart';
+import 'package:dreamer/page/setting/settings.dart';
 import 'package:flutter/material.dart';
 
 class HomeProfilePage extends StatelessWidget {
@@ -121,7 +122,9 @@ class _ItemHeader extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: GestureDetector(
             child: Image.asset('assets/images/icons/ic_setting.png', width: 24, height: 24),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(Right2LeftRouter(child: const SettingPage()));
+            },
           ),
         ),
       );

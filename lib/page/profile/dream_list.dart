@@ -1,5 +1,7 @@
+import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
+import 'package:dreamer/page/profile/widgets/dream_content_page.dart';
 import 'package:flutter/material.dart';
 
 class DreamList extends StatelessWidget {
@@ -13,7 +15,13 @@ class DreamList extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const _DreamItem(index: 1, title: 'title1'),
+          GestureDetector(
+            onTap: () {
+              // todo test
+              Navigator.of(context).push(Right2LeftRouter(child: const DreamContentPage(index: 0)));
+            },
+            child: const _DreamItem(index: 1, title: 'title1'),
+          ),
           const SizedBox(height: 12),
           const _DreamItem(index: 2, title: 'title2', lock: true),
           const SizedBox(height: 12),

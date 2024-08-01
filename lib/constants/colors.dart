@@ -16,6 +16,7 @@ final class DreamerColors {
   static const divider = Color(0xFFB5B5B5);
   static const divider2 = Color(0xFFA6A6A6);
   static const danger = Color(0xFFFD3B2A);
+  static const brown = Color(0xFF837682);
 }
 
 

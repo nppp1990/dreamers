@@ -61,7 +61,6 @@ class _EditSingleItemPageState extends State<EditSingleItemPage> {
                         isDense: true,
                       ),
                       style: const TextStyle(
-                        fontFamily: 'SF Pro Text',
                         fontSize: 13,
                         height: 15.5 / 13,
                         fontWeight: FontWeight.w400,

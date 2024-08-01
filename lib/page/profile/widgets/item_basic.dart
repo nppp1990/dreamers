@@ -278,7 +278,6 @@ class _KeyText extends StatelessWidget {
     return Text(
       value,
       style: const TextStyle(
-        fontFamily: 'SF Pro Text',
         fontSize: 13,
         height: 15.5 / 13,
         fontWeight: FontWeight.w600,
@@ -299,7 +298,6 @@ class _ValueText extends StatelessWidget {
     return Text(
       value,
       style: const TextStyle(
-        fontFamily: 'SF Pro Text',
         fontSize: 13,
         height: 15.5 / 13,
         fontWeight: FontWeight.w400,
@@ -645,7 +643,6 @@ class _SingleTextFieldItem extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(vertical: 10),
         ),
         style: const TextStyle(
-          fontFamily: 'SF Pro Text',
           fontSize: 13,
           height: 15.5 / 13,
           fontWeight: FontWeight.w400,

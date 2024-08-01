@@ -54,7 +54,6 @@ class _Signup2State extends State<Signup2> {
                   ),
                   child: const Text('Resend code',
                       style: TextStyle(
-                          fontFamily: 'SF Pro Text',
                           fontSize: 12,
                           height: 14 / 12,
                           color: DreamerColors.grey800,

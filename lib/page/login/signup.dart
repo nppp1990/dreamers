@@ -25,7 +25,6 @@ class SignupPage extends StatelessWidget {
                       'Welcome to\n Dreamer',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: 'SF Pro Text',
                         fontSize: 32,
                         height: 38 / 32,
                         fontWeight: FontWeight.w600,
@@ -52,9 +51,12 @@ class SignupPage extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  LoginButton(text: 'Sign up', onPressed: () {
-                    _onClickSignup(context);
-                  },),
+                  LoginButton(
+                    text: 'Sign up',
+                    onPressed: () {
+                      _onClickSignup(context);
+                    },
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
@@ -73,7 +75,6 @@ class SignupPage extends StatelessWidget {
                           Text(
                             'Already have an account?',
                             style: TextStyle(
-                              fontFamily: 'SF Pro Text',
                               fontSize: 12,
                               color: Colors.black,
                               fontWeight: FontWeight.w400,
@@ -83,7 +84,6 @@ class SignupPage extends StatelessWidget {
                           Text(
                             'Log in',
                             style: TextStyle(
-                              fontFamily: 'SF Pro Text',
                               fontSize: 12,
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
@@ -118,7 +118,6 @@ class SignupPage extends StatelessWidget {
   Widget _buildFieldLabel(String label) {
     return Text(label,
         style: const TextStyle(
-          fontFamily: 'SF Pro Text',
           fontSize: 12,
           height: 14.4 / 12,
           fontWeight: FontWeight.w400,

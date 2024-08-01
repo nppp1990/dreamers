@@ -37,7 +37,6 @@ class DreamList extends StatelessWidget {
             child: const Text(
               'Quizzes',
               style: TextStyle(
-                fontFamily: 'SF Pro Text',
                 fontSize: 12,
                 height: 14.3 / 12,
                 fontWeight: FontWeight.w500,
@@ -86,7 +85,6 @@ class _DreamItem extends StatelessWidget {
               child: Text(
                 'Dream $index',
                 style: const TextStyle(
-                  fontFamily: 'SF Pro Text',
                   fontSize: 10,
                   height: 12 / 10,
                   fontWeight: FontWeight.w500,
@@ -101,7 +99,6 @@ class _DreamItem extends StatelessWidget {
             child: Text(
               title,
               style: const TextStyle(
-                fontFamily: 'SF Pro Text',
                 fontSize: 18,
                 height: 21.5 / 18,
                 fontWeight: FontWeight.w700,

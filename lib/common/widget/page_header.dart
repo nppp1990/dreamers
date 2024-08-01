@@ -43,7 +43,6 @@ class NormalHeader extends StatelessWidget {
               child: Text(
                 title,
                 style: const TextStyle(
-                    fontFamily: 'SF Pro Text',
                     fontSize: 16,
                     height: 20 / 16,
                     fontWeight: FontWeight.w700,
@@ -67,7 +66,6 @@ class NormalHeader extends StatelessWidget {
                   child: Text(
                     rightBtnStr!,
                     style: const TextStyle(
-                      fontFamily: 'SF Pro Text',
                       fontSize: 12,
                       height: 14.3 / 12,
                       fontWeight: FontWeight.w500,

@@ -22,46 +22,44 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       textAlign: TextAlign.start,
       textAlignVertical: TextAlignVertical.center,
       style: const TextStyle(
-        fontFamily: 'SF Pro Text',
         fontSize: 16,
         color: DreamerColors.grey800,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(
-        hintText: 'Password',
-        hintStyle: const TextStyle(color: Colors.grey),
-        filled: true,
-        fillColor: Colors.white,
-        isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: DreamerColors.primary),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: DreamerColors.secondary),
-        ),
-        suffixIconConstraints: const BoxConstraints(
-          minHeight: 40,
-          minWidth: 40,
-        ),
-        suffixIcon:  InkWell(
-          onTap: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(right: 9),
-            child: Icon(
-              _obscureText ? Icons.visibility_off : Icons.visibility,
-              color: DreamerColors.grey600,
-              size: 24,
-            ),
+          hintText: 'Password',
+          hintStyle: const TextStyle(color: Colors.grey),
+          filled: true,
+          fillColor: Colors.white,
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: DreamerColors.primary),
           ),
-        )
-      ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: DreamerColors.secondary),
+          ),
+          suffixIconConstraints: const BoxConstraints(
+            minHeight: 40,
+            minWidth: 40,
+          ),
+          suffixIcon: InkWell(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 9),
+              child: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: DreamerColors.grey600,
+                size: 24,
+              ),
+            ),
+          )),
     );
   }
 }
@@ -78,7 +76,6 @@ class NameTextField extends StatelessWidget {
       textAlign: TextAlign.start,
       textAlignVertical: TextAlignVertical.center,
       style: const TextStyle(
-        fontFamily: 'SF Pro Text',
         fontSize: 16,
         color: DreamerColors.grey800,
         fontWeight: FontWeight.w400,
@@ -128,7 +125,6 @@ class LoginButton extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
-            fontFamily: 'SF Pro Text',
             fontSize: 13,
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -176,7 +172,6 @@ class AuthLogin extends StatelessWidget {
                     child: Text(
                       text,
                       style: const TextStyle(
-                        fontFamily: 'SF Pro Text',
                         fontSize: 13,
                         color: DreamerColors.grey600,
                         fontWeight: FontWeight.w400,

@@ -46,7 +46,6 @@ class _LabelItem extends StatelessWidget {
       child: Text(
         label,
         style: const TextStyle(
-          fontFamily: 'SF Pro Text',
           fontSize: 12,
           height: 14 / 12,
           fontWeight: FontWeight.w500,

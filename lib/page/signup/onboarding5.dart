@@ -49,7 +49,6 @@ class _Signup5PageState extends State<Signup5> {
         const Text(
           'If you chose neither male or female, which gender are you looking for?',
           style: TextStyle(
-            fontFamily: 'SF Pro Text',
             fontSize: 20,
             color: Colors.black,
             fontWeight: FontWeight.w700,
@@ -58,7 +57,6 @@ class _Signup5PageState extends State<Signup5> {
         const Text(
           'Pickup a biological sex',
           style: TextStyle(
-            fontFamily: 'SF Pro Text',
             fontSize: 12,
             height: 14 / 12,
             color: DreamerColors.grey800,
@@ -122,7 +120,6 @@ class RegionSelector extends StatelessWidget {
       hint: Text(
         hint,
         style: const TextStyle(
-          fontFamily: 'SF Pro Text',
           fontSize: 16,
           height: 1,
           color: Colors.grey,
@@ -153,13 +150,11 @@ class RegionSelector extends StatelessWidget {
       isExpanded: true,
       onChanged: onChanged,
       items: regionList
-          .map((e) =>
-          DropdownMenuItem<String>(
+          .map((e) => DropdownMenuItem<String>(
               value: e,
               child: Text(
                 e,
                 style: const TextStyle(
-                  fontFamily: 'SF Pro Text',
                   fontSize: 16,
                   height: 1,
                   color: Colors.black,

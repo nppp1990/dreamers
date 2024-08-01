@@ -79,11 +79,11 @@ class SignupBasePage extends StatelessWidget {
                       child: Text(
                         'Q$step',
                         style: const TextStyle(
-                            height: 28 / 24,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                            fontFamily: 'SF Pro Text'),
+                          height: 28 / 24,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        ),
                       ),
                     )),
                 const SizedBox(height: 8),
@@ -99,7 +99,6 @@ class SignupBasePage extends StatelessWidget {
                 if (subTitle != null)
                   Text(subTitle!,
                       style: const TextStyle(
-                        fontFamily: 'SF Pro Text',
                         height: 14 / 12,
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -131,7 +130,10 @@ class SignupBasePage extends StatelessWidget {
         child: Text(
           label,
           style: const TextStyle(
-              fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white, fontFamily: 'SF Pro Text'),
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -180,7 +182,6 @@ class NumberTextField extends StatelessWidget {
       textAlignVertical: TextAlignVertical.center,
       textAlign: TextAlign.start,
       style: const TextStyle(
-        fontFamily: 'SF Pro Text',
         fontSize: 16,
         height: 1,
         color: Colors.black,
@@ -222,7 +223,6 @@ class DataSelector<T> extends StatelessWidget {
           ? Text(
               hint!,
               style: const TextStyle(
-                fontFamily: 'SF Pro Text',
                 fontSize: 16,
                 height: 1,
                 color: Colors.grey,
@@ -259,7 +259,6 @@ class DataSelector<T> extends StatelessWidget {
               child: Text(
                 e.toString(),
                 style: const TextStyle(
-                  fontFamily: 'SF Pro Text',
                   fontSize: 16,
                   height: 1,
                   color: Colors.black,

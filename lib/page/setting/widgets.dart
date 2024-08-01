@@ -173,7 +173,6 @@ class EditCard extends StatelessWidget {
               Text(
                 label,
                 style: const TextStyle(
-                  fontFamily: 'SF Pro Text',
                   fontSize: 14,
                   height: 16.8 / 14,
                   fontWeight: FontWeight.w400,
@@ -235,7 +234,6 @@ class _SettingCheckItemState extends State<SettingCheckItem> {
                 child: Text(
                   widget.name,
                   style: const TextStyle(
-                    fontFamily: 'SF Pro Text',
                     fontSize: 14,
                     height: 16.8 / 14,
                     fontWeight: FontWeight.w400,
@@ -298,7 +296,6 @@ class SettingItem2 extends StatelessWidget {
                   child: Text(
                     name,
                     style: const TextStyle(
-                      fontFamily: 'SF Pro Text',
                       fontSize: 14,
                       height: 16.8 / 14,
                       fontWeight: FontWeight.w400,

@@ -202,7 +202,6 @@ class _ItemHeader extends StatelessWidget {
                       ),
                       Text('Block this account',
                           style: TextStyle(
-                            fontFamily: 'SF Pro Text',
                             color: DreamerColors.danger,
                             fontSize: 12,
                             height: 14 / 12,
@@ -241,7 +240,6 @@ class _ItemHeader extends StatelessWidget {
                       ),
                       Text('Report',
                           style: TextStyle(
-                            fontFamily: 'SF Pro Text',
                             color: DreamerColors.danger,
                             fontSize: 12,
                             height: 14 / 12,
@@ -268,7 +266,6 @@ class _ItemHeader extends StatelessWidget {
                   ),
                   child: const Text('Cancel',
                       style: TextStyle(
-                        fontFamily: 'SF Pro Text',
                         color: Colors.black,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -300,7 +297,6 @@ class _InfoHeader extends StatelessWidget {
           children: [
             Text('John Doe',
                 style: TextStyle(
-                  fontFamily: 'SF Pro Text',
                   color: Colors.black,
                   fontSize: 24,
                   height: 28 / 24,
@@ -309,7 +305,6 @@ class _InfoHeader extends StatelessWidget {
             SizedBox(height: 4),
             Text('Hello! I’m John.',
                 style: TextStyle(
-                  fontFamily: 'SF Pro Text',
                   color: DreamerColors.grey800,
                   fontSize: 12,
                   height: 14 / 12,
@@ -355,14 +350,12 @@ class _TabHeader extends StatelessWidget {
         ),
         controller: tabController,
         labelStyle: const TextStyle(
-          fontFamily: 'SF Pro Text',
           fontSize: 14,
           height: 16 / 14,
           color: Colors.black,
           fontWeight: FontWeight.w700,
         ),
         unselectedLabelStyle: const TextStyle(
-          fontFamily: 'SF Pro Text',
           color: Colors.black,
           fontSize: 14,
           height: 16 / 14,

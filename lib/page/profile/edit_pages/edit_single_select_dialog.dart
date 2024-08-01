@@ -49,7 +49,6 @@ class _EditSingleDialogContentState extends State<EditSingleDialogContent> {
                     child: const Text(
                       'Cancel',
                       style: TextStyle(
-                        fontFamily: 'SF Pro Text',
                         fontSize: 16,
                         height: 20 / 16,
                         fontWeight: FontWeight.w400,
@@ -63,11 +62,7 @@ class _EditSingleDialogContentState extends State<EditSingleDialogContent> {
                   child: Text(
                     widget.title,
                     style: const TextStyle(
-                        fontFamily: 'SF Pro Text',
-                        fontSize: 14,
-                        height: 16 / 14,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black),
+                        fontSize: 14, height: 16 / 14, fontWeight: FontWeight.w700, color: Colors.black),
                   ),
                 ),
                 Align(
@@ -89,7 +84,6 @@ class _EditSingleDialogContentState extends State<EditSingleDialogContent> {
                       child: const Text(
                         'Done',
                         style: TextStyle(
-                          fontFamily: 'SF Pro Text',
                           fontSize: 12,
                           height: 14.3 / 12,
                           fontWeight: FontWeight.w500,
@@ -122,7 +116,6 @@ class _EditSingleDialogContentState extends State<EditSingleDialogContent> {
                   child: Text(
                     widget.items[i],
                     style: const TextStyle(
-                      fontFamily: 'SF Pro Text',
                       fontSize: 23,
                       height: 27 / 23,
                       fontWeight: FontWeight.w400,

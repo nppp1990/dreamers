@@ -8,7 +8,6 @@ class SignupDonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(
-      fontFamily: 'SF Pro Text',
       fontSize: 24,
       height: 28 / 24,
       fontWeight: FontWeight.w700,
@@ -55,7 +54,6 @@ class SignupDonePage extends StatelessWidget {
                     child: const Text(
                       'View Profile',
                       style: TextStyle(
-                        fontFamily: 'SF Pro Text',
                         fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,

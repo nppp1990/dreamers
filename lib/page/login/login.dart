@@ -27,7 +27,6 @@ class LoginPage extends StatelessWidget {
                     'Welcome to\n Dreamer',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'SF Pro Text',
                       fontSize: 32,
                       height: 38 / 32,
                       fontWeight: FontWeight.w600,
@@ -38,7 +37,6 @@ class LoginPage extends StatelessWidget {
                 // todo 这个文案Label么？
                 const Text('Label',
                     style: TextStyle(
-                      fontFamily: 'SF Pro Text',
                       fontSize: 12,
                       height: 14.4 / 12,
                       fontWeight: FontWeight.w400,
@@ -48,7 +46,6 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 16),
                 const Text('Password',
                     style: TextStyle(
-                      fontFamily: 'SF Pro Text',
                       fontSize: 12,
                       height: 14.4 / 12,
                       fontWeight: FontWeight.w400,
@@ -63,7 +60,6 @@ class LoginPage extends StatelessWidget {
                   child: Text(
                     'Forget password?',
                     style: TextStyle(
-                      fontFamily: 'SF Pro Text',
                       fontSize: 12,
                       color: DreamerColors.grey800,
                       fontWeight: FontWeight.w400,
@@ -71,7 +67,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                LoginButton(text: 'Login', onPressed: (){}),
+                LoginButton(text: 'Login', onPressed: () {}),
                 const SizedBox(height: 8),
                 // 注册
                 Align(
@@ -91,7 +87,6 @@ class LoginPage extends StatelessWidget {
                         Text(
                           'Don\'t have an account?',
                           style: TextStyle(
-                            fontFamily: 'SF Pro Text',
                             fontSize: 12,
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
@@ -101,7 +96,6 @@ class LoginPage extends StatelessWidget {
                         Text(
                           'Sign up',
                           style: TextStyle(
-                            fontFamily: 'SF Pro Text',
                             fontSize: 12,
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
@@ -121,10 +115,10 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 // sign in with google
-                AuthLogin(text: 'Sign in with Google', svgName: 'assets/images/icons/ic_google.svg', onPressed: (){}),
+                AuthLogin(text: 'Sign in with Google', svgName: 'assets/images/icons/ic_google.svg', onPressed: () {}),
                 const SizedBox(height: 12),
                 // sign in with apple
-                AuthLogin(text: 'Sign in with Apple', svgName: 'assets/images/icons/ic_apple.svg', onPressed: (){}),
+                AuthLogin(text: 'Sign in with Apple', svgName: 'assets/images/icons/ic_apple.svg', onPressed: () {}),
               ],
             ),
           ),

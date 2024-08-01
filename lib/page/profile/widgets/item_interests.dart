@@ -49,7 +49,6 @@ class _InterestItem extends StatelessWidget {
       child: Text(
         interest,
         style: const TextStyle(
-          fontFamily: 'SF Pro Text',
           fontSize: 12,
           height: 14 / 12,
           fontWeight: FontWeight.w500,

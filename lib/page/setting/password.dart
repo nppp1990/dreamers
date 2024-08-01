@@ -91,7 +91,6 @@ class _PasswordPageState extends State<PasswordPage> {
                 child: Text(
                   'Forget Password?',
                   style: TextStyle(
-                    fontFamily: 'SF Pro Text',
                     fontSize: 16,
                     height: 19 / 16,
                     fontWeight: FontWeight.w400,

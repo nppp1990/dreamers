@@ -100,7 +100,6 @@ class _BlockListContentState extends State<_BlockListContent> {
                       Text(
                         item.name,
                         style: const TextStyle(
-                          fontFamily: 'SF Pro Text',
                           fontSize: 16,
                           height: 1,
                           fontWeight: FontWeight.w700,
@@ -113,7 +112,6 @@ class _BlockListContentState extends State<_BlockListContent> {
                         item.desc,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontFamily: 'SF Pro Text',
                           fontSize: 13,
                           height: 1,
                           color: Color(0xFF9B9B9B),

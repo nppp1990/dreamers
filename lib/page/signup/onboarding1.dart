@@ -80,7 +80,6 @@ class _PhoneNumberEditViewState extends State<_PhoneNumberEditView> {
                     child: Text(
                       e,
                       style: const TextStyle(
-                        fontFamily: 'SF Pro Text',
                         fontSize: 16,
                         height: 1,
                         color: Colors.black,

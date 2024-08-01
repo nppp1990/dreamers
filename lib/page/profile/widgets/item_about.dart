@@ -35,7 +35,6 @@ class _AboutItemState extends State<AboutItem> with BaseDetailItemMixin {
     return Text(
       _value,
       style: const TextStyle(
-        fontFamily: 'SF Pro Text',
         fontSize: 15,
         height: 18 / 15,
         fontWeight: FontWeight.w400,

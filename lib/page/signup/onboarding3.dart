@@ -34,7 +34,6 @@ class _Signup3State extends State<Signup3> {
         textAlignVertical: TextAlignVertical.center,
         textAlign: TextAlign.start,
         style: const TextStyle(
-          fontFamily: 'SF Pro Text',
           fontSize: 16,
           height: 1,
           color: Colors.black,

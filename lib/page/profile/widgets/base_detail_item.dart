@@ -47,7 +47,6 @@ class DetailItem extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            fontFamily: 'SF Pro Text',
             fontSize: 15,
             height: 18 / 15,
             fontWeight: FontWeight.w700,

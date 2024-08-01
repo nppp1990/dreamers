@@ -22,7 +22,6 @@ class ProfileReportPage extends StatelessWidget {
                   child: Text(
                     'Reason',
                     style: TextStyle(
-                      fontFamily: 'SF Pro Text',
                       fontSize: 12,
                       height: 14.4 / 12,
                       fontWeight: FontWeight.w400,
@@ -67,7 +66,6 @@ class ProfileReportPage extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
-                        fontFamily: 'SF Pro Text',
                       ),
                     ),
                   ),

@@ -27,9 +27,7 @@ class _EditMultiSelectItemPageState extends State<EditMultiSelectItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    final statusBarHeight = MediaQuery
-        .viewPaddingOf(context)
-        .top;
+    final statusBarHeight = MediaQuery.viewPaddingOf(context).top;
     return PageBackground(
       assetImage: const AssetImage('assets/images/bg_base1.png'),
       child: Column(
@@ -62,7 +60,6 @@ class _EditMultiSelectItemPageState extends State<EditMultiSelectItemPage> {
                     child: Text(
                       'Multiple selections allowed',
                       style: TextStyle(
-                        fontFamily: 'SF Pro Text',
                         fontSize: 12,
                         height: 14.4 / 12,
                         fontWeight: FontWeight.w400,
@@ -99,7 +96,6 @@ class _EditMultiSelectItemPageState extends State<EditMultiSelectItemPage> {
                                       child: Text(
                                         item,
                                         style: const TextStyle(
-                                          fontFamily: 'SF Pro Text',
                                           fontSize: 13,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w400,

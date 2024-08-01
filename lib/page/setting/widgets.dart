@@ -1,4 +1,5 @@
 import 'package:dreamer/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -195,6 +196,138 @@ class EditCard extends StatelessWidget {
                 button!,
               ],
             ),
+        ],
+      ),
+    );
+  }
+}
+
+class SettingCheckItem extends StatefulWidget {
+  final String name;
+  final bool checked;
+  final ValueChanged<bool>? onChanged;
+
+  const SettingCheckItem({super.key, required this.name, required this.checked, this.onChanged});
+
+  @override
+  State<StatefulWidget> createState() => _SettingCheckItemState();
+}
+
+class _SettingCheckItemState extends State<SettingCheckItem> {
+  late bool _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.checked;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 40,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  widget.name,
+                  style: const TextStyle(
+                    fontFamily: 'SF Pro Text',
+                    fontSize: 14,
+                    height: 16.8 / 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Transform.scale(
+                scale: 0.8,
+                child: CupertinoSwitch(
+                  value: _value,
+                  activeColor: DreamerColors.primary,
+                  trackColor: const Color(0xFFD9D9D9),
+                  onChanged: (value) {
+                    setState(() {
+                      _value = value;
+                    });
+                    widget.onChanged?.call(value);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Divider(
+          height: 1,
+          thickness: 1,
+          color: DreamerColors.divider,
+        ),
+      ],
+    );
+  }
+}
+
+/// no background
+/// height is 40
+/// one right arrow
+class SettingItem2 extends StatelessWidget {
+  final String name;
+  final VoidCallback onTap;
+
+  const SettingItem2({super.key, required this.name, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        onTap();
+      },
+      child: Column(
+        children: [
+          SizedBox(
+            height: 40,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    name,
+                    style: const TextStyle(
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 14,
+                      height: 16.8 / 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                SvgPicture.asset(
+                  'assets/images/icons/ic_arrow_right.svg',
+                  width: 24,
+                  height: 24,
+                  colorFilter: const ColorFilter.mode(
+                    DreamerColors.divider2,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+              ],
+            ),
+          ),
+          const Divider(
+            height: 1,
+            thickness: 1,
+            color: DreamerColors.divider,
+          ),
         ],
       ),
     );

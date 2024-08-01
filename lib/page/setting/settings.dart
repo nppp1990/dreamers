@@ -5,6 +5,7 @@ import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/setting/email.dart';
 import 'package:dreamer/page/setting/password.dart';
 import 'package:dreamer/page/setting/phone.dart';
+import 'package:dreamer/page/setting/privacy.dart';
 import 'package:dreamer/page/setting/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,7 +49,7 @@ class SettingPage extends StatelessWidget {
                       SettingItem(
                           name: 'Notification', svgIcon: 'assets/images/icons/ic_notification.svg', hasArrow: true),
                       SizedBox(height: 8),
-                      SettingItem(name: 'Privacy', svgIcon: 'assets/images/icons/ic_privacy.svg', hasArrow: true),
+                      PrivacySettingItem(),
                     ],
                   )),
               const SizedBox(height: 24),

@@ -32,7 +32,7 @@ class _DreamerSplashState extends State<DreamerSplash> {
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         if (UserManager().isLogin()) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage(index: 2)));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomePage(index: 0)));
         } else {
           Navigator.of(context).pushReplacement(FadeRouter(child: const LoginPage()));
         }

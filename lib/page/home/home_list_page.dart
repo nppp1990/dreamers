@@ -188,13 +188,19 @@ class _AvatarRandomListViewState extends State<AvatarRandomListView> with Single
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat(reverse: true);
-    // _controller.addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     _controller.reverse();
-    //   }
-    // });
-    // _controller.forward();
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    _controller.addStatusListener((status) {
+      // print('status: $status');
+      if (status == AnimationStatus.completed) {
+        _controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        setState(() {
+          // setState generate a new set of positions
+          _controller.forward();
+        });
+      }
+    });
+    _controller.forward();
     _generatePositions();
   }
 
@@ -255,6 +261,7 @@ class _AvatarRandomListViewState extends State<AvatarRandomListView> with Single
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('build');
     List<Widget> list = [
       Positioned(
         left: 0,

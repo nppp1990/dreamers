@@ -126,11 +126,21 @@ class _HomeBottomNavigationBarState extends State<_HomeBottomNavigationBar> {
 }
 
 class HomeListPage extends StatelessWidget {
+  static const originBubbleHeight = 406.0;
+  static const originBackgroundHeight = 726.0;
+
   const HomeListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double statusBarHeight = MediaQuery.viewPaddingOf(context).top;
+    double screenWidth = MediaQuery.sizeOf(context).width;
+
     return LayoutBuilder(builder: (context, constraints) {
+      double bubbleHeight = constraints.maxHeight * originBubbleHeight / originBackgroundHeight;
+      double top = statusBarHeight;
+      double bubbleWidth = screenWidth;
+
       return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -138,29 +148,28 @@ class HomeListPage extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: AvatarRandomListView(height: constraints.maxHeight),
+        child: AvatarRandomListView(
+          bubbleHeight: bubbleHeight,
+          top: top,
+          bubbleWidth: bubbleWidth,
+        ),
       );
     });
-    // },
-    //   child: Container(
-    //     decoration: const BoxDecoration(
-    //       image: DecorationImage(
-    //         image: AssetImage('assets/images/bg_base2.png'),
-    //         fit: BoxFit.cover,
-    //       ),
-    //     ),
-    //     child: const AvatarRandomListView(),
-    //   ),
-    // );
   }
 }
 
-class AvatarRandomListView extends StatelessWidget {
-  final double height;
+class AvatarRandomListView extends StatefulWidget {
+  final double bubbleHeight;
+  final double top;
+  final double bubbleWidth;
 
-  static const originBubbleHeight = 406.0;
-  static const originBackgroundHeight = 726.0;
+  const AvatarRandomListView({super.key, required this.bubbleHeight, required this.top, required this.bubbleWidth});
 
+  @override
+  State<StatefulWidget> createState() => _AvatarRandomListViewState();
+}
+
+class _AvatarRandomListViewState extends State<AvatarRandomListView> with SingleTickerProviderStateMixin {
   static const List<String> testImages = [
     'assets/images/test1.png',
     'assets/images/test2.jpg',
@@ -172,18 +181,33 @@ class AvatarRandomListView extends StatelessWidget {
     'assets/images/test8.jpeg',
   ];
 
-  const AvatarRandomListView({super.key, required this.height});
+  late List<Rect> positions;
+  late AnimationController _controller;
+  final Random _random = Random();
 
   @override
-  Widget build(BuildContext context) {
-    Random random = Random();
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat(reverse: true);
+    // _controller.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     _controller.reverse();
+    //   }
+    // });
+    // _controller.forward();
+    _generatePositions();
+  }
 
-    double statusBarHeight = MediaQuery.viewPaddingOf(context).top;
-    // in figma: 406 is the height of bubble,726 is the height of background image
-    // figma bubble height is 406, so we need to scale it to the screen height
-    double bubbleHeight = height * originBubbleHeight / originBackgroundHeight;
-    double minTop = statusBarHeight;
-    double maxTop = bubbleHeight;
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  _generatePositions() {
+    double minTop = widget.top;
+    double maxTop = widget.bubbleHeight;
+    Random random = Random();
 
     List<Rect>? generateNonOverlappingImages(int minSize) {
       List<Rect> occupiedPositions = [];
@@ -195,7 +219,7 @@ class AvatarRandomListView extends StatelessWidget {
         // Generate a random position that does not overlap with any existing positions
         int tryCount = 0;
         while (!isPositionValid) {
-          double left = random.nextDouble() * (MediaQuery.sizeOf(context).width - size);
+          double left = random.nextDouble() * (widget.bubbleWidth - size);
           double top = random.nextDouble() * (maxTop - minTop) + minTop;
           position = Rect.fromLTWH(left, top, size, size);
 
@@ -216,7 +240,7 @@ class AvatarRandomListView extends StatelessWidget {
     }
 
     int minSize = 55;
-    List<Rect> positions = [];
+    positions = [];
     while (minSize > 0) {
       var tempPositions = generateNonOverlappingImages(minSize);
       if (tempPositions == null) {
@@ -227,58 +251,98 @@ class AvatarRandomListView extends StatelessWidget {
       positions = tempPositions;
       break;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     List<Widget> list = [
       Positioned(
         left: 0,
-        top: statusBarHeight,
+        top: widget.top,
         child: Image.asset(
           'assets/images/bg_bubble.png',
-          width: MediaQuery.sizeOf(context).width,
-          height: bubbleHeight,
+          width: widget.bubbleWidth,
+          height: widget.bubbleHeight,
           fit: BoxFit.cover,
         ),
       ),
     ];
     for (int i = 0; i < testImages.length && i < positions.length; i++) {
-      double borderWidth = positions[i].width * 3 / 46;
-      list.add(
-        Positioned(
-          left: positions[i].left,
-          top: positions[i].top,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(Right2LeftRouter(child: const OtherProfilePage()));
-            },
-            child: Container(
-              width: positions[i].width,
-              height: positions[i].height,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: GradientBoxBorder(
-                    width: borderWidth,
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFF0C7FF),
-                        Color(0xFFAE42D4),
-                      ],
-                    )),
-              ),
-              child: ClipOval(
-                child: Image.asset(
-                  testImages[i],
-                  width: positions[i].width - borderWidth * 2,
-                  height: positions[i].height - borderWidth * 2,
-                  fit: BoxFit.cover,
-                ),
-              ),
+      Rect rect = positions[i];
+      final animation = Tween<Offset>(
+        begin: Offset(rect.left, rect.top),
+        end: Offset(rect.left - 40 + _random.nextDouble() * 80, rect.top - 30 + _random.nextDouble() * 60),
+      ).animate(_controller);
+      final scaleAnimation = Tween<double>(
+        begin: 1.0,
+        end: 0.8 + 0.4 * _random.nextDouble(),
+      ).animate(_controller);
+
+      Widget item = AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Positioned(
+            left: animation.value.dx,
+            top: animation.value.dy,
+            child: Transform.scale(
+              scale: scaleAnimation.value,
+              child: child,
             ),
-          ),
+          );
+        },
+        child: _AvatarView(
+          width: rect.width,
+          image: testImages[i],
+          onTap: () {
+            // todo test
+            Navigator.of(context).push(Right2LeftRouter(child: const OtherProfilePage()));
+          },
         ),
       );
+      list.add(item);
     }
-
     return Stack(
       children: list,
+    );
+  }
+}
+
+class _AvatarView extends StatelessWidget {
+  final double width;
+  final String image;
+  final VoidCallback? onTap;
+
+  const _AvatarView({required this.width, required this.image, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onTap?.call();
+      },
+      child: Container(
+        width: width,
+        height: width,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: GradientBoxBorder(
+              width: width * 3 / 46,
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFFF0C7FF),
+                  Color(0xFFAE42D4),
+                ],
+              )),
+        ),
+        child: ClipOval(
+          child: Image.asset(
+            image,
+            width: width,
+            height: width,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
     );
   }
 }

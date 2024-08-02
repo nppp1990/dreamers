@@ -1,12 +1,11 @@
 import 'dart:math';
 
 import 'package:dreamer/common/router/router_utils.dart';
-import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/fix_page_child.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
+import 'package:dreamer/page/activity/activity_page.dart';
 import 'package:dreamer/page/profile/profile_page.dart';
-import 'package:dreamer/page/profile/profile_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gradient_borders/gradient_borders.dart';
@@ -26,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   static const List<Widget> _widgetOptions = <Widget>[
     FixPageViewChild(child: HomeListPage()),
     Center(child: Text('Index 1: Chat')),
-    Center(child: Text('Index 2: Activity')),
+    FixPageViewChild(child: HomeActivityPage()),
     FixPageViewChild(child: HomeProfilePage()),
   ];
 

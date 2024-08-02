@@ -1,5 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
+import 'package:dreamer/common/widget/tab_header.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/page/profile/dream_list.dart';
@@ -82,7 +83,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: _InfoHeader(),
         ),
-        _TabHeader(tabController: _tabController),
+        TabHeader(tabController: _tabController, tabs: const ['Profile', 'Dreams']),
         const SizedBox(height: 12),
         Expanded(
           child: Container(
@@ -327,48 +328,4 @@ class _InfoHeader extends StatelessWidget {
       ],
     );
   }
-}
-
-class _TabHeader extends StatelessWidget {
-  final TabController tabController;
-
-  const _TabHeader({super.key, required this.tabController});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 23,
-      child: TabBar(
-        dividerColor: Colors.transparent,
-        indicatorSize: TabBarIndicatorSize.label,
-        indicator: const UnderlineTabIndicator(
-          borderSide: BorderSide(
-            width: 2,
-            color: DreamerColors.primary,
-          ),
-          insets: EdgeInsets.symmetric(horizontal: 7),
-        ),
-        controller: tabController,
-        labelStyle: const TextStyle(
-          fontSize: 14,
-          height: 16 / 14,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
-        unselectedLabelStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 14,
-          height: 16 / 14,
-          fontWeight: FontWeight.w500,
-        ),
-        tabs: const [
-          Tab(text: 'Profile'),
-          Tab(text: 'Dreams'),
-        ],
-      ),
-    );
-  }
-
-// @override
-// Size get preferredSize => const Size.fromHeight(23);
 }

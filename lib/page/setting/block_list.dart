@@ -70,7 +70,7 @@ class _BlockListContentState extends State<_BlockListContent> {
   @override
   Widget build(BuildContext context) {
     return Loading(
-      type: _data == null ? LoadingType.empty : LoadingType.success,
+      type: _data == null || _data!.isEmpty ? LoadingType.empty : LoadingType.success,
       builder: _buildList,
     );
   }
@@ -79,6 +79,7 @@ class _BlockListContentState extends State<_BlockListContent> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: ListView.builder(
+          padding: EdgeInsets.zero,
           itemCount: _data!.length,
           itemBuilder: (context, index) {
             var item = _data![index];
@@ -130,15 +131,13 @@ class _BlockListContentState extends State<_BlockListContent> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        'assets/images/icons/ic_remove_user.svg',
-                        width: 24,
-                        height: 24,
-                        colorFilter: const ColorFilter.mode(
-                          DreamerColors.primary,
-                          BlendMode.srcIn,
-                        )
-                      ),
+                      child: SvgPicture.asset('assets/images/icons/ic_remove_user.svg',
+                          width: 24,
+                          height: 24,
+                          colorFilter: const ColorFilter.mode(
+                            DreamerColors.primary,
+                            BlendMode.srcIn,
+                          )),
                     ),
                   ),
                 ],

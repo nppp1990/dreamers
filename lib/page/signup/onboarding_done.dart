@@ -41,7 +41,8 @@ class SignupDonePage extends StatelessWidget {
                 height: 35,
                 width: 140,
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    },
                     style: ButtonStyle(
                       padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 0)),
                       backgroundColor: WidgetStateProperty.all(DreamerColors.primary),

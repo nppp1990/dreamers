@@ -71,7 +71,19 @@ flutter:
     - family: SF Pro Text
       fonts:
         - asset: fonts/SF-Pro-Text-Regular.otf
-
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: fonts/Roboto-Black.ttf
+          weight: 900
+        - asset: fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: fonts/Roboto-Thin.ttf
+          weight: 100
   assets:
     - assets/images/icons/
     - assets/images/

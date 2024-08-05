@@ -27,14 +27,18 @@ class SwipeCardInfo {
 
 class SwipeCard extends StatelessWidget {
   final SwipeCardInfo info;
+
   // final double height;
   final Color color;
+  final VoidCallback onSkip;
+  final VoidCallback onLike;
 
   const SwipeCard({
     super.key,
     required this.info,
-    // required this.height,
     this.color = Colors.white,
+    required this.onSkip,
+    required this.onLike,
   });
 
   @override
@@ -93,7 +97,9 @@ class SwipeCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 6,),
+                const SizedBox(
+                  width: 6,
+                ),
                 Container(
                   width: 88,
                   height: 88,
@@ -174,14 +180,14 @@ class SwipeCard extends StatelessWidget {
                   text: 'Skip',
                   icon: 'assets/images/icons/ic_skip.svg',
                   backgroundColor: DreamerColors.grey300,
-                  onPressed: () {},
+                  onPressed: onSkip,
                 ),
                 const Spacer(),
                 _buildStepButton(
                   text: 'Like!',
                   icon: 'assets/images/icons/ic_like.svg',
                   backgroundColor: DreamerColors.primary,
-                  onPressed: () {},
+                  onPressed: onLike,
                 ),
               ],
             ),
@@ -191,8 +197,7 @@ class SwipeCard extends StatelessWidget {
     );
   }
 
-  void _viewDetail(BuildContext context) {
-  }
+  void _viewDetail(BuildContext context) {}
 
   Widget _buildStepButton({
     required String text,
@@ -200,36 +205,41 @@ class SwipeCard extends StatelessWidget {
     required Color backgroundColor,
     required VoidCallback onPressed,
   }) {
-    return Container(
-      width: 80,
-      height: 80,
-      // 圆形的
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: backgroundColor,
-      ),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              icon,
-              width: 32,
-              height: 32,
-              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              text,
-              style: const TextStyle(
-                fontSize: 14,
-                height: 16.4 / 14,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0.12,
-                color: Colors.white,
+    return InkWell(
+      onTap: () {
+        onPressed();
+      },
+      child: Container(
+        width: 80,
+        height: 80,
+        // 圆形的
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: backgroundColor,
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(
+                icon,
+                width: 32,
+                height: 32,
+                colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
               ),
-            ),
-          ],
+              const SizedBox(height: 2),
+              Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 14,
+                  height: 16.4 / 14,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.12,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

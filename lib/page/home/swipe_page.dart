@@ -1,5 +1,7 @@
+import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/tindercard/flutter_tindercard_plus.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
+import 'package:dreamer/page/home/like_each_page.dart';
 import 'package:dreamer/page/home/swipe_card.dart';
 import 'package:flutter/material.dart';
 
@@ -105,7 +107,15 @@ class _SwipeCardViewState extends State<SwipeCardView> {
       maxHeight: widget.height,
       minWidth: widget.width * 0.8,
       minHeight: widget.height * 0.8,
-      cardBuilder: (context, index) => SwipeCard(info: _dataList[index]),
+      cardBuilder: (context, index) => SwipeCard(
+        info: _dataList[index],
+        onSkip: () {
+          _onSkip(_dataList[index]);
+        },
+        onLike: () {
+          _onLike(_dataList[index]);
+        },
+      ),
       cardController: _cardController,
       swipeUpdateCallback: (DragUpdateDetails details, Alignment align) {
         /// Get swiping card's alignment
@@ -140,6 +150,14 @@ class _SwipeCardViewState extends State<SwipeCardView> {
         }
       },
     );
+  }
+
+  void _onSkip(SwipeCardInfo item) {
+    _cardController.triggerRight();  }
+
+  void _onLike(SwipeCardInfo item) {
+    // todo like for data
+    Navigator.of(context).push(Right2LeftRouter(child: LikeEachPage(otherInfo: item)));
   }
 
   void _loadMoreData() async {

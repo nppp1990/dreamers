@@ -77,7 +77,7 @@ class _ChatListView extends StatelessWidget {
     ChatItemInfo(
       name: 'name5',
       avatar: 'https://picx.zhimg.com/v2-13b79479d87b35fc328c35fabb275aaa_r.jpg',
-      content: 'You: He thinks it’s overall ok. But it should be more colorful.',
+      content: 'You: He thinks it’s overall ok. But it should be more colorful. test very long content. test very long content test very long content test very long content test very long content  ',
       unreadCount: 12,
     ),
     ChatItemInfo(

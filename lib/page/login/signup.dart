@@ -1,4 +1,5 @@
 import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/utils/check_util.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/dash.dart';
 import 'package:dreamer/constants/colors.dart';
@@ -7,7 +8,41 @@ import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  SignupPage({super.key});
+
+  final LabelTextFieldController _emailController = LabelTextFieldController('');
+  final LabelTextFieldController _passwordController = LabelTextFieldController('');
+  final LabelTextFieldController _confirmPasswordController = LabelTextFieldController('');
+
+  String _emailCheck(String value) {
+    if (value.isEmpty) {
+      return 'Email is required';
+    }
+    if (!CheckUtils.isEmail(value)) {
+      return 'Email is invalid. Enter correctly.';
+    }
+    return '';
+  }
+
+  String _passwordCheck(String value) {
+    if (value.isEmpty) {
+      return 'Password is required';
+    }
+    if (!CheckUtils.isPasswordValid(value)) {
+      return 'Password should be 8 to 30 characters, including symbols and alphanumeric characters.';
+    }
+    return '';
+  }
+
+  String _confirmPasswordCheck(String value) {
+    if (value.isEmpty) {
+      return 'Password confirmation is required';
+    }
+    if (value != _passwordController.textValue) {
+      return 'Password does not match';
+    }
+    return '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +67,27 @@ class SignupPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  // todo 这个文案Label么？
-                  _buildFieldLabel('Label'),
-                  const SizedBox(height: 4),
-                  NameTextField(onChanged: (value) {}),
-                  const SizedBox(height: 16),
-                  _buildFieldLabel('Password'),
-                  const SizedBox(height: 4),
-                  PasswordTextField(
-                    onChanged: (value) {},
+                  LabelTextField(
+                    label: 'Email',
+                    hintText: 'Enter your email',
+                    valueCheck: _emailCheck,
+                    controller: _emailController,
                   ),
                   const SizedBox(height: 16),
-                  _buildFieldLabel('Password (Confirm)'),
-                  const SizedBox(height: 4),
-                  PasswordTextField(
-                    onChanged: (value) {},
+                  LabelTextField(
+                    label: 'Password',
+                    hintText: 'Enter your password',
+                    isPassword: true,
+                    valueCheck: _passwordCheck,
+                    controller: _passwordController,
+                  ),
+                  const SizedBox(height: 16),
+                  LabelTextField(
+                    label: 'Password (Confirm)',
+                    hintText: 'Confirm your password',
+                    isPassword: true,
+                    valueCheck: _confirmPasswordCheck,
+                    controller: _confirmPasswordController,
                   ),
                   const SizedBox(
                     height: 16,
@@ -111,16 +152,16 @@ class SignupPage extends StatelessWidget {
   }
 
   _onClickSignup(BuildContext context) {
+    _emailController.error = _emailCheck(_emailController.textValue);
+    _passwordController.error = _passwordCheck(_passwordController.textValue);
+    _confirmPasswordController.error = _confirmPasswordCheck(_confirmPasswordController.textValue);
+    // if (_emailController.error.isNotEmpty ||
+    //     _passwordController.error.isNotEmpty ||
+    //     _confirmPasswordController.error.isNotEmpty) {
+    //   return;
+    // }
+
     // todo test
     Navigator.push(context, Right2LeftRouter(child: const OnboardingPage()));
-  }
-
-  Widget _buildFieldLabel(String label) {
-    return Text(label,
-        style: const TextStyle(
-          fontSize: 12,
-          height: 14.4 / 12,
-          fontWeight: FontWeight.w400,
-        ));
   }
 }

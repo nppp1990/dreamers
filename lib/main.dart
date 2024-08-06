@@ -1,4 +1,4 @@
-import 'package:dreamer/common/utils/phone_check.dart';
+import 'package:dreamer/common/utils/check_util.dart';
 import 'package:dreamer/data/provider/signup_data.dart';
 import 'package:dreamer/page/splash/dreamer_splash.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<SignupData>(create: (context) => SignupData(phonePrefix: PhoneUtils.prefixList[0])),
+        ChangeNotifierProvider<SignupData>(create: (context) => SignupData(phonePrefix: CheckUtils.prefixPhoneList[0])),
       ],
       child: MaterialApp(
           title: 'Flutter Demo',

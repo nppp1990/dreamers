@@ -1,5 +1,5 @@
 import 'package:dreamer/common/router/router_utils.dart';
-import 'package:dreamer/common/utils/phone_check.dart';
+import 'package:dreamer/common/utils/check_util.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/data/provider/signup_data.dart';
@@ -23,7 +23,7 @@ class Signup1 extends StatelessWidget {
           final signupData = Provider.of<SignupData>(context, listen: false);
           final prefix = signupData.phonePrefix;
           final phone = signupData.phoneNumber;
-          var valid = PhoneUtils.isPhoneNumberValid(prefix, phone);
+          var valid = CheckUtils.isPhoneNumberValid(prefix, phone);
           if (valid) {
             Navigator.of(context).push(Right2LeftRouter(child: const Signup2()));
           } else {
@@ -45,7 +45,7 @@ class _PhoneNumberEditView extends StatefulWidget {
 }
 
 class _PhoneNumberEditViewState extends State<_PhoneNumberEditView> {
-  String _prefix = PhoneUtils.prefixList[0];
+  String _prefix = CheckUtils.prefixPhoneList[0];
   String _phone = '';
 
   @override
@@ -74,7 +74,7 @@ class _PhoneNumberEditViewState extends State<_PhoneNumberEditView> {
                 _prefix = value;
               });
             },
-            items: PhoneUtils.prefixList
+            items: CheckUtils.prefixPhoneList
                 .map((e) => DropdownMenuItem<String>(
                     value: e,
                     child: Text(

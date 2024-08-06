@@ -1,5 +1,7 @@
-class PhoneUtils {
-  static const prefixList = ['+1', '+81', '+86', '+852'];
+final class CheckUtils {
+  CheckUtils._();
+
+  static const prefixPhoneList = ['+1', '+81', '+86', '+852'];
 
   /// Check if the phone number is valid based on the prefix
   static bool isPhoneNumberValid(String? prefix, String? value) {
@@ -29,5 +31,26 @@ class PhoneUtils {
     //   return RegExp(r'^9\d{8}$').hasMatch(value);
     // }
     return false;
+  }
+
+  /// Check if the email is valid
+  static bool isEmail(String email) {
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(email);
+  }
+
+  /// Check if the password is valid
+  static bool isPasswordValid(String password) {
+    if (password.isEmpty) {
+      return false;
+    }
+    if (password.length < 8 || password.length > 30) {
+      return false;
+    }
+    // 至少包含一个字母
+    if (!RegExp(r'[a-zA-Z]').hasMatch(password)) {
+      return false;
+    }
+    return RegExp(r'(?=.*?[#?!@$%^&*-])').hasMatch(password);
   }
 }

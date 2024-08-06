@@ -1,4 +1,5 @@
 import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/utils/check_util.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/dash.dart';
 import 'package:dreamer/constants/colors.dart';
@@ -7,7 +8,36 @@ import 'package:dreamer/page/login/widgets.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final LabelTextFieldController _emailController = LabelTextFieldController('');
+  final LabelTextFieldController _passwordController = LabelTextFieldController('');
+
+  String _emailCheck(String value) {
+    if (value.isEmpty) {
+      return 'Email is required';
+    }
+    if (!CheckUtils.isEmail(value)) {
+      return 'Email is invalid. Enter correctly.';
+    }
+    return '';
+  }
+
+  String _passwordCheck(String value) {
+    if (value.isEmpty) {
+      return 'Password is required';
+    }
+    if (!CheckUtils.isPasswordValid(value)) {
+      return 'Password should be 8 to 30 characters, including symbols and alphanumeric characters.';
+    }
+    return '';
+  }
+
+  void onLogin() {
+    debugPrint('Login: ${_emailController.textValue}');
+    _emailController.error = _emailCheck(_emailController.textValue);
+    _passwordController.error = _passwordCheck(_passwordController.textValue);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,25 +64,19 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                // todo 这个文案Label么？
-                const Text('Label',
-                    style: TextStyle(
-                      fontSize: 12,
-                      height: 14.4 / 12,
-                      fontWeight: FontWeight.w400,
-                    )),
-                const SizedBox(height: 4),
-                NameTextField(onChanged: (value) {}),
+                LabelTextField(
+                  label: 'Email',
+                  hintText: 'Enter your email',
+                  valueCheck: _emailCheck,
+                  controller: _emailController,
+                ),
                 const SizedBox(height: 16),
-                const Text('Password',
-                    style: TextStyle(
-                      fontSize: 12,
-                      height: 14.4 / 12,
-                      fontWeight: FontWeight.w400,
-                    )),
-                const SizedBox(height: 4),
-                PasswordTextField(
-                  onChanged: (value) {},
+                LabelTextField(
+                  label: 'Password',
+                  hintText: 'Enter your password',
+                  isPassword: true,
+                  valueCheck: _passwordCheck,
+                  controller: _passwordController,
                 ),
                 const SizedBox(height: 4),
                 const Align(
@@ -67,14 +91,17 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                LoginButton(text: 'Login', onPressed: () {}),
+                LoginButton(
+                  text: 'Login',
+                  onPressed: onLogin,
+                ),
                 const SizedBox(height: 8),
                 // 注册
                 Align(
                   alignment: Alignment.center,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(context, Right2LeftRouter(child: const SignupPage()));
+                      Navigator.push(context, Right2LeftRouter(child: SignupPage()));
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,

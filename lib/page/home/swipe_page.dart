@@ -95,7 +95,7 @@ class _SwipeCardViewState extends State<SwipeCardView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('-----build');
+    debugPrint('build swipe page');
     return TinderSwapCard(
       swipeUp: true,
       swipeDown: true,

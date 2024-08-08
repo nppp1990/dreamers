@@ -217,7 +217,6 @@ class BasicInfoItem extends StatelessWidget {
   }
 
   Widget _buildListItem(int index) {
-    debugPrint('BasicInfoItem _buildListItem $index');
     BasicInfoBean bean = pairList[index];
     switch (bean.type) {
       case BasicType.singleEdit:

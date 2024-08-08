@@ -7,6 +7,8 @@ import 'package:dreamer/page/profile/dream_list.dart';
 import 'package:dreamer/page/profile/profile_detail.dart';
 import 'package:dreamer/page/profile/report_page.dart';
 import 'package:dreamer/page/setting/settings.dart';
+import 'package:dreamer/request/bean/user_profile.dart';
+import 'package:dreamer/request/request_manager.dart';
 import 'package:flutter/material.dart';
 
 class HomeProfilePage extends StatelessWidget {
@@ -14,6 +16,7 @@ class HomeProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('HomeProfilePage build');
     final statusBarHeight = MediaQuery.viewPaddingOf(context).top;
     return Container(
       decoration: const BoxDecoration(
@@ -24,7 +27,7 @@ class HomeProfilePage extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.only(top: statusBarHeight),
-        child: const ProfileView(isOthers: false),
+        child: const ProfileView(),
       ),
     );
   }
@@ -40,16 +43,17 @@ class OtherProfilePage extends StatelessWidget {
       assetImage: const AssetImage('assets/images/bg_base1.png'),
       child: Padding(
         padding: EdgeInsets.only(top: statusBarHeight),
-        child: const ProfileView(isOthers: true),
+        child: const ProfileView(profileId: 'testId',),
       ),
     );
   }
 }
 
 class ProfileView extends StatefulWidget {
-  final bool isOthers;
 
-  const ProfileView({super.key, required this.isOthers});
+  final String? profileId;
+
+  const ProfileView({super.key, this.profileId});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -62,6 +66,23 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    debugPrint('ProfileView initState');
+    _loadData();
+  }
+
+  _loadData() async {
+    RequestManager().getProfile(widget.profileId).then((value) {
+      debugPrint('getMyProfile: $value');
+    }).catchError((e) {
+      debugPrint('getMyProfile error: $e');
+    });
+    // try {
+    //   // final ProfileInfo res = await RequestManager().getProfile(widget.profileId ?? '');
+    //   ProfileInfo res = await RequestManager().getMyProfile();
+    //   print(res);
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   @override
@@ -77,7 +98,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _ItemHeader(showSetting: !widget.isOthers),
+          child: _ItemHeader(showSetting: widget.profileId == null),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -97,7 +118,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
             child: TabBarView(
               controller: _tabController,
               children: [
-                ProfileDetail(isOthers: widget.isOthers),
+                ProfileDetail(isOthers: widget.profileId != null),
                 const SingleChildScrollView(child: DreamList()),
               ],
             ),
@@ -111,7 +132,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
 class _ItemHeader extends StatelessWidget {
   final bool showSetting;
 
-  const _ItemHeader({super.key, required this.showSetting});
+  const _ItemHeader({required this.showSetting});
 
   @override
   Widget build(BuildContext context) {

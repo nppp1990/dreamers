@@ -27,7 +27,16 @@ class _DreamerSplashState extends State<DreamerSplash> {
         systemNavigationBarColor: Colors.transparent, // bottom bar color
       ),
     );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _init();
+    });
+  }
+
+  _init() async {
     // todo: 这里准备做一些初始化工作，目前暂时暂停2s
+    precacheImage(const AssetImage('assets/images/bg_base1.png'), context);
+    precacheImage(const AssetImage('assets/images/bg_base2.png'), context);
+    UserManager().getLoginInfo();
     // 2s后展示首页
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {

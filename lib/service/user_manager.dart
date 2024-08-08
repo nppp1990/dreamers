@@ -1,19 +1,36 @@
+import 'package:dreamer/common/utils/local_storage.dart';
+import 'package:dreamer/request/bean/auth.dart';
+
 class UserManager {
   static final UserManager _instance = UserManager._internal();
+
+  LoginResult? loginResult;
+
 
   factory UserManager() => _instance;
 
   UserManager._internal();
 
-  isLogin() {
-    // todo: 判断是否登录
-    return false;
+  void saveLoginResult(LoginResult result) {
+    LocalStorage.saveMap('login_result', result.toJson());
   }
 
-// String _token;
-// String get token => _token;
-//
-// void setToken(String token) {
-//   _token = token;
-// }
+  void updateAccess(String? access) {
+    loginResult = loginResult!.copyWith(access: access);
+    saveLoginResult(loginResult!);
+  }
+
+  void getLoginInfo() async {
+    if (loginResult != null) {
+      return;
+    }
+    final result = await LocalStorage.getMap('login_result');
+    if (result != null) {
+      loginResult = LoginResult.fromJson(result);
+    }
+  }
+
+  isLogin() {
+    return loginResult != null;
+  }
 }

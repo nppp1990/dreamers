@@ -263,7 +263,6 @@ class _AvatarRandomListViewState extends State<AvatarRandomListView> with Single
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('build');
     List<Widget> list = [
       Positioned(
         left: 0,

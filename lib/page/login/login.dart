@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/utils/check_util.dart';
 import 'package:dreamer/common/utils/dialog_utils.dart';
@@ -8,16 +7,39 @@ import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/home/home_list_page.dart';
 import 'package:dreamer/page/login/signup.dart';
 import 'package:dreamer/page/login/widgets.dart';
-import 'package:dreamer/request/bean/error_detail.dart';
 import 'package:dreamer/request/request_manager.dart';
 import 'package:dreamer/service/user_manager.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+final class TestCancel {
+  bool cancel = false;
+}
 
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final LabelTextFieldController _emailController = LabelTextFieldController('');
   final LabelTextFieldController _passwordController = LabelTextFieldController('');
+  late ValueNotifier<bool> _isLoginLoading;
+
+  @override
+  initState() {
+    super.initState();
+    _isLoginLoading = ValueNotifier(false);
+  }
+
+  @override
+  void dispose() {
+    _isLoginLoading.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   String _emailCheck(String value) {
     if (value.isEmpty) {
@@ -39,42 +61,30 @@ class LoginPage extends StatelessWidget {
     return '';
   }
 
-  void onLogin(BuildContext context) {
+  void onLogin(BuildContext context) async {
     debugPrint('Login: ${_emailController.textValue}');
     _emailController.error = _emailCheck(_emailController.textValue);
     _passwordController.error = _passwordCheck(_passwordController.textValue);
-    // todo check error
-    // if (_emailController.error.isNotEmpty || _passwordController.error.isNotEmpty) {
-    //   return;
-    // }
-
-
-    RequestManager().login(_emailController.textValue, _passwordController.textValue).then((value) {
-      // debugPrint('Login success: $value');
-      UserManager().saveLoginResult(value);
-      if (!context.mounted) {
-        return;
-      }
-      // todo maybe goto the page sign up
-      Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0,)), (route) => false);
-    }).catchError((error) {
-      if (!context.mounted) {
-        return;
-      }
-      switch (error.runtimeType) {
-        case const (DioException):
-          final res = (error as DioException).response;
-          ErrorDetail errorDetail = ErrorDetail.fromJson(res?.data);
-          debugPrint('1---Login error: $error---${res?.statusCode}---${res?.data}---${res?.statusMessage}');
-          DialogUtils.showToast(context, 'Login failed: ${errorDetail.detail}');
-          break;
-        default:
-          debugPrint('2---Login error: $error');
-          DialogUtils.showToast(context, 'Login failed');
-          break;
-      }
-      debugPrint('-----Login error: ${error.runtimeType}');
-    });
+    if (_emailController.error.isNotEmpty || _passwordController.error.isNotEmpty) {
+      return;
+    }
+    // show loading
+    _isLoginLoading.value = true;
+    final res = await RequestManager().login(_emailController.textValue, _passwordController.textValue);
+    if (!context.mounted) {
+      debugPrint('context is not mounted');
+      return;
+    }
+    _isLoginLoading.value = false;
+    debugPrint('Login result: ${res.data}');
+    if (res.data != null) {
+      UserManager().saveLoginResult(res.data!);
+      DialogUtils.showToast(context, 'Login success');
+      Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0)), (route) => false);
+    } else {
+      final message = res.errMsg ?? 'Login failed';
+      DialogUtils.showToast(context, message);
+    }
   }
 
   @override
@@ -129,10 +139,16 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                LoginButton(
-                  text: 'Login',
-                  onPressed: () {
-                    onLogin(context);
+                ValueListenableBuilder<bool>(
+                  valueListenable: _isLoginLoading,
+                  builder: (BuildContext context, bool value, Widget? child) {
+                    return LoginButton(
+                      isLoading: value,
+                      text: 'Login',
+                      onPressed: () {
+                        onLogin(context);
+                      },
+                    );
                   },
                 ),
                 const SizedBox(height: 8),

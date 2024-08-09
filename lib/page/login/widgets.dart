@@ -166,8 +166,9 @@ class _LabelTextFieldState extends State<LabelTextField> {
 class LoginButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final bool isLoading;
 
-  const LoginButton({super.key, required this.text, required this.onPressed});
+  const LoginButton({super.key, required this.text, required this.onPressed, required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +176,7 @@ class LoginButton extends StatelessWidget {
       height: 36,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(const Color(0xFFA755FF)),
           shape: WidgetStateProperty.all(
@@ -183,16 +184,24 @@ class LoginButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(80),
             ),
           ),
-          // minimumSize: WidgetStateProperty.all(const Size(double.infinity, 36)),
         ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        child: isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
       ),
     );
   }

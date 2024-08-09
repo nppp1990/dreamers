@@ -7,7 +7,7 @@ part of 'error_detail.dart';
 // **************************************************************************
 
 ErrorDetail _$ErrorDetailFromJson(Map<String, dynamic> json) => ErrorDetail(
-      json['detail'] as String,
+      json['detail'] as String?,
     );
 
 Map<String, dynamic> _$ErrorDetailToJson(ErrorDetail instance) =>

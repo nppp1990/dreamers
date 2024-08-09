@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'auth.g.dart';
@@ -24,6 +26,11 @@ class LoginResult {
       userId,
       userProfileId,
     );
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(toJson());
   }
 }
 
@@ -60,4 +67,16 @@ class RefreshAccessParam {
   factory RefreshAccessParam.fromJson(Map<String, dynamic> json) => _$RefreshAccessParamFromJson(json);
 
   Map<String, dynamic> toJson() => _$RefreshAccessParamToJson(this);
+}
+
+@JsonSerializable()
+class SignUpParam {
+  final String email;
+  final String password;
+
+  SignUpParam(this.email, this.password);
+
+  factory SignUpParam.fromJson(Map<String, dynamic> json) => _$SignUpParamFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SignUpParamToJson(this);
 }

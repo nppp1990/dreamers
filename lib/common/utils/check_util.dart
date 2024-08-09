@@ -47,7 +47,6 @@ final class CheckUtils {
     if (password.length < 8 || password.length > 30) {
       return false;
     }
-    // 至少包含一个字母
     if (!RegExp(r'[a-zA-Z]').hasMatch(password)) {
       return false;
     }

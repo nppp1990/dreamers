@@ -1,18 +1,42 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/utils/check_util.dart';
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/dash.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/login/widgets.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
+import 'package:dreamer/request/request_manager.dart';
+import 'package:dreamer/service/user_manager.dart';
 import 'package:flutter/material.dart';
 
-class SignupPage extends StatelessWidget {
-  SignupPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
   final LabelTextFieldController _emailController = LabelTextFieldController('');
   final LabelTextFieldController _passwordController = LabelTextFieldController('');
   final LabelTextFieldController _confirmPasswordController = LabelTextFieldController('');
+  late ValueNotifier<bool> _isSignupLoading;
+
+  @override
+  void initState() {
+    super.initState();
+    _isSignupLoading = ValueNotifier(false);
+  }
+
+  @override
+  dispose() {
+    _isSignupLoading.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   String _emailCheck(String value) {
     if (value.isEmpty) {
@@ -92,19 +116,26 @@ class SignupPage extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  LoginButton(
-                    text: 'Sign up',
-                    onPressed: () {
-                      _onClickSignup(context);
-                    },
-                  ),
+                  ValueListenableBuilder(
+                      valueListenable: _isSignupLoading,
+                      builder: (context, value, child) {
+                        return LoginButton(
+                          isLoading: value,
+                          text: 'Sign up',
+                          onPressed: () {
+                            _onClickSignup(context);
+                          },
+                        );
+                      }),
                   const SizedBox(
                     height: 8,
                   ),
                   Align(
                     alignment: Alignment.center,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _onGotoLogin(context);
+                      },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size.zero,
@@ -151,17 +182,34 @@ class SignupPage extends StatelessWidget {
                 ]))));
   }
 
-  _onClickSignup(BuildContext context) {
+  _onGotoLogin(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  _onClickSignup(BuildContext context) async {
     _emailController.error = _emailCheck(_emailController.textValue);
     _passwordController.error = _passwordCheck(_passwordController.textValue);
     _confirmPasswordController.error = _confirmPasswordCheck(_confirmPasswordController.textValue);
-    // if (_emailController.error.isNotEmpty ||
-    //     _passwordController.error.isNotEmpty ||
-    //     _confirmPasswordController.error.isNotEmpty) {
-    //   return;
-    // }
+    if (_emailController.error.isNotEmpty ||
+        _passwordController.error.isNotEmpty ||
+        _confirmPasswordController.error.isNotEmpty) {
+      return;
+    }
+    _isSignupLoading.value = true;
+    final res = await RequestManager().signup(_emailController.textValue, _passwordController.textValue);
+    if (!context.mounted) {
+      return;
+    }
+    _isSignupLoading.value = false;
 
+    if (res.data != null) {
+      UserManager().saveLoginResult(res.data!);
+      Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const OnboardingPage()), (route) => false);
+    } else {
+      DialogUtils.showToast(context, res.errMsg ?? 'Sign up failed');
+    }
+    debugPrint('signup result: $res');
     // todo test
-    Navigator.push(context, Right2LeftRouter(child: const OnboardingPage()));
+    // Navigator.push(context, Right2LeftRouter(child: const OnboardingPage()));
   }
 }

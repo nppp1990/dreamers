@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/base_normal_page.dart';
 import 'package:dreamer/constants/colors.dart';
+import 'package:dreamer/page/login/login.dart';
 import 'package:dreamer/page/setting/email.dart';
 import 'package:dreamer/page/setting/password.dart';
 import 'package:dreamer/page/setting/phone.dart';
 import 'package:dreamer/page/setting/privacy.dart';
 import 'package:dreamer/page/setting/widgets.dart';
+import 'package:dreamer/service/user_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -73,32 +76,38 @@ class SettingPage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               SettingCard(
-                  child: SizedBox(
-                height: 32,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/images/icons/ic_exit.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: const ColorFilter.mode(
-                        DreamerColors.danger,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        'Sign out',
-                        style: TextStyle(
-                          fontSize: 15,
-                          height: 18 / 15,
-                          fontWeight: FontWeight.w400,
-                          color: DreamerColors.danger,
+                  child: InkWell(
+                onTap: () {
+                  UserManager().clearLoginInfo();
+                  Navigator.of(context).pushAndRemoveUntil(NoAnimRouter(child: LoginPage()), (route) => false);
+                },
+                child: SizedBox(
+                  height: 32,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/icons/ic_exit.svg',
+                        width: 24,
+                        height: 24,
+                        colorFilter: const ColorFilter.mode(
+                          DreamerColors.danger,
+                          BlendMode.srcIn,
                         ),
                       ),
-                    ),
-                  ],
+                      const Expanded(
+                        child: Text(
+                          'Sign out',
+                          style: TextStyle(
+                            fontSize: 15,
+                            height: 18 / 15,
+                            fontWeight: FontWeight.w400,
+                            color: DreamerColors.danger,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ))
             ],

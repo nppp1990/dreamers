@@ -102,7 +102,7 @@ class SettingItem extends StatelessWidget {
       ],
     );
     if (onTap != null) {
-      return GestureDetector(
+      return InkWell(
         onTap: () {
           onTap!();
         },

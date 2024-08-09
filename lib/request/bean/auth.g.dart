@@ -52,3 +52,14 @@ Map<String, dynamic> _$RefreshAccessParamToJson(RefreshAccessParam instance) =>
     <String, dynamic>{
       'refresh_token': instance.refresh,
     };
+
+SignUpParam _$SignUpParamFromJson(Map<String, dynamic> json) => SignUpParam(
+      json['email'] as String,
+      json['password'] as String,
+    );
+
+Map<String, dynamic> _$SignUpParamToJson(SignUpParam instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'password': instance.password,
+    };

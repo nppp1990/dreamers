@@ -30,6 +30,11 @@ class UserManager {
     }
   }
 
+  void clearLoginInfo() {
+    loginResult = null;
+    LocalStorage.removeData('login_result');
+  }
+
   isLogin() {
     return loginResult != null;
   }

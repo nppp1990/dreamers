@@ -17,4 +17,7 @@ abstract class ApiClient {
 
   @GET('user-profiles/{id}')
   Future<ProfileInfo> getProfile(@Path('id') String id);
+  
+  @POST('auth/signup')
+  Future<LoginResult> signUp(@Body() SignUpParam param);
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/base_normal_page.dart';
 import 'package:dreamer/constants/colors.dart';
@@ -77,10 +78,7 @@ class SettingPage extends StatelessWidget {
               const SizedBox(height: 24),
               SettingCard(
                   child: InkWell(
-                onTap: () {
-                  UserManager().clearLoginInfo();
-                  Navigator.of(context).pushAndRemoveUntil(NoAnimRouter(child: LoginPage()), (route) => false);
-                },
+                onTap: () => _onClickSignOut(context),
                 child: SizedBox(
                   height: 32,
                   child: Row(
@@ -115,6 +113,23 @@ class SettingPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onClickSignOut(BuildContext context) async {
+
+    AdaptiveDialog.instance.updateConfiguration(
+
+    );
+
+    OkCancelResult res = await showOkCancelAlertDialog(
+      context: context,
+      title: 'Sign out',
+      message: 'Are you sure you want to sign out?',
+    );
+    if (res == OkCancelResult.ok && context.mounted) {
+      UserManager().clearLoginInfo();
+      Navigator.of(context).pushAndRemoveUntil(NoAnimRouter(child: const LoginPage()), (route) => false);
+    }
   }
 }
 

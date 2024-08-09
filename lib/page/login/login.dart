@@ -11,10 +11,6 @@ import 'package:dreamer/request/request_manager.dart';
 import 'package:dreamer/service/user_manager.dart';
 import 'package:flutter/material.dart';
 
-final class TestCancel {
-  bool cancel = false;
-}
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -117,6 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'Enter your email',
                   valueCheck: _emailCheck,
                   controller: _emailController,
+                  textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 16),
                 LabelTextField(
@@ -125,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   isPassword: true,
                   valueCheck: _passwordCheck,
                   controller: _passwordController,
+                  textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 4),
                 const Align(

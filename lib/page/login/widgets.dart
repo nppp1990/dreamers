@@ -1,5 +1,6 @@
 import 'package:dreamer/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 typedef ValueCheck = String Function(String value);
@@ -22,6 +23,7 @@ class LabelTextField extends StatefulWidget {
   final String hintText;
   final bool isPassword;
   final ValueCheck valueCheck;
+  final TextInputAction? textInputAction;
   final ValueChanged<String>? onChanged;
   final LabelTextFieldController controller;
 
@@ -31,6 +33,7 @@ class LabelTextField extends StatefulWidget {
     required this.hintText,
     this.isPassword = false,
     required this.valueCheck,
+    this.textInputAction,
     this.onChanged,
     required this.controller,
   });
@@ -52,7 +55,13 @@ class _LabelTextFieldState extends State<LabelTextField> {
   }
 
   void _onFocusChange() {
-    if (!_focusNode.hasFocus) {
+    debugPrint('Focus: ${_focusNode.hasFocus}----${widget.controller.textValue}---${widget.isPassword}');
+    if (_focusNode.hasFocus) {
+      // Future.delayed(const Duration(milliseconds: 1000), () {
+      //   FocusScope.of(context).requestFocus();
+      // });
+
+    } else {
       widget.controller.error = widget.valueCheck(widget.controller.textValue);
     }
   }
@@ -103,57 +112,65 @@ class _LabelTextFieldState extends State<LabelTextField> {
                   color: value.isNotEmpty ? DreamerColors.danger : DreamerColors.grey800,
                 )),
             const SizedBox(height: 4),
-            TextField(
-              focusNode: _focusNode,
-              onChanged: (value) {
-                widget.controller.textValue = value;
-                widget.onChanged?.call(value);
+            Listener(
+              onPointerDown: (_) {
+                FocusScope.of(context).requestFocus(_focusNode);
               },
-              obscureText: _obscureText,
-              textAlign: TextAlign.start,
-              textAlignVertical: TextAlignVertical.center,
-              style: const TextStyle(
-                fontSize: 16,
-                height: 1,
-                color: DreamerColors.grey800,
-                fontWeight: FontWeight.w400,
-              ),
-              decoration: InputDecoration(
-                hintText: widget.hintText,
-                hintStyle: const TextStyle(color: Colors.grey),
-                filled: true,
-                fillColor: Colors.white,
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: DreamerColors.primary),
+              child: TextField(
+                textInputAction: widget.textInputAction,
+                autofocus: true,
+                keyboardType: widget.isPassword ? TextInputType.visiblePassword : TextInputType.text,
+                focusNode: _focusNode,
+                onChanged: (value) {
+                  widget.controller.textValue = value;
+                  widget.onChanged?.call(value);
+                },
+                obscureText: _obscureText,
+                textAlign: TextAlign.start,
+                textAlignVertical: TextAlignVertical.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  height: 1,
+                  color: DreamerColors.grey800,
+                  fontWeight: FontWeight.w400,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: DreamerColors.secondary),
+                decoration: InputDecoration(
+                  hintText: widget.hintText,
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  filled: true,
+                  fillColor: Colors.white,
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: DreamerColors.primary),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(color: DreamerColors.secondary),
+                  ),
+                  errorBorder: errorBorder,
+                  focusedErrorBorder: errorBorder,
+                  error: value.isNotEmpty
+                      ? Transform.translate(
+                          offset: const Offset(-16, 0),
+                          child: Text(
+                            value,
+                            style: const TextStyle(
+                                fontSize: 12,
+                                height: 14.4 / 12,
+                                fontWeight: FontWeight.w400,
+                                color: DreamerColors.danger),
+                          ))
+                      : null,
+                  suffixIconConstraints: widget.isPassword
+                      ? const BoxConstraints(
+                          minHeight: 40,
+                          minWidth: 40,
+                        )
+                      : null,
+                  suffixIcon: passwordSuffixIcon,
                 ),
-                errorBorder: errorBorder,
-                focusedErrorBorder: errorBorder,
-                error: value.isNotEmpty
-                    ? Transform.translate(
-                        offset: const Offset(-16, 0),
-                        child: Text(
-                          value,
-                          style: const TextStyle(
-                              fontSize: 12,
-                              height: 14.4 / 12,
-                              fontWeight: FontWeight.w400,
-                              color: DreamerColors.danger),
-                        ))
-                    : null,
-                suffixIconConstraints: widget.isPassword
-                    ? const BoxConstraints(
-                        minHeight: 40,
-                        minWidth: 40,
-                      )
-                    : null,
-                suffixIcon: passwordSuffixIcon,
               ),
             )
           ],

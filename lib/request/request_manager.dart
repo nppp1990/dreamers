@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:dreamer/request/base_result.dart';
@@ -33,7 +32,7 @@ class RequestManager {
         }
         if (res?.data is Map) {
           ErrorDetail errorDetail = ErrorDetail.fromJson(res?.data);
-          return BaseResult<T>(error: error, errMsg: errorDetail.detail);
+          return BaseResult<T>(error: error, errMsg: errorDetail.getErrorMessage());
         }
         return BaseResult<T>(error: error);
       default:

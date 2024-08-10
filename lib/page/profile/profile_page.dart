@@ -71,18 +71,13 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
   }
 
   _loadData() async {
-    RequestManager().getProfile(widget.profileId).then((value) {
-      debugPrint('getMyProfile: $value');
-    }).catchError((e) {
-      debugPrint('getMyProfile error: $e');
-    });
-    // try {
-    //   // final ProfileInfo res = await RequestManager().getProfile(widget.profileId ?? '');
-    //   ProfileInfo res = await RequestManager().getMyProfile();
-    //   print(res);
-    // } catch (e) {
-    //   print(e);
-    // }
+    final profileResult = await RequestManager().getProfile(widget.profileId);
+    if (profileResult.data != null) {
+      final profile = profileResult.data!;
+      debugPrint('Profile: ${profile.toJson()}');
+    } else {
+      debugPrint('Profile load failed: ${profileResult.errMsg}');
+    }
   }
 
   @override

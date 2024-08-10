@@ -116,11 +116,6 @@ class SettingPage extends StatelessWidget {
   }
 
   void _onClickSignOut(BuildContext context) async {
-
-    AdaptiveDialog.instance.updateConfiguration(
-
-    );
-
     OkCancelResult res = await showOkCancelAlertDialog(
       context: context,
       title: 'Sign out',

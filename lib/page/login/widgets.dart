@@ -55,13 +55,7 @@ class _LabelTextFieldState extends State<LabelTextField> {
   }
 
   void _onFocusChange() {
-    debugPrint('Focus: ${_focusNode.hasFocus}----${widget.controller.textValue}---${widget.isPassword}');
-    if (_focusNode.hasFocus) {
-      // Future.delayed(const Duration(milliseconds: 1000), () {
-      //   FocusScope.of(context).requestFocus();
-      // });
-
-    } else {
+    if (!_focusNode.hasFocus) {
       widget.controller.error = widget.valueCheck(widget.controller.textValue);
     }
   }

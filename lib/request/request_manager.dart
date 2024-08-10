@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:dreamer/request/base_result.dart';
 import 'package:dreamer/request/bean/auth.dart';
@@ -7,6 +6,7 @@ import 'package:dreamer/request/bean/user_profile.dart';
 import 'package:dreamer/request/index.dart';
 import 'package:dreamer/request/interceptor.dart';
 import 'package:dreamer/service/user_manager.dart';
+import 'package:flutter/material.dart';
 
 class RequestManager {
   static const contentTypeJson = "application/json";
@@ -24,6 +24,7 @@ class RequestManager {
   factory RequestManager() => _instance;
 
   BaseResult<T> _handleError<T>(error) {
+    debugPrintStack(stackTrace: error.stackTrace, label: error.toString());
     switch (error.runtimeType) {
       case const (DioException):
         final res = (error as DioException).response;
@@ -50,11 +51,16 @@ class RequestManager {
     }
   }
 
-  Future<ProfileInfo> getProfile(String? userProfileId) {
+  Future<BaseResult<ProfileInfo>> getProfile(String? userProfileId) async {
     final client = ApiClient(_dio);
-    String id = userProfileId ?? UserManager().loginResult!.userProfileId;
-    // if id is null, use the userProfileId from loginResult: it means get own profile
-    return client.getProfile(id);
+    try {
+      String id = userProfileId ?? UserManager().loginResult!.userProfileId;
+      // if id is null, use the userProfileId from loginResult: it means get own profile
+      final ProfileInfo profileInfo = await client.getProfile(id);
+      return BaseResult(data: profileInfo);
+    } catch (error) {
+      return _handleError<ProfileInfo>(error);
+    }
   }
 
   Future<RefreshAccessResult> refreshAccess() {

@@ -6,12 +6,12 @@ class UserManager {
 
   LoginResult? loginResult;
 
-
   factory UserManager() => _instance;
 
   UserManager._internal();
 
   void saveLoginResult(LoginResult result) {
+    loginResult = result;
     LocalStorage.saveMap('login_result', result.toJson());
   }
 

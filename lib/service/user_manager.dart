@@ -36,6 +36,7 @@ class UserManager {
 
   void clearLoginInfo() {
     loginResult = null;
+    saveProfileComplete(false);
     LocalStorage.removeData(keyLoginResult);
   }
 

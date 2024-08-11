@@ -5,10 +5,9 @@ import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/data/provider/signup_data.dart';
 import 'package:dreamer/main.dart';
 import 'package:dreamer/page/home/home_list_page.dart';
-import 'package:dreamer/page/login/login.dart';
+import 'package:dreamer/page/login/join_page.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:dreamer/page/splash/dreamer_icon_text.dart';
-import 'package:dreamer/request/request_manager.dart';
 import 'package:dreamer/service/user_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,7 +65,7 @@ class _DreamerSplashState extends State<DreamerSplash> {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const OnboardingPage()));
       }
     } else {
-      Navigator.of(context).pushReplacement(FadeRouter(child: const LoginPage()));
+      Navigator.of(context).pushReplacement(FadeRouter(child: const JoinPage()));
     }
   }
 

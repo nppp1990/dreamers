@@ -96,6 +96,7 @@ flutter:
   assets:
     - assets/images/icons/
     - assets/images/
+    - assets/countries_en.json
   #    - assets/icons/
   #    - assets/fonts/
 

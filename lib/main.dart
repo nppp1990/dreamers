@@ -1,4 +1,3 @@
-import 'package:dreamer/common/utils/check_util.dart';
 import 'package:dreamer/data/provider/signup_data.dart';
 import 'package:dreamer/page/splash/dreamer_splash.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ void main() {
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+List<Country>? countryList;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<SignupData>(create: (context) => SignupData(phonePrefix: CheckUtils.prefixPhoneList[0])),
+        ChangeNotifierProvider<SignupData>(create: (context) => SignupData()),
       ],
       child: MaterialApp(
           title: 'Flutter Demo',

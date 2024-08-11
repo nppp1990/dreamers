@@ -1,7 +1,10 @@
 import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/constants/colors.dart';
+import 'package:dreamer/data/provider/signup_data.dart';
 import 'package:dreamer/page/signup/onboarding4.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'onboarding.dart';
 
@@ -25,9 +28,8 @@ class _Signup3State extends State<Signup3> {
         if (_value.isNotEmpty) {
           Navigator.of(context).push(Right2LeftRouter(child: const Signup4()));
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('nickname cannot be empty'),
-          ));
+          Provider.of<SignupData>(context, listen: false).setNickname(_value);
+          DialogUtils.showToast(context, 'nickname cannot be empty');
         }
       },
       child: TextField(

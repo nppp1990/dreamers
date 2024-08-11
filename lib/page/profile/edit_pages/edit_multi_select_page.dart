@@ -1,3 +1,4 @@
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/profile/widgets/edit_header.dart';
@@ -38,8 +39,7 @@ class _EditMultiSelectItemPageState extends State<EditMultiSelectItemPage> {
             btnStr: 'Save',
             onDone: () {
               if (_selectedItems.isEmpty) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text('Please select at least one item')));
+                DialogUtils.showToast(context, 'Please select at least one item');
                 return;
               }
               Navigator.of(context).pop(MultiSelectData(values: _selectedItems));

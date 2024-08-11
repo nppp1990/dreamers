@@ -1,4 +1,5 @@
 import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:dreamer/page/signup/onboarding5.dart';
 import 'package:flutter/material.dart';
@@ -46,9 +47,7 @@ class _Signup4PageState extends State<Signup4> {
           if (_city != null) {
             Navigator.of(context).push(Right2LeftRouter(child: const Signup5()));
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('city cannot be empty'),
-            ));
+            DialogUtils.showToast(context, 'city cannot be empty');
           }
         },
         child: Column(

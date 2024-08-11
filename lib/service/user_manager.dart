@@ -1,8 +1,12 @@
 import 'package:dreamer/common/utils/local_storage.dart';
 import 'package:dreamer/request/bean/auth.dart';
+import 'package:flutter/material.dart';
 
 class UserManager {
   static final UserManager _instance = UserManager._internal();
+
+  static const keyLoginResult = 'login_result';
+  static const keyProfileComplete = 'profile_complete';
 
   LoginResult? loginResult;
 
@@ -12,7 +16,7 @@ class UserManager {
 
   void saveLoginResult(LoginResult result) {
     loginResult = result;
-    LocalStorage.saveMap('login_result', result.toJson());
+    LocalStorage.saveMap(keyLoginResult, result.toJson());
   }
 
   void updateAccess(String? access) {
@@ -20,11 +24,11 @@ class UserManager {
     saveLoginResult(loginResult!);
   }
 
-  void getLoginInfo() async {
+  Future<void> getLoginInfo() async {
     if (loginResult != null) {
       return;
     }
-    final result = await LocalStorage.getMap('login_result');
+    final result = await LocalStorage.getMap(keyLoginResult);
     if (result != null) {
       loginResult = LoginResult.fromJson(result);
     }
@@ -32,10 +36,18 @@ class UserManager {
 
   void clearLoginInfo() {
     loginResult = null;
-    LocalStorage.removeData('login_result');
+    LocalStorage.removeData(keyLoginResult);
   }
 
   isLogin() {
     return loginResult != null;
+  }
+
+  void saveProfileComplete(bool complete) {
+    LocalStorage.saveData(keyProfileComplete, complete);
+  }
+
+  Future<bool> getProfileComplete() async {
+    return await LocalStorage.getData<bool>(keyProfileComplete) ?? false;
   }
 }

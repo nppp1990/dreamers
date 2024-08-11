@@ -3,14 +3,31 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
-  static Future<void> saveData(String key, String value) async {
+  static Future<void> saveData<T>(String key, T value) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, value);
+    if (value is String) {
+      await prefs.setString(key, value);
+    } else if (value is int) {
+      await prefs.setInt(key, value);
+    } else if (value is double) {
+      await prefs.setDouble(key, value);
+    } else if (value is bool) {
+      await prefs.setBool(key, value);
+    }
   }
 
-  static Future<String?> getData(String key) async {
+  static Future<T?> getData<T>(String key) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key);
+    if (T == String) {
+      return prefs.getString(key) as T?;
+    } else if (T == int) {
+      return prefs.getInt(key) as T?;
+    } else if (T == double) {
+      return prefs.getDouble(key) as T?;
+    } else if (T == bool) {
+      return prefs.getBool(key) as T?;
+    }
+    return null;
   }
 
   static Future<void> removeData(String key) async {

@@ -1,10 +1,13 @@
 import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
+import 'package:dreamer/data/provider/signup_data.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:dreamer/page/signup/onboarding6.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// choose region
 class Signup5 extends StatefulWidget {
@@ -28,20 +31,24 @@ class _Signup5PageState extends State<Signup5> {
     'Bisexual',
   ];
 
-  late String? _gender;
-  late String? _gender2;
+  late String? _genderIdentity;
+  late String? _targetGender;
 
   @override
   void initState() {
     super.initState();
-    _gender = genderList.first;
-    _gender2 = null;
+    _genderIdentity = null;
+    _targetGender = null;
+  }
+
+  bool _hasNoTargetGender(String? genderIdentity) {
+    return genderIdentity == null || genderIdentity == genderList[0] || genderIdentity == genderList[1];
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> others;
-    if (_gender == genderList[0] || _gender == genderList[1]) {
+    if (_hasNoTargetGender(_genderIdentity!)) {
       others = [];
     } else {
       others = [
@@ -65,10 +72,10 @@ class _Signup5PageState extends State<Signup5> {
         ),
         const SizedBox(height: 16),
         DataSelector(
-          value: _gender2,
+          value: _targetGender,
           onChanged: (value) {
             setState(() {
-              _gender2 = value;
+              _targetGender = value;
             });
           },
           regionList: genderList,
@@ -82,17 +89,26 @@ class _Signup5PageState extends State<Signup5> {
         subTitle: subTitleList[4],
         onNext: () {
           // todo
+          if (_genderIdentity == null) {
+            DialogUtils.showToast(context, 'Please select your gender identity');
+            return;
+          }
+          if (!_hasNoTargetGender(_genderIdentity!) && _targetGender == null) {
+            DialogUtils.showToast(context, 'Please select the gender you are looking for');
+            return;
+          }
+          Provider.of<SignupData>(context, listen: false).setGender(_genderIdentity!, _targetGender);
           Navigator.of(context).push(Right2LeftRouter(child: const Signup6()));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DataSelector(
-              value: _gender,
+              value: _genderIdentity,
               onChanged: (value) {
                 setState(() {
-                  _gender = value;
-                  _gender2 = null;
+                  _genderIdentity = value;
+                  _targetGender = null;
                 });
               },
               regionList: genderList,

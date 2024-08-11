@@ -8,7 +8,7 @@
 PRODUCT_NAME = dreamer
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.dreamer.dreamer
+PRODUCT_BUNDLE_IDENTIFIER = com.dreamers.dreamer
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2024 com.dreamer. All rights reserved.

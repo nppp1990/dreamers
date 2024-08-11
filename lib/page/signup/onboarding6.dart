@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/constants/colors.dart';
+import 'package:dreamer/data/provider/signup_data.dart';
 import 'package:dreamer/page/signup/onboarding7.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'onboarding.dart';
 
@@ -16,6 +19,8 @@ class Signup6 extends StatefulWidget {
 }
 
 class _Signup6State extends State<Signup6> {
+  DateTime? _birthday;
+
   @override
   Widget build(BuildContext context) {
     return SignupBasePage(
@@ -23,6 +28,11 @@ class _Signup6State extends State<Signup6> {
       title: titleList[5],
       subTitle: subTitleList[5],
       onNext: () {
+        if (_birthday == null) {
+          DialogUtils.showToast(context, 'Please select your birthday');
+          return;
+        }
+        Provider.of<SignupData>(context, listen: false).setBirthday(_birthday!.millisecondsSinceEpoch);
         Navigator.of(context).push(Right2LeftRouter(child: const Signup7()));
         // if (_value.isNotEmpty) {
         //   // Navigator.of(context).push(Right2LeftRouter(child: const Signup4()));
@@ -33,7 +43,7 @@ class _Signup6State extends State<Signup6> {
         // }
       },
       child: DatePickerTextField(onChanged: (value) {
-        // _value = value;
+        _birthday = value;
       }),
     );
   }
@@ -105,7 +115,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
             children: [
               Expanded(
                   child: Text(
-                _value.isEmpty ? 'Select your birthdate' : _value.toString(),
+                _value.isEmpty ? 'Select your birthday' : _value.toString(),
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 16,

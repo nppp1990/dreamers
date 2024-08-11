@@ -1,5 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/utils/check_util.dart';
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/data/provider/signup_data.dart';
@@ -27,10 +28,7 @@ class Signup1 extends StatelessWidget {
           if (valid) {
             Navigator.of(context).push(Right2LeftRouter(child: const Signup2()));
           } else {
-            // show error message
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Invalid phone number'),
-            ));
+            DialogUtils.showToast(context, 'Invalid phone number');
           }
         },
         child: const _PhoneNumberEditView());

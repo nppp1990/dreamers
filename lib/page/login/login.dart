@@ -76,6 +76,13 @@ class _LoginPageState extends State<LoginPage> {
     if (res.data != null) {
       UserManager().saveLoginResult(res.data!);
       DialogUtils.showToast(context, 'Login success');
+      // todo
+      // final profileResult = await RequestManager().getProfile(null);
+      // if (profileResult.data != null && profileResult.data!.isProfileComplete) {
+      //   Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0)), (route) => false);
+      //   return;
+      // }
+
       Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0)), (route) => false);
     } else {
       final message = res.errMsg ?? 'Login failed';

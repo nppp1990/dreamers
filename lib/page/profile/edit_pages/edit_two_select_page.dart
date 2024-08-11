@@ -1,3 +1,4 @@
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/page/profile/widgets/edit_header.dart';
 import 'package:dreamer/page/profile/widgets/item_basic.dart';
@@ -61,15 +62,11 @@ class _EditTwoSelectItemPageState extends State<EditTwoSelectItemPage> {
             btnStr: 'Save',
             onDone: () {
               if (_value1 == null) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('country cannot be empty'),
-                ));
+                DialogUtils.showToast(context, 'country cannot be empty');
                 return;
               }
               if (_value2 == null) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('city cannot be empty'),
-                ));
+                DialogUtils.showToast(context, 'city cannot be empty');
                 return;
               }
               Navigator.of(context).pop(TwoSelectData(value1: _value1!, value2: _value2!));

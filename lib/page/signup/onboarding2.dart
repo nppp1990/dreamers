@@ -27,13 +27,7 @@ class _Signup2State extends State<Signup2> {
       onNext: () {
         final phoneNumber = Provider.of<SignupData>(context, listen: false).phoneNumber;
         // todo check verification code
-        // if (_value == preNumber) {
         Navigator.of(context).push(Right2LeftRouter(child: const Signup3()));
-        // } else {
-        //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        //     content: Text('two phone number is not the same'),
-        //   ));
-        // }
       },
       child: Column(
         children: [

@@ -5,6 +5,7 @@ import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/dash.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/home/home_list_page.dart';
+import 'package:dreamer/page/login/reset_password.dart';
 import 'package:dreamer/page/login/signup.dart';
 import 'package:dreamer/page/login/widgets.dart';
 import 'package:dreamer/request/request_manager.dart';
@@ -132,14 +133,19 @@ class _LoginPageState extends State<LoginPage> {
                   textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 4),
-                const Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'Forget password?',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: DreamerColors.grey800,
-                      fontWeight: FontWeight.w400,
+                InkWell(
+                  onTap: () {
+                    _onClickForgetPassword(context);
+                  },
+                  child: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Forget password?',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: DreamerColors.grey800,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ),
@@ -162,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.center,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(context, Right2LeftRouter(child: SignupPage()));
+                      Navigator.push(context, Right2LeftRouter(child: const SignupPage()));
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -211,5 +217,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ));
+  }
+
+  _onClickForgetPassword(BuildContext context) {
+    Navigator.push(context, Right2LeftRouter(child: const ResetEmailPage()));
   }
 }

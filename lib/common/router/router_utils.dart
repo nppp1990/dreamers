@@ -166,8 +166,7 @@ class ScaleFadeRotateRouter<T> extends PageRouteBuilder<T> {
   final int durationMs;
   final Curve curve;
 
-  ScaleFadeRotateRouter(
-      {required this.child, this.durationMs = 1000, this.curve = Curves.fastOutSlowIn})
+  ScaleFadeRotateRouter({required this.child, this.durationMs = 1000, this.curve = Curves.fastOutSlowIn})
       : super(
             transitionDuration: Duration(milliseconds: durationMs),
             pageBuilder: (ctx, a1, a2) => child, //页面
@@ -185,12 +184,10 @@ class ScaleFadeRotateRouter<T> extends PageRouteBuilder<T> {
                   )),
                   child: ScaleTransition(
                     //缩放动画
-                    scale: Tween(begin: 0.0, end: 1.0)
-                        .animate(CurvedAnimation(parent: a1, curve: curve)),
+                    scale: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: a1, curve: curve)),
                     child: FadeTransition(
                       opacity: //透明度动画
-                          Tween(begin: 0.5, end: 1.0)
-                              .animate(CurvedAnimation(parent: a1, curve: curve)),
+                          Tween(begin: 0.5, end: 1.0).animate(CurvedAnimation(parent: a1, curve: curve)),
                       child: child,
                     ),
                   ),

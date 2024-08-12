@@ -22,7 +22,7 @@ class LabelTextField extends StatefulWidget {
   final String label;
   final String hintText;
   final bool isPassword;
-  final ValueCheck valueCheck;
+  final ValueCheck? valueCheck;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onChanged;
   final LabelTextFieldController controller;
@@ -32,7 +32,7 @@ class LabelTextField extends StatefulWidget {
     required this.label,
     required this.hintText,
     this.isPassword = false,
-    required this.valueCheck,
+    this.valueCheck,
     this.textInputAction,
     this.onChanged,
     required this.controller,
@@ -55,8 +55,8 @@ class _LabelTextFieldState extends State<LabelTextField> {
   }
 
   void _onFocusChange() {
-    if (!_focusNode.hasFocus) {
-      widget.controller.error = widget.valueCheck(widget.controller.textValue);
+    if (widget.valueCheck != null && !_focusNode.hasFocus) {
+      widget.controller.error = widget.valueCheck!(widget.controller.textValue);
     }
   }
 

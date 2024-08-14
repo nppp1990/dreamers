@@ -8,6 +8,7 @@ import 'package:dreamer/page/home/home_list_page.dart';
 import 'package:dreamer/page/login/join_page.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:dreamer/page/splash/dreamer_icon_text.dart';
+import 'package:dreamer/request/request_manager.dart';
 import 'package:dreamer/service/user_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,10 +52,12 @@ class _DreamerSplashState extends State<DreamerSplash> {
       int time4 = DateTime.now().millisecondsSinceEpoch;
       debugPrint('get profile complete duration: ${time4 - time3}');
       if (!isProfileCompleted) {
-        // final profileResult = await RequestManager().getProfile(null);
-        // if (profileResult.data != null && profileResult.data!.isNotEmpty) {
-        //   UserManager().saveProfileComplete(true);
-        // }
+        final profileResult = await RequestManager().checkAuth();
+        if (profileResult.data?.birthday != null) {
+          UserManager().saveProfileComplete(true);
+          isProfileCompleted = true;
+        }
+        debugPrint('checkAuth duration: ${DateTime.now().millisecondsSinceEpoch - time4}');
       }
       if (!context.mounted) {
         return;
@@ -73,6 +76,14 @@ class _DreamerSplashState extends State<DreamerSplash> {
     final res = await rootBundle.loadString('assets/countries_en.json');
     final countries = (json.decode(res) as List<dynamic>).map((e) => Country.fromJson(e)).toList();
     countryList = countries;
+    regionMap = {};
+    for (var country in countries) {
+      if (country.city != null) {
+        regionMap[country.name] = country.city!.map((e) => e.name).toList();
+      } else {
+        regionMap[country.name] = null;
+      }
+    }
   }
 
   @override

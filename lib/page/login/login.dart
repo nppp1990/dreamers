@@ -68,14 +68,19 @@ class _LoginPageState extends State<LoginPage> {
     // show loading
     _isLoginLoading.value = true;
     final res = await RequestManager().login(_emailController.textValue, _passwordController.textValue);
-    if (!context.mounted) {
-      debugPrint('context is not mounted');
-      return;
-    }
     _isLoginLoading.value = false;
     debugPrint('Login result: ${res.data}');
     if (res.data != null) {
       UserManager().saveLoginResult(res.data!);
+
+      var checkRes = await RequestManager().checkAuth();
+      if (checkRes.data != null) {
+        debugPrint('checkAuth result: ${checkRes.data}');
+      }
+      if (!context.mounted) {
+        debugPrint('context is not mounted');
+        return;
+      }
       DialogUtils.showToast(context, 'Login success');
       // todo
       // final profileResult = await RequestManager().getProfile(null);
@@ -86,6 +91,10 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0)), (route) => false);
     } else {
+      if (!context.mounted) {
+        debugPrint('context is not mounted');
+        return;
+      }
       final message = res.errMsg ?? 'Login failed';
       DialogUtils.showToast(context, message);
     }

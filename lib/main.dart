@@ -9,6 +9,7 @@ void main() {
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 List<Country>? countryList;
+Map<String, List<String>?> regionMap = {};
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

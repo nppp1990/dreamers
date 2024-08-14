@@ -1,8 +1,11 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/utils/dialog_utils.dart';
+import 'package:dreamer/data/provider/signup_data.dart';
+import 'package:dreamer/main.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:dreamer/page/signup/onboarding5.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// choose region
 class Signup4 extends StatefulWidget {
@@ -13,28 +16,26 @@ class Signup4 extends StatefulWidget {
 }
 
 class _Signup4PageState extends State<Signup4> {
-  final Map<String, List<String>> maps = {
-    'China': ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen'],
-    'Japan': ['Tokyo', 'Osaka', 'Kyoto', 'Hokkaido'],
-    'Korea': ['Seoul', 'Busan', 'Incheon', 'Jeju'],
-    'India': ['Mumbai', 'Delhi', 'Bangalore', 'Chennai'],
-    'USA': ['New York', 'Los Angeles', 'Chicago', 'San Francisco'],
-    // 'Asia': ['China', 'Japan', 'Korea', 'India'],
-    // 'Europe': ['Germany', 'France', 'Italy', 'Spain'],
-    // 'America': ['USA', 'Canada', 'Mexico', 'Brazil'],
-    // 'Africa': ['Egypt', 'Nigeria', 'South Africa', 'Kenya'],
-    // 'Oceania': ['Australia', 'New Zealand', 'Fiji', 'Papua New Guinea'],
-  };
-
-  late String _country;
-  late String? _city;
+  late String? _country;
+  late String? _state;
+  late List<String> _countryList;
 
   @override
   void initState() {
     super.initState();
-    _country = maps.keys.first;
-    _city = null;
-    // _city = null;
+    // _country = regionMap.keys.first;
+    _country = null;
+    _state = null;
+    _countryList = regionMap.keys.toList();
+  }
+
+  _next(BuildContext context) {
+    if (_country == null) {
+      DialogUtils.showToast(context, 'country cannot be empty');
+      return;
+    }
+    Provider.of<SignupData>(context, listen: false).setRegion(_country!, _state);
+    Navigator.of(context).push(Right2LeftRouter(child: const Signup5()));
   }
 
   @override
@@ -43,13 +44,7 @@ class _Signup4PageState extends State<Signup4> {
         step: 4,
         title: titleList[3],
         subTitle: subTitleList[3],
-        onNext: () {
-          if (_city != null) {
-            Navigator.of(context).push(Right2LeftRouter(child: const Signup5()));
-          } else {
-            DialogUtils.showToast(context, 'city cannot be empty');
-          }
-        },
+        onNext: () => _next(context),
         child: Column(
           children: [
             DataSelector<String>(
@@ -58,21 +53,23 @@ class _Signup4PageState extends State<Signup4> {
               onChanged: (value) {
                 setState(() {
                   _country = value!;
-                  _city = null;
+                  _state = null;
                 });
               },
-              regionList: maps.keys.toList(),
+              regionList: _countryList,
             ),
             const SizedBox(height: 16),
             DataSelector<String>(
-              value: _city,
-              hint: 'select city',
+              value: _state,
+              hint: _country == null
+                  ? 'select country first'
+                  : (regionMap[_country!] == null ? 'no state data' : 'select state'),
               onChanged: (value) {
                 setState(() {
-                  _city = value;
+                  _state = value;
                 });
               },
-              regionList: maps[_country]!,
+              regionList: _country == null ? null : regionMap[_country!],
             ),
           ],
         ));

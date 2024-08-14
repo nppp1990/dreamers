@@ -210,9 +210,9 @@ class DataSelector<T> extends StatelessWidget {
   final T? value;
   final String? hint;
   final ValueChanged<T?> onChanged;
-  final List<T> regionList;
+  final List<T>? regionList;
 
-  const DataSelector({super.key, required this.value, this.hint, required this.onChanged, required this.regionList});
+  const DataSelector({super.key, required this.value, this.hint, required this.onChanged, this.regionList});
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +254,7 @@ class DataSelector<T> extends StatelessWidget {
       isExpanded: true,
       onChanged: onChanged,
       items: regionList
-          .map((e) => DropdownMenuItem<T>(
+          ?.map((e) => DropdownMenuItem<T>(
               value: e,
               child: Text(
                 e.toString(),

@@ -7,19 +7,19 @@ part of 'user_profile.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      json['id'] as String,
-      json['email'] as String,
-      json['password'] as String,
-      json['is_superuser'] as bool,
-      json['is_staff'] as bool?,
-      json['provider'] as String?,
-      (json['last_login'] as num?)?.toInt(),
-      (json['date_joined'] as num).toInt(),
-      json['phone_number'] as String?,
-      json['language'] as String?,
-      (json['created_at'] as num).toInt(),
-      (json['updated_at'] as num).toInt(),
-      (json['deleted_at'] as num?)?.toInt(),
+      id: json['id'] as String,
+      email: json['email'] as String?,
+      password: json['password'] as String?,
+      isSuperuser: json['is_superuser'] as bool?,
+      isStaff: json['is_staff'] as bool?,
+      provider: json['provider'] as String?,
+      lastLogin: (json['last_login'] as num?)?.toInt(),
+      dateJoined: (json['date_joined'] as num?)?.toInt(),
+      phoneNumber: json['phone_number'] as String?,
+      language: json['language'] as String?,
+      createdAt: (json['created_at'] as num?)?.toInt(),
+      updatedAt: (json['updated_at'] as num?)?.toInt(),
+      deletedAt: (json['deleted_at'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -40,7 +40,9 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
 
 ProfileInfo _$ProfileInfoFromJson(Map<String, dynamic> json) => ProfileInfo(
       id: json['id'] as String,
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: json['user'] == null
+          ? null
+          : User.fromJson(json['user'] as Map<String, dynamic>),
       profileImage: json['profile_image'] as String?,
       genderIdentity: json['gender_identity'] as String?,
       targetGender: json['target_gender'] as String?,
@@ -57,8 +59,8 @@ ProfileInfo _$ProfileInfoFromJson(Map<String, dynamic> json) => ProfileInfo(
       bodyType: json['body_type'] as String?,
       maritalStatus: json['marital_status'] as String?,
       relationshipGoal: json['relationship_goal'] as String?,
-      createdAt: (json['created_at'] as num).toInt(),
-      updatedAt: (json['updated_at'] as num).toInt(),
+      createdAt: (json['created_at'] as num?)?.toInt(),
+      updatedAt: (json['updated_at'] as num?)?.toInt(),
       deletedAt: (json['deleted_at'] as num?)?.toInt(),
     );
 

@@ -48,7 +48,7 @@ class _Signup5PageState extends State<Signup5> {
   @override
   Widget build(BuildContext context) {
     List<Widget> others;
-    if (_hasNoTargetGender(_genderIdentity!)) {
+    if (_hasNoTargetGender(_genderIdentity)) {
       others = [];
     } else {
       others = [

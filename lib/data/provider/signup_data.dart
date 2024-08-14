@@ -57,8 +57,8 @@ class SignupData with ChangeNotifier {
   String? phonePrefix;
   String? phoneNumber;
   String? nickname;
-  Region? country;
-  Region? city;
+  String? country;
+  String? state;
   String? genderIdentity;
   String? targetGender;
   int? birthday;
@@ -81,9 +81,9 @@ class SignupData with ChangeNotifier {
     notifyListeners();
   }
 
-  void setRegion(Region country, Region city) {
+  void setRegion(String country, String? state) {
     this.country = country;
-    this.city = city;
+    this.state = state;
     notifyListeners();
   }
 
@@ -108,7 +108,7 @@ class SignupData with ChangeNotifier {
     phoneNumber = null;
     nickname = null;
     country = null;
-    city = null;
+    state = null;
     genderIdentity = null;
     targetGender = null;
     birthday = null;

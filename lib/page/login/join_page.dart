@@ -35,7 +35,7 @@ class JoinPage extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Padding(
                 padding: EdgeInsets.all(16),
-                child: Text('Test1, test1\nTest2, test2\nTest3, test3)',
+                child: Text('You are about to have dream where you feel special and one who is perfect for you will come along soon!',
                     maxLines: null,
                     overflow: TextOverflow.visible,
                     style: TextStyle(

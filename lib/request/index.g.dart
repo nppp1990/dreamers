@@ -104,6 +104,37 @@ class _ApiClient implements ApiClient {
   }
 
   @override
+  Future<ProfileInfo> updateProfile(
+    String id,
+    ProfileInfo profile,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(profile.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ProfileInfo>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'user-profiles/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ProfileInfo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<LoginResult> signUp(SignUpParam param) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -128,6 +159,89 @@ class _ApiClient implements ApiClient {
               baseUrl,
             ))));
     final value = LoginResult.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ProfileInfo> checkAuth() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ProfileInfo>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'auth/check',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ProfileInfo.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<StatusResult> sendCodeToPhone(Map<String, dynamic> param) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(param);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<StatusResult>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'verify/send-to-phone',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = StatusResult.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<StatusResult> checkCode(Map<String, dynamic> param) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(param);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<StatusResult>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'verify/check',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = StatusResult.fromJson(_result.data!);
     return value;
   }
 

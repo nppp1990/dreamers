@@ -26,9 +26,9 @@ class _Signup3State extends State<Signup3> {
       subTitle: subTitleList[2],
       onNext: () {
         if (_value.isNotEmpty) {
+          Provider.of<SignupData>(context, listen: false).setNickname(_value);
           Navigator.of(context).push(Right2LeftRouter(child: const Signup4()));
         } else {
-          Provider.of<SignupData>(context, listen: false).setNickname(_value);
           DialogUtils.showToast(context, 'nickname cannot be empty');
         }
       },

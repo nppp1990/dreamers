@@ -136,11 +136,11 @@ class _LabelTextFieldState extends State<LabelTextField> {
                   isDense: true,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(100),
                     borderSide: const BorderSide(color: DreamerColors.primary),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(100),
                     borderSide: const BorderSide(color: DreamerColors.secondary),
                   ),
                   errorBorder: errorBorder,

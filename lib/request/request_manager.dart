@@ -100,6 +100,16 @@ class RequestManager {
     }
   }
 
+  Future<BaseResult<User>> updateUser(User user) async {
+    final client = ApiClient(_dio);
+    try {
+      final User res = await client.updateUser(user.id, user);
+      return BaseResult(data: res);
+    } catch (error) {
+      return _handleError<User>(error);
+    }
+  }
+
   Future<RefreshAccessResult> refreshAccess() {
     final client = ApiClient(_dio);
     final refresh = UserManager().loginResult!.refresh;

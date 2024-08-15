@@ -53,7 +53,7 @@ class _DreamerSplashState extends State<DreamerSplash> {
       debugPrint('get profile complete duration: ${time4 - time3}');
       if (!isProfileCompleted) {
         final profileResult = await RequestManager().checkAuth();
-        if (profileResult.data?.birthday != null) {
+        if (profileResult.data?.birthday != null && profileResult.data?.user?.phoneNumber != null) {
           UserManager().saveProfileComplete(true);
           isProfileCompleted = true;
         }

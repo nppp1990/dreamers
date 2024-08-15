@@ -7,6 +7,7 @@ import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/data/provider/signup_data.dart';
 import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:dreamer/page/signup/onboarding_done.dart';
+import 'package:dreamer/request/base_result.dart';
 import 'package:dreamer/request/bean/user_profile.dart';
 import 'package:dreamer/request/request_manager.dart';
 import 'package:dreamer/service/user_manager.dart';
@@ -19,7 +20,7 @@ class Signup7 extends StatelessWidget {
 
   _next(BuildContext context) async {
     SignupData data = Provider.of<SignupData>(context, listen: false);
-    User user = User(id: UserManager().loginResult!.userId, phoneNumber: data.phoneNumber);
+    User user = User(id: UserManager().loginResult!.userId, phoneNumber: '${data.phonePrefix}${data.phoneNumber}');
     ProfileInfo profileInfo = ProfileInfo(
       id: UserManager().loginResult!.userProfileId,
       user: user,
@@ -32,8 +33,17 @@ class Signup7 extends StatelessWidget {
       // todo this is for test
       profileImage: 'https://pic1.zhimg.com/v2-d24a84ea4ea3e152f5eb035b736caf97_r.jpg',
     );
-    final res = await RequestManager().updateProfile(profileInfo);
-    if (res.data != null && res.data!.birthday != null) {
+    final res = await Future.wait([
+      RequestManager().updateProfile(profileInfo),
+      RequestManager().updateUser(user),
+    ]);
+    final profileRes = res[0] as BaseResult<ProfileInfo>;
+    final userRes = res[1] as BaseResult<User>;
+
+    if (profileRes.data != null &&
+        userRes.data != null &&
+        profileRes.data!.birthday != null &&
+        userRes.data!.phoneNumber != null) {
       UserManager().saveProfileComplete(true);
       if (context.mounted) {
         Navigator.of(context).push(Right2LeftRouter(child: const SignupDonePage()));

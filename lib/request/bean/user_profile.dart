@@ -114,7 +114,8 @@ class ProfileInfo {
       this.updatedAt,
       this.deletedAt});
 
-  Map<String, dynamic> toJson() => _$ProfileInfoToJson(this)..removeNullValues();
+  // the backend expects the user id to be a string
+  Map<String, dynamic> toJson() => _$ProfileInfoToJson(this)..removeNullValues()..['user'] = user?.id;
 
   @override
   String toString() {

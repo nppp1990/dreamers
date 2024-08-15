@@ -22,6 +22,9 @@ abstract class ApiClient {
   @PUT('user-profiles/{id}')
   Future<ProfileInfo> updateProfile(@Path('id') String id, @Body() ProfileInfo profile);
 
+  @PUT('users/{id}')
+  Future<User> updateUser(@Path('id') String id, @Body() User user);
+
   @POST('auth/signup')
   Future<LoginResult> signUp(@Body() SignUpParam param);
 

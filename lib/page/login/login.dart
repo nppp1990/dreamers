@@ -8,6 +8,7 @@ import 'package:dreamer/page/home/home_list_page.dart';
 import 'package:dreamer/page/login/reset_password.dart';
 import 'package:dreamer/page/login/signup.dart';
 import 'package:dreamer/page/login/widgets.dart';
+import 'package:dreamer/page/signup/onboarding.dart';
 import 'package:dreamer/request/request_manager.dart';
 import 'package:dreamer/service/user_manager.dart';
 import 'package:flutter/material.dart';
@@ -72,24 +73,23 @@ class _LoginPageState extends State<LoginPage> {
     debugPrint('Login result: ${res.data}');
     if (res.data != null) {
       UserManager().saveLoginResult(res.data!);
-
-      var checkRes = await RequestManager().checkAuth();
-      if (checkRes.data != null) {
-        debugPrint('checkAuth result: ${checkRes.data}');
-      }
       if (!context.mounted) {
         debugPrint('context is not mounted');
         return;
       }
       DialogUtils.showToast(context, 'Login success');
-      // todo
-      // final profileResult = await RequestManager().getProfile(null);
-      // if (profileResult.data != null && profileResult.data!.isProfileComplete) {
-      //   Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0)), (route) => false);
-      //   return;
-      // }
 
-      Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0)), (route) => false);
+      var checkRes = await RequestManager().checkAuth();
+      if (!context.mounted) {
+        debugPrint('context is not mounted');
+        return;
+      }
+      if (checkRes.data?.birthday != null && checkRes.data?.user?.phoneNumber != null) {
+        UserManager().saveProfileComplete(true);
+        Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0)), (route) => false);
+      } else {
+        Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const OnboardingPage()), (route) => false);
+      }
     } else {
       if (!context.mounted) {
         debugPrint('context is not mounted');

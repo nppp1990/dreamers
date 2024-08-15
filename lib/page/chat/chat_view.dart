@@ -1,3 +1,4 @@
+import 'package:dreamer/common/widget/wave_dots.dart';
 import 'package:dreamer/page/chat/chat_config.dart';
 import 'package:dreamer/page/chat/test_data.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +23,15 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends State<ChatView> {
   late ChatController _chatController;
+  late ValueNotifier<bool> _isNextPageLoading;
 
   @override
   void initState() {
     super.initState();
+    _isNextPageLoading = ValueNotifier<bool>(false);
     _chatController = ChatController(scrollController: ScrollController(), chatConfig: widget.chatConfig);
     _chatController.init(TestData.testList);
+    _chatController.scrollController.addListener(_scrollChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final screenWidth = MediaQuery.sizeOf(context).width;
       final horizontalImageWidth = screenWidth / 2 - config.listviewPadding - config.avatarSize - config.avatarMargin;
@@ -36,6 +40,26 @@ class _ChatViewState extends State<ChatView> {
   }
 
   ChatConfig get config => widget.chatConfig;
+
+  void _scrollChanged() {
+    print('scrollChanged:${_chatController.scrollController.position.pixels}');
+    if (_chatController.scrollController.position.pixels ==
+        _chatController.scrollController.position.maxScrollExtent) {
+      if (!_isNextPageLoading.value) {
+        _loadMoreData();
+      }
+    }
+  }
+
+  _loadMoreData() async {
+    _isNextPageLoading.value = true;
+    await Future.delayed(const Duration(seconds: 4));
+    if (_chatController.isDisposed) {
+      return;
+    }
+    _isNextPageLoading.value = false;
+    _chatController.addMessages(TestData.generateMessages());
+  }
 
   @override
   void dispose() {
@@ -55,6 +79,15 @@ class _ChatViewState extends State<ChatView> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            ValueListenableBuilder(
+                valueListenable: _isNextPageLoading,
+                builder: (_, isNextPageLoading, child) {
+                  if (isNextPageLoading) {
+                    return const WaveDots(size: 30, color: Colors.black);
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                }),
             Padding(
               padding: EdgeInsets.only(left: config.listviewPadding, right: config.listviewPadding),
               child: GestureDetector(

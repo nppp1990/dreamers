@@ -13,13 +13,17 @@ class ChatController {
 
   late double horizontalImageWidth;
   late double verticalImageWidth;
+  bool _isDisposed = false;
 
   StreamController<List<ListItem>> messageStreamController = StreamController();
 
   ChatController({required this.scrollController, required this.chatConfig});
 
+  bool get isDisposed => _isDisposed;
+
   dispose() {
     scrollController.dispose();
+    _isDisposed = true;
   }
 
   void initImageSize(double horizontalImageWidth, double verticalImageWidth) {
@@ -47,7 +51,27 @@ class ChatController {
     if (!messageStreamController.isClosed) {
       messageStreamController.sink.add(data);
     }
-    scrollToLastMessage();
+  }
+
+  void addListItems(List<ListItem> items, {int index = 0}) {
+    data.insertAll(index, items);
+    if (!messageStreamController.isClosed) {
+      messageStreamController.sink.add(data);
+    }
+  }
+
+  void addMessages(List<Message> messages, {int index = 0}) {
+    data.insertAll(
+      index,
+      messages.map((message) => ListItem(
+        type: ListItemType.message,
+        message: message,
+        time: DateTime.now(),
+      )),
+    );
+    if (!messageStreamController.isClosed) {
+      messageStreamController.sink.add(data);
+    }
   }
 
   /// Function to scroll to last messages in chat view

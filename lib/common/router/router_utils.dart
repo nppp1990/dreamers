@@ -160,6 +160,24 @@ class Bottom2TopRouter<T> extends PageRouteBuilder<T> {
             });
 }
 
+class ScaleFadeRouter<T> extends PageRouteBuilder<T> {
+  final Widget child;
+  final int durationMs;
+  final Curve curve;
+
+  ScaleFadeRouter({required this.child, this.durationMs = 500, this.curve = Curves.fastOutSlowIn})
+      : super(
+            transitionDuration: Duration(milliseconds: durationMs),
+            pageBuilder: (ctx, a1, a2) => child,
+            transitionsBuilder: (ctx, a1, a2, child) => ScaleTransition(
+                  scale: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: a1, curve: curve)),
+                  child: FadeTransition(
+                    opacity: Tween(begin: 0.1, end: 1.0).animate(CurvedAnimation(parent: a1, curve: curve)),
+                    child: child,
+                  ),
+                ));
+}
+
 /// Scale + Fade + Rotate route animation
 class ScaleFadeRotateRouter<T> extends PageRouteBuilder<T> {
   final Widget child;

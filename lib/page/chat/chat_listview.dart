@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/page/preview_image_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'chat_config.dart';
 import 'chat_controller.dart';
@@ -173,14 +176,17 @@ class ImageMessageView extends StatelessWidget {
             return Align(
               alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
               // 图片的宽度高度是固定的
-              child: Container(
-                width: width,
-                height: height,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(chatController.chatConfig.messageRadius),
-                  image: DecorationImage(
-                    image: image.image,
-                    fit: BoxFit.cover,
+              child: GestureDetector(
+                onTap: () => _previewImage(context),
+                child: Container(
+                  width: width,
+                  height: height,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(chatController.chatConfig.messageRadius),
+                    image: DecorationImage(
+                      image: image.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -190,6 +196,24 @@ class ImageMessageView extends StatelessWidget {
             return const SizedBox();
           }
         });
+  }
+
+  void _previewImage(BuildContext context) {
+    Navigator.push(
+      context,
+      ScaleFadeRouter(
+        child: PreviewImagePage(
+          imageUrl: isLocal ? null : path,
+          imageFile: isLocal ? File(path) : null,
+        ),
+      ),
+    ).then((_){
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.white,
+        ),
+      );
+    });
   }
 }
 

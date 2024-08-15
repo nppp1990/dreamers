@@ -50,6 +50,6 @@ class UserManager {
 
   Future<bool> getProfileComplete() async {
     // return await LocalStorage.getData<bool>(keyProfileComplete) ?? false;
-    return false;
+    return true;
   }
 }

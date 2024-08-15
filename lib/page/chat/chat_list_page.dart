@@ -1,6 +1,10 @@
+import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
+import 'package:dreamer/page/chat/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'test_data.dart';
 
 class HomeChatListPage extends StatelessWidget {
   const HomeChatListPage({super.key});
@@ -49,91 +53,21 @@ final class ChatItemInfo {
 }
 
 class _ChatListView extends StatelessWidget {
-  static const testData = <ChatItemInfo>[
-    ChatItemInfo(
-      name: 'Jone Doe',
-      avatar: 'https://pic1.zhimg.com/v2-d24a84ea4ea3e152f5eb035b736caf97_r.jpg',
-      content: 'Oh i don\'t like fish 🙈',
-      unreadCount: 2,
-    ),
-    ChatItemInfo(
-      name: 'Shreya',
-      avatar: 'https://img.aigexing.com/uploads/9/1253/3315803060/92902931067/61746198.jpg',
-      content: 'Can we go somewhere? ',
-      unreadCount: 1,
-    ),
-    ChatItemInfo(
-      name: 'name3',
-      avatar: 'https://picx.zhimg.com/v2-86c411ee09650ce48ab40eee88a82a5a_r.jpg',
-      content: 'test content',
-      unreadCount: 2,
-    ),
-    ChatItemInfo(
-      name: 'name4',
-      avatar: 'https://img2.woyaogexing.com/2021/03/02/395e91b43ac74217935de343600ea51b%21400x400.jpeg',
-      content: 'test content',
-      unreadCount: 0,
-    ),
-    ChatItemInfo(
-      name: 'name5',
-      avatar: 'https://picx.zhimg.com/v2-13b79479d87b35fc328c35fabb275aaa_r.jpg',
-      content: 'You: He thinks it’s overall ok. But it should be more colorful. test very long content. test very long content test very long content test very long content test very long content  ',
-      unreadCount: 12,
-    ),
-    ChatItemInfo(
-      name: 'name6',
-      avatar: 'https://c-ssl.dtstatic.com/uploads/blog/202103/04/20210304093424_67c7e.thumb.1000_0.jpg',
-      content: 'test content',
-      unreadCount: 3,
-    ),
-    ChatItemInfo(
-      name: 'name7',
-      avatar: 'https://lmg.jj20.com/up/allimg/tx29/081511214242611372.jpg',
-      content: 'test content',
-      unreadCount: 12,
-    ),
-    ChatItemInfo(
-      name: 'name8',
-      avatar: 'https://img2.woyaogexing.com/2021/03/02/411c00abc54446d99eb4c933578d06bf%21400x400.jpeg',
-      content: 'test content',
-      unreadCount: 0,
-    ),
-    ChatItemInfo(
-      name: 'name9',
-      avatar: 'https://picx.zhimg.com/v2-13b79479d87b35fc328c35fabb275aaa_r.jpg',
-      content: 'test content',
-      unreadCount: 0,
-    ),
-    ChatItemInfo(
-      name: 'name10',
-      avatar: 'https://c-ssl.dtstatic.com/uploads/blog/202103/04/20210304093424_67c7e.thumb.1000_0.jpg',
-      content: 'test content',
-      unreadCount: 1,
-    ),
-    ChatItemInfo(
-      name: 'name11',
-      avatar: 'https://lmg.jj20.com/up/allimg/tx29/081511214242611372.jpg',
-      content: 'test content',
-      unreadCount: 111,
-    ),
-    ChatItemInfo(
-      name: 'name12',
-      avatar: 'https://img2.woyaogexing.com/2021/03/02/411c00abc54446d99eb4c933578d06bf%21400x400.jpeg',
-      content: 'test content',
-      unreadCount: 0,
-    ),
 
-
-  ];
+  List<ChatItemInfo> get data => TestData.chatItemList;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
       itemBuilder: (context, index) {
-        return _buildChatItem(testData[index]);
+        return InkWell(
+            onTap: () {
+              Navigator.of(context).push(Right2LeftRouter(child: const ChatPage()));
+            },
+            child: _buildChatItem(data[index]));
       },
-      itemCount: testData.length,
+      itemCount: data.length,
     );
   }
 
@@ -204,7 +138,6 @@ class _ChatListView extends StatelessWidget {
                   ),
                 ),
               ),
-
             )
           else if (item.unreadCount >= 10)
             Container(

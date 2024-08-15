@@ -78,11 +78,14 @@ class _ChatViewState extends State<ChatView> {
           child: EditToolView(
             controller: _chatController,
             onSend: (value, isImage) {
-              _chatController.addMessage(
-                  Message(text: value, isSender: true, type: isImage ? MessageType.localImage : MessageType.text));
+              _onSend(value, isImage);
             },
           )),
     ]);
+  }
+
+  _onSend(String value, bool isImage) {
+    _chatController.addMessage(Message(text: value, isSender: true, type: isImage ? MessageType.localImage : MessageType.text));
   }
 
   _onListTap() {

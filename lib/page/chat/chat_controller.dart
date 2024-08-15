@@ -47,6 +47,7 @@ class ChatController {
     if (!messageStreamController.isClosed) {
       messageStreamController.sink.add(data);
     }
+    scrollToLastMessage();
   }
 
   /// Function to scroll to last messages in chat view

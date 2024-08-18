@@ -67,83 +67,91 @@ class _ProfileDetailState extends State<ProfileDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AboutItem(value: profileInfo.about),
-                _Divider(),
-                const PersonalityItem(value: testLabelList),
-                _Divider(),
-                const InterestsItem(value: testInterestList),
-                _Divider(),
-                BasicInfoItem(profileInfo: profileInfo),
-                _Divider(),
-              ],
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                child: Container(
+                  // make the column height larger to make the page can scroll
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight + 90),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AboutItem(value: profileInfo.about),
+                      _Divider(),
+                      const PersonalityItem(value: testLabelList),
+                      _Divider(),
+                      const InterestsItem(value: testInterestList),
+                      _Divider(),
+                      BasicInfoItem(profileInfo: profileInfo),
+                      _Divider(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-        // like or edit float button
-        Positioned(
-          bottom: 24,
-          left: 40,
-          right: 40,
-          child: GestureDetector(
-            onTap: () {
-              if (isOthers) {
-                // like
-              } else {
-                _goToEditPage();
-              }
-            },
-            child: Container(
-              width: double.infinity,
-              height: 52,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: DreamerColors.primary,
-                borderRadius: BorderRadius.circular(100),
-                // box-shadow: 0px 3px 5px 0px #00000040;
-                boxShadow: const [
-                  BoxShadow(
+            // like or edit float button
+            Positioned(
+              bottom: 24,
+              left: 40,
+              right: 40,
+              child: GestureDetector(
+                onTap: () {
+                  if (isOthers) {
+                    // like
+                  } else {
+                    _goToEditPage();
+                  }
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 52,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  decoration: BoxDecoration(
                     color: DreamerColors.primary,
-                    offset: Offset(0, 3),
-                    blurRadius: 5,
-                  ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  Center(
-                    child: Text(
-                      isOthers ? 'Like' : 'Edit',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        height: 1,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                    borderRadius: BorderRadius.circular(100),
+                    // box-shadow: 0px 3px 5px 0px #00000040;
+                    boxShadow: const [
+                      BoxShadow(
+                        color: DreamerColors.primary,
+                        offset: Offset(0, 3),
+                        blurRadius: 5,
                       ),
-                    ),
+                    ],
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Icon(
-                      isOthers ? DreamerIcons.like : DreamerIcons.edit,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  )
-                ],
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Text(
+                          isOthers ? 'Like' : 'Edit',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            height: 1,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Icon(
+                          isOthers ? DreamerIcons.like : DreamerIcons.edit,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

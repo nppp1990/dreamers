@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
         return;
       }
       if (checkRes.data?.birthday != null && checkRes.data?.user?.phoneNumber != null) {
-        UserManager().saveProfileComplete(true);
+        UserManager().saveProfileComplete(checkRes.data);
         Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const HomePage(index: 0)), (route) => false);
       } else {
         Navigator.pushAndRemoveUntil(context, Right2LeftRouter(child: const OnboardingPage()), (route) => false);

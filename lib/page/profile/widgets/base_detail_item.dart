@@ -95,6 +95,7 @@ class _EditItemWithArrow extends StatelessWidget {
       );
     }
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         onTap();
       },

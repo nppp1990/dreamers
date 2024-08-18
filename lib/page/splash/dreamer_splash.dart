@@ -44,19 +44,21 @@ class _DreamerSplashState extends State<DreamerSplash> {
     int time1 = DateTime.now().millisecondsSinceEpoch;
     await loadRegion();
     int time2 = DateTime.now().millisecondsSinceEpoch;
-    await UserManager().getLoginInfo();
+    await UserManager().init();
     int time3 = DateTime.now().millisecondsSinceEpoch;
-    debugPrint('load region duration: ${time2 - time1}, get login info duration: ${time3 - time2}');
+    debugPrint('userManager init duration: ${time2 - time1}, get login info duration: ${time3 - time2}');
     if (UserManager().isLogin()) {
-      var isProfileCompleted = await UserManager().getProfileComplete();
+      var isProfileCompleted = UserManager().profileComplete;
       int time4 = DateTime.now().millisecondsSinceEpoch;
       debugPrint('get profile complete duration: ${time4 - time3}');
       if (!isProfileCompleted) {
         final profileResult = await RequestManager().checkAuth();
-        if (profileResult.data?.birthday != null && profileResult.data?.user?.phoneNumber != null) {
-          UserManager().saveProfileComplete(true);
+        // checkAuth will return phone number and birthday in profileInfo
+        if (profileResult.data?.birthday != null && profileResult.data?.phoneNumber != null) {
+          UserManager().saveProfileComplete(profileResult.data);
           isProfileCompleted = true;
         }
+        // todo 如果这里超时或者请求失败怎么办
         debugPrint('checkAuth duration: ${DateTime.now().millisecondsSinceEpoch - time4}');
       }
       if (!context.mounted) {

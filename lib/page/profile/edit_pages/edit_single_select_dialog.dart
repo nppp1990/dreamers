@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 class EditSingleDialogContent extends StatefulWidget {
   final String title;
   final List<String> items;
-  final String value;
+  final String? value;
 
-  const EditSingleDialogContent({required this.title, required this.items, required this.value});
+  const EditSingleDialogContent({super.key, required this.title, required this.items, required this.value});
 
   @override
   State<StatefulWidget> createState() => _EditSingleDialogContentState();
@@ -19,7 +19,11 @@ class _EditSingleDialogContentState extends State<EditSingleDialogContent> {
   @override
   void initState() {
     super.initState();
-    _index = widget.items.indexOf(widget.value);
+    if (widget.value == null) {
+      _index = 0;
+    } else {
+      _index = widget.items.indexOf(widget.value!);
+    }
   }
 
   @override

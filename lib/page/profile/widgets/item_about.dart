@@ -5,18 +5,18 @@ import 'package:dreamer/page/profile/widgets/base_detail_item.dart';
 import 'package:flutter/material.dart';
 
 class AboutItem extends StatefulWidget {
-  final String value;
+  final String? value;
   final bool isEdit;
   final ValueChanged<String>? onChanged;
 
-  const AboutItem({super.key, required this.value, this.isEdit = false, this.onChanged});
+  const AboutItem({super.key, this.value, this.isEdit = false, this.onChanged});
 
   @override
   State<StatefulWidget> createState() => _AboutItemState();
 }
 
 class _AboutItemState extends State<AboutItem> with BaseDetailItemMixin {
-  late String _value;
+  late String? _value;
 
   @override
   bool get edit => widget.isEdit;
@@ -31,9 +31,17 @@ class _AboutItemState extends State<AboutItem> with BaseDetailItemMixin {
   }
 
   @override
+  void didUpdateWidget(covariant AboutItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      _value = widget.value;
+    }
+  }
+
+  @override
   Widget buildChild(BuildContext context) {
     return Text(
-      _value,
+      _value ?? 'todo: add about text when value is null',
       style: const TextStyle(
         fontSize: 15,
         height: 18 / 15,
@@ -48,7 +56,7 @@ class _AboutItemState extends State<AboutItem> with BaseDetailItemMixin {
     final res = await Navigator.of(context).push(Right2LeftRouter(
       child: EditSingleItemPage(title: 'About', oldValue: _value),
     ));
-    if (res != null && res is String) {
+    if (res is String) {
       setState(() {
         _value = res;
         widget.onChanged?.call(res);

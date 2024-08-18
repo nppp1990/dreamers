@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 
 final class DialogUtils {
@@ -13,6 +14,22 @@ final class DialogUtils {
     ));
   }
 
-  static void showLoading(BuildContext context, String text, {VoidCallback? dismissCallback}) {
+  static void showLoading(BuildContext context, String text, {VoidCallback? dismissCallback}) {}
+
+  static Future<bool> showConfirmationDialog(
+    BuildContext context,
+    String? title,
+    String? message, {
+    String okLabel = 'OK',
+    String cancelLabel = 'Cancel',
+  }) async {
+    final res = await showOkCancelAlertDialog(
+      context: context,
+      title: title,
+      message: message,
+      okLabel: okLabel,
+      cancelLabel: cancelLabel,
+    );
+    return res == OkCancelResult.ok;
   }
 }

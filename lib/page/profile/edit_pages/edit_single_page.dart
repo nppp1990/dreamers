@@ -1,12 +1,13 @@
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/page/profile/widgets/edit_header.dart';
 import 'package:flutter/material.dart';
 
 class EditSingleItemPage extends StatefulWidget {
   final String title;
-  final String oldValue;
+  final String? oldValue;
 
-  const EditSingleItemPage({super.key, required this.title, required this.oldValue});
+  const EditSingleItemPage({super.key, required this.title, this.oldValue});
 
   @override
   State<StatefulWidget> createState() => _EditSingleItemPageState();
@@ -35,6 +36,10 @@ class _EditSingleItemPageState extends State<EditSingleItemPage> {
             title: widget.title,
             btnStr: 'Save',
             onDone: () {
+              if (_controller.text.isEmpty) {
+                DialogUtils.showToast(context, 'Please enter ${widget.title}');
+                return;
+              }
               Navigator.of(context).pop(_controller.text);
             },
           ),

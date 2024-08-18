@@ -1,5 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
+import 'package:dreamer/common/widget/image.dart';
 import 'package:dreamer/common/widget/tab_header.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
@@ -7,6 +8,7 @@ import 'package:dreamer/page/profile/dream_list.dart';
 import 'package:dreamer/page/profile/profile_detail.dart';
 import 'package:dreamer/page/profile/report_page.dart';
 import 'package:dreamer/page/setting/settings.dart';
+import 'package:dreamer/request/base_result.dart';
 import 'package:dreamer/request/bean/user_profile.dart';
 import 'package:dreamer/request/request_manager.dart';
 import 'package:flutter/material.dart';
@@ -43,14 +45,15 @@ class OtherProfilePage extends StatelessWidget {
       assetImage: const AssetImage('assets/images/bg_base1.png'),
       child: Padding(
         padding: EdgeInsets.only(top: statusBarHeight),
-        child: const ProfileView(profileId: 'testId',),
+        child: const ProfileView(
+          profileId: 'testId',
+        ),
       ),
     );
   }
 }
 
 class ProfileView extends StatefulWidget {
-
   final String? profileId;
 
   const ProfileView({super.key, this.profileId});
@@ -67,17 +70,6 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     debugPrint('ProfileView initState');
-    _loadData();
-  }
-
-  _loadData() async {
-    final profileResult = await RequestManager().getProfile(widget.profileId);
-    if (profileResult.data != null) {
-      final profile = profileResult.data!;
-      debugPrint('Profile: ${profile.toJson()}');
-    } else {
-      debugPrint('Profile load failed: ${profileResult.errMsg}');
-    }
   }
 
   @override
@@ -88,39 +80,59 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _ItemHeader(showSetting: widget.profileId == null),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: _InfoHeader(),
-        ),
-        TabHeader(tabController: _tabController, tabs: const ['Profile', 'Dreams']),
-        const SizedBox(height: 12),
-        Expanded(
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24),
-                topRight: Radius.circular(24),
+    return FutureBuilder<BaseResult<ProfileInfo>>(
+        future: RequestManager().getProfile(widget.profileId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: DreamerColors.primary,
+            ));
+          }
+          final profileInfo = snapshot.data?.data;
+          if (snapshot.hasError || profileInfo == null) {
+            return const Center(child: Text('Error'));
+          }
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: _ItemHeader(showSetting: widget.profileId == null),
               ),
-            ),
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                ProfileDetail(isOthers: widget.profileId != null),
-                const SingleChildScrollView(child: DreamList()),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: _InfoHeader(
+                  name: profileInfo.nickname!,
+                  imageUrl: profileInfo.profileImage!,
+                ),
+              ),
+              TabHeader(tabController: _tabController, tabs: const ['Profile', 'Dreams']),
+              const SizedBox(height: 12),
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                  ),
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      ProfileDetail(
+                        isOthers: widget.profileId != null,
+                        profileInfo: profileInfo,
+                      ),
+                      const SingleChildScrollView(child: DreamList()),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
 
@@ -303,41 +315,52 @@ class _ItemHeader extends StatelessWidget {
 }
 
 class _InfoHeader extends StatelessWidget {
+  final String name;
+  final String imageUrl;
+
+  const _InfoHeader({required this.name, required this.imageUrl});
+
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('John Doe',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                  height: 28 / 24,
-                  fontWeight: FontWeight.w700,
-                )),
-            SizedBox(height: 4),
-            Text('Hello! I’m John.',
-                style: TextStyle(
-                  color: DreamerColors.grey800,
-                  fontSize: 12,
-                  height: 14 / 12,
-                  fontWeight: FontWeight.w400,
-                )),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(name,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    height: 28 / 24,
+                    fontWeight: FontWeight.w700,
+                  )),
+              const SizedBox(height: 4),
+              Text('Hello! I’m $name.',
+                  style: const TextStyle(
+                    color: DreamerColors.grey800,
+                    fontSize: 12,
+                    height: 14 / 12,
+                    fontWeight: FontWeight.w400,
+                  )),
+            ],
+          ),
         ),
-        const Spacer(),
-        Container(
+        CachedImage(
           width: 88,
           height: 88,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            image: const DecorationImage(
-              image: AssetImage('assets/images/test1.png'),
-              fit: BoxFit.cover,
+          imageUrl: imageUrl,
+          imageBuilder: (context, provider) => Container(
+            width: 88,
+            height: 88,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              image: DecorationImage(
+                image: provider,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

@@ -6,12 +6,9 @@ import 'package:dreamer/page/profile/widgets/item_about.dart';
 import 'package:dreamer/page/profile/widgets/item_basic.dart';
 import 'package:dreamer/page/profile/widgets/item_interests.dart';
 import 'package:dreamer/page/profile/widgets/item_personality.dart';
+import 'package:dreamer/request/bean/user_profile.dart';
+import 'package:dreamer/request/request_manager.dart';
 import 'package:flutter/material.dart';
-
-const testAbout =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    '\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    '\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
 const testLabelList = [
   'Positive',
@@ -28,36 +25,45 @@ const testInterestList = [
   '✍️ Writing',
 ];
 
-final testBasicInfoPairList = [
-  BasicInfoBean(key: BasicInfoKey.nickName, value: 'Jon Doe', type: BasicType.singleEdit),
-  BasicInfoBean(key: BasicInfoKey.age, value: 24, type: BasicType.textField),
-  BasicInfoBean(
-    key: BasicInfoKey.language,
-    value: MultiSelectData(values: ['English', 'Japanese']),
-    type: BasicType.multiSelect,
-  ),
-  BasicInfoBean(
-      key: BasicInfoKey.living, value: TwoSelectData(value1: 'USA', value2: 'Seattle'), type: BasicType.twoSelect),
-  BasicInfoBean(key: BasicInfoKey.education, value: 'Bachelor of Computer Science', type: BasicType.singleSelect),
-  BasicInfoBean(key: BasicInfoKey.occupation, value: 'Software Engineer', type: BasicType.singleEdit),
-  BasicInfoBean(key: BasicInfoKey.height, value: '170cm', type: BasicType.singleSelect),
-  BasicInfoBean(key: BasicInfoKey.bodyType, value: 'Slim', type: BasicType.singleSelect),
-  BasicInfoBean(key: BasicInfoKey.marital, value: 'Single', type: BasicType.singleSelect),
-  BasicInfoBean(key: BasicInfoKey.relationshipGoal, value: 'Serious', type: BasicType.singleSelect),
-  BasicInfoBean(key: BasicInfoKey.test1, value: 'value1', type: BasicType.singleEdit),
-  BasicInfoBean(
-      key: BasicInfoKey.test2, value: 'test test test test test test very Long value', type: BasicType.singleEdit),
-  BasicInfoBean(key: BasicInfoKey.test2, value: 'value3', type: BasicType.singleEdit),
-  BasicInfoBean(key: BasicInfoKey.test2, value: 'value4', type: BasicType.singleEdit),
-  BasicInfoBean(key: BasicInfoKey.test2, value: 'value5', type: BasicType.singleEdit),
-  BasicInfoBean(key: BasicInfoKey.test2, value: 'value6', type: BasicType.singleEdit),
-  BasicInfoBean(key: BasicInfoKey.test2, value: 'value7', type: BasicType.singleEdit),
-];
-
-class ProfileDetail extends StatelessWidget {
+class ProfileDetail extends StatefulWidget {
   final bool isOthers;
+  final ProfileInfo profileInfo;
 
-  const ProfileDetail({super.key, required this.isOthers});
+  const ProfileDetail({super.key, required this.isOthers, required this.profileInfo});
+
+  @override
+  State<StatefulWidget> createState() => _ProfileDetailState();
+}
+
+class _ProfileDetailState extends State<ProfileDetail> {
+  bool get isOthers => widget.isOthers;
+
+  ProfileInfo get profileInfo => _profileInfo;
+
+  late ProfileInfo _profileInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _profileInfo = widget.profileInfo;
+  }
+
+  _goToEditPage() async {
+    final res = await Navigator.of(context).push(Right2LeftRouter(
+        child: ProfileEditPage(
+      oldProfileInfo: profileInfo,
+      newProfileInfo: profileInfo.copy(),
+    )));
+    if (res is ProfileInfo) {
+      setState(() {
+        _profileInfo = res;
+        print('ProfileInfo updated: ${_profileInfo.about}');
+      });
+      // res.languages = '["Japanese", "Test1"]';
+      res.height = '200';
+      RequestManager().updateProfile(res);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +76,13 @@ class ProfileDetail extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const AboutItem(value: testAbout),
+                AboutItem(value: profileInfo.about),
                 _Divider(),
                 const PersonalityItem(value: testLabelList),
                 _Divider(),
                 const InterestsItem(value: testInterestList),
                 _Divider(),
-                BasicInfoItem(pairList: testBasicInfoPairList),
+                BasicInfoItem(profileInfo: profileInfo),
                 _Divider(),
               ],
             ),
@@ -92,7 +98,7 @@ class ProfileDetail extends StatelessWidget {
               if (isOthers) {
                 // like
               } else {
-                Navigator.of(context).push(Right2LeftRouter(child: const ProfileEditPage()));
+                _goToEditPage();
               }
             },
             child: Container(
@@ -144,8 +150,22 @@ class ProfileDetail extends StatelessWidget {
 
 /// different from [ProfileDetail], this page is for editing profile
 /// this widget has no [SingleChildScrollView] and [Stack]
-class ProfileDetailEdit extends StatelessWidget {
-  const ProfileDetailEdit({super.key});
+class ProfileDetailEdit extends StatefulWidget {
+  final ProfileInfo profileInfo;
+
+  const ProfileDetailEdit({super.key, required this.profileInfo});
+
+  @override
+  State<StatefulWidget> createState() => _ProfileDetailEditState();
+}
+
+class _ProfileDetailEditState extends State<ProfileDetailEdit> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  ProfileInfo get _profileInfo => widget.profileInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -156,10 +176,10 @@ class ProfileDetailEdit extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AboutItem(
-            value: testAbout,
+            value: _profileInfo.about,
             isEdit: true,
             onChanged: (value) {
-              debugPrint('about changed: $value');
+              _profileInfo.about = value;
             },
           ),
           _Divider(),
@@ -167,8 +187,46 @@ class ProfileDetailEdit extends StatelessWidget {
           _Divider(),
           const InterestsItem(value: testInterestList, isEdit: true),
           _Divider(),
-          BasicInfoItem(pairList: testBasicInfoPairList, isEdit: true),
-          _Divider(),
+          BasicInfoItem(
+            profileInfo: _profileInfo,
+            isEdit: true,
+            onChanged: (BasicInfoBean bean) {
+              switch (bean.key) {
+                case BasicInfoKey.nickName:
+                  _profileInfo.nickname = bean.value as String;
+                  break;
+                case BasicInfoKey.age:
+                  // age no change here
+                  break;
+                case BasicInfoKey.language:
+                  _profileInfo.languages = (bean.value as MultiSelectData).values;
+                  break;
+                case BasicInfoKey.living:
+                  TwoSelectData regionData = bean.value as TwoSelectData;
+                  _profileInfo.livingCountry = regionData.value1;
+                  _profileInfo.livingState = regionData.value2;
+                  break;
+                case BasicInfoKey.education:
+                  _profileInfo.education = bean.value as String;
+                  break;
+                case BasicInfoKey.occupation:
+                  _profileInfo.occupation = bean.value as String;
+                  break;
+                case BasicInfoKey.height:
+                  _profileInfo.height = bean.value as String;
+                  break;
+                case BasicInfoKey.bodyType:
+                  _profileInfo.bodyType = bean.value as String;
+                  break;
+                case BasicInfoKey.marital:
+                  _profileInfo.maritalStatus = bean.value as String;
+                  break;
+                case BasicInfoKey.relationshipGoal:
+                  _profileInfo.relationshipGoal = bean.value as String;
+                  break;
+              }
+            },
+          ),
         ],
       ),
     );

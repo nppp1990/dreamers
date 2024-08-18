@@ -59,29 +59,34 @@ class ProfileInfo {
   final String id;
   final User? user;
   @JsonKey(name: 'profile_image')
-  final String? profileImage;
+  String? profileImage;
   @JsonKey(name: 'gender_identity')
-  final String? genderIdentity;
+  String? genderIdentity;
   @JsonKey(name: 'target_gender')
-  final String? targetGender;
-  final int? birthday;
-  final String? about;
-  final String? nickname;
-  final int? age;
-  final String? languages;
+  String? targetGender;
+  @JsonKey(name: 'phone_number')
+  String? phoneNumber;
+  int? birthday;
+  String? about;
+  String? nickname;
+  int? age;
+  @JsonKey(name: 'test')
+  List<String>? languages;
+  // @JsonKey(includeFromJson: false, includeToJson: false)
+  // List<String> languageList;
   @JsonKey(name: 'living_country')
-  final String? livingCountry;
+  String? livingCountry;
   @JsonKey(name: 'living_state')
-  final String? livingState;
-  final String? education;
-  final String? occupation;
-  final String? height;
+  String? livingState;
+  String? education;
+  String? occupation;
+  String? height;
   @JsonKey(name: 'body_type')
-  final String? bodyType;
+  String? bodyType;
   @JsonKey(name: 'marital_status')
-  final String? maritalStatus;
+  String? maritalStatus;
   @JsonKey(name: 'relationship_goal')
-  final String? relationshipGoal;
+  String? relationshipGoal;
   @JsonKey(name: 'created_at')
   final int? createdAt;
   @JsonKey(name: 'updated_at')
@@ -97,6 +102,7 @@ class ProfileInfo {
       this.profileImage,
       this.genderIdentity,
       this.targetGender,
+      this.phoneNumber,
       this.birthday,
       this.about,
       this.nickname,
@@ -114,8 +120,56 @@ class ProfileInfo {
       this.updatedAt,
       this.deletedAt});
 
-  // the backend expects the user id to be a string
-  Map<String, dynamic> toJson() => _$ProfileInfoToJson(this)..removeNullValues()..['user'] = user?.id;
+  ProfileInfo copy() {
+    return ProfileInfo(
+      id: id,
+      user: user,
+      profileImage: profileImage,
+      genderIdentity: genderIdentity,
+      targetGender: targetGender,
+      phoneNumber: phoneNumber,
+      birthday: birthday,
+      about: about,
+      nickname: nickname,
+      age: age,
+      languages: languages,
+      livingCountry: livingCountry,
+      livingState: livingState,
+      education: education,
+      occupation: occupation,
+      height: height,
+      bodyType: bodyType,
+      maritalStatus: maritalStatus,
+      relationshipGoal: relationshipGoal,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      deletedAt: deletedAt,
+    );
+  }
+
+  // initLanguageList() {
+  //   // "["abc"]" null
+  //   if (languages == null) {
+  //     languageList = [];
+  //   } else {
+  //     languageList = jsonDecode(languages!);
+  //   }
+  // }
+
+  bool isDifferent(ProfileInfo other) {
+    return jsonEncode(toJson()) != jsonEncode(other.toJson());
+  }
+
+  Map<String, dynamic> toJson() => _$ProfileInfoToJson(this)
+    ..removeNullValues()
+    // the backend expects the languages to list of strings
+    // ..['languages'] = languageList
+    // the backend expects the user to be
+    ..['user'] = user?.id;
+
+  Map<String, dynamic> toJsonWithUser() => _$ProfileInfoToJson(this)
+    ..removeNullValues();
+    // ..['languages'] = languageList();
 
   @override
   String toString() {

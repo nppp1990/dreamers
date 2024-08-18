@@ -44,7 +44,7 @@ class Signup7 extends StatelessWidget {
         userRes.data != null &&
         profileRes.data!.birthday != null &&
         userRes.data!.phoneNumber != null) {
-      UserManager().saveProfileComplete(true);
+      UserManager().saveProfileComplete(profileRes.data);
       if (context.mounted) {
         Navigator.of(context).push(Right2LeftRouter(child: const SignupDonePage()));
       }

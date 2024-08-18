@@ -6,7 +6,7 @@ import 'package:dreamer/page/profile/edit_pages/edit_single_page.dart';
 import 'package:dreamer/page/profile/edit_pages/edit_single_select_dialog.dart';
 import 'package:dreamer/page/profile/edit_pages/edit_two_select_page.dart';
 import 'package:dreamer/page/profile/widgets/base_detail_item.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dreamer/request/bean/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,7 +16,7 @@ import 'package:flutter/services.dart';
 /// [type] is the type of the information, default is [BasicType.right]
 class BasicInfoBean {
   final BasicInfoKey key;
-  final Object value;
+  final Object? value;
   final BasicType type;
 
   BasicInfoBean({required this.key, required this.value, required this.type});
@@ -33,8 +33,6 @@ enum BasicInfoKey {
   bodyType,
   marital,
   relationshipGoal,
-  test1,
-  test2,
 }
 
 extension BasicInfoKeyExtension on BasicInfoKey {
@@ -60,22 +58,21 @@ extension BasicInfoKeyExtension on BasicInfoKey {
         return 'Marital';
       case BasicInfoKey.relationshipGoal:
         return 'Relationship goal';
-      case BasicInfoKey.test1:
-        return 'test test test test test test very Long key';
-      case BasicInfoKey.test2:
-        return 'test2';
     }
   }
 }
 
 class TwoSelectData {
   final String value1;
-  final String value2;
+  final String? value2;
 
   TwoSelectData({required this.value1, required this.value2});
 
   @override
   String toString() {
+    if (value2 == null) {
+      return value1;
+    }
     return '$value2, $value1';
   }
 }
@@ -85,9 +82,16 @@ class MultiSelectData {
 
   MultiSelectData({required this.values});
 
+  factory MultiSelectData.from(String? jsonStr) {
+    if (jsonStr == null) {
+      return MultiSelectData(values: []);
+    }
+    return MultiSelectData(values: jsonStr.split(', '));
+  }
+
   @override
   String toString() {
-    return values.join(', ');
+    return values?.join(', ') ?? '';
   }
 }
 
@@ -119,18 +123,9 @@ const relationshipGoalList = [
 ];
 
 // todo this just test
-const heightList = [
-  '150cm',
-  '155cm',
-  '160cm',
-  '165cm',
-  '170cm',
-  '175cm',
-  '180cm',
-  '185cm',
-  '190cm',
-  '195cm',
-];
+// min:130cm max:220cm
+final heightList = List.generate(91, (index) => '${index + 130}cm').toList()..add('220cm+');
+// final heightList = List.generate(220, (index) => '${index + 1}cm').toList()..add('220cm+');
 
 const testLanguageList = [
   'English',
@@ -163,6 +158,7 @@ const testLanguageList = [
 ];
 
 enum BasicType {
+  text, // just text
   textField, // just edit in same page
   singleEdit, // go to another page with one edit
   twoSelect, // go to another page with two select
@@ -171,15 +167,48 @@ enum BasicType {
 }
 
 class BasicInfoItem extends StatelessWidget {
-  final List<BasicInfoBean> pairList;
+  final ProfileInfo profileInfo;
   final bool isEdit;
-  final ValueChanged<List<BasicInfoBean>>? onChanged;
+  final ValueChanged<BasicInfoBean>? onChanged;
 
-  const BasicInfoItem({super.key, required this.pairList, this.isEdit = false, this.onChanged});
+  const BasicInfoItem({super.key, required this.profileInfo, this.isEdit = false, this.onChanged});
+
+  _getAge(int birthday) {
+    final now = DateTime.now();
+    final birth = DateTime.fromMillisecondsSinceEpoch(birthday);
+    final age = now.year - birth.year;
+    if (now.month < birth.month || (now.month == birth.month && now.day < birth.day)) {
+      return age - 1;
+    }
+    return age;
+  }
+
+  List<BasicInfoBean> get pairList => [
+        BasicInfoBean(key: BasicInfoKey.nickName, value: profileInfo.nickname, type: BasicType.singleEdit),
+        BasicInfoBean(key: BasicInfoKey.age, value: _getAge(profileInfo.birthday!), type: BasicType.text),
+        BasicInfoBean(
+          key: BasicInfoKey.language,
+          value: MultiSelectData(values: profileInfo.languages ?? []),
+          type: BasicType.multiSelect,
+        ),
+        BasicInfoBean(
+            key: BasicInfoKey.living,
+            value: TwoSelectData(value1: profileInfo.livingCountry!, value2: profileInfo.livingState),
+            type: BasicType.twoSelect),
+        BasicInfoBean(key: BasicInfoKey.education, value: profileInfo.education, type: BasicType.singleSelect),
+        BasicInfoBean(key: BasicInfoKey.occupation, value: profileInfo.occupation, type: BasicType.singleEdit),
+        // default height is 170cm
+        BasicInfoBean(
+            key: BasicInfoKey.height, value: profileInfo.height ?? heightList[0], type: BasicType.singleSelect),
+        BasicInfoBean(key: BasicInfoKey.bodyType, value: profileInfo.bodyType, type: BasicType.singleSelect),
+        BasicInfoBean(key: BasicInfoKey.marital, value: profileInfo.maritalStatus, type: BasicType.singleSelect),
+        BasicInfoBean(
+            key: BasicInfoKey.relationshipGoal, value: profileInfo.relationshipGoal, type: BasicType.singleSelect),
+      ];
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('BasicInfoItem build');
+    debugPrint('BasicInfoItem build: ${profileInfo.nickname}');
     return DetailItem(
         title: 'Basic Information',
         child: Column(
@@ -216,51 +245,51 @@ class BasicInfoItem extends StatelessWidget {
     }
   }
 
+  _onItemChanged(BasicInfoBean oldBean, Object value, int index) {
+    BasicInfoBean newBean = BasicInfoBean(key: oldBean.key, value: value, type: oldBean.type);
+    pairList[index] = newBean;
+    onChanged?.call(newBean);
+  }
+
   Widget _buildListItem(int index) {
     BasicInfoBean bean = pairList[index];
     switch (bean.type) {
+      case BasicType.text:
+        return _TextInfoItem(name: bean.key.value, value: bean.value.toString(), isEdit: isEdit);
       case BasicType.singleEdit:
         return _SingleInfoItem(
           name: bean.key.value,
-          value: bean.value.toString(),
+          value: bean.value?.toString(),
           isEdit: isEdit,
-          onChanged: (value) {
-            pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
-          },
+          onChanged: (value) => _onItemChanged(bean, value, index),
         );
       case BasicType.twoSelect:
         return _TwoSelectItem(
             name: bean.key.value,
             value: bean.value as TwoSelectData,
             isEdit: isEdit,
-            onChanged: (value) {
-              pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
-            });
+            onChanged: (value) => _onItemChanged(bean, value, index));
       case BasicType.singleSelect:
         return _SingleSelectItem(
           name: bean.key.value,
-          value: bean.value.toString(),
+          value: bean.value?.toString(),
           isEdit: isEdit,
-          onChanged: (value) {
-            pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
-          },
+          onChanged: (value) => _onItemChanged(bean, value, index),
           items: _getSingleItems(bean.key),
         );
       case BasicType.textField:
         return _SingleTextFieldItem(
             name: bean.key.value,
-            value: bean.value.toString(),
+            value: bean.value?.toString(),
             isEdit: isEdit,
-            onChanged: (value) {
-              debugPrint('${bean.key.value} onChanged $value');
-              pairList[index] = BasicInfoBean(key: bean.key, value: value, type: bean.type);
-            });
+            onChanged: (value) => _onItemChanged(bean, value, index));
       case BasicType.multiSelect:
         return _MultiSelectItem(
           name: bean.key.value,
           value: bean.value as MultiSelectData,
           isEdit: isEdit,
           items: _getMultiItems(bean.key),
+          onChanged: (value) => _onItemChanged(bean, value, index),
         );
     }
   }
@@ -288,14 +317,14 @@ class _KeyText extends StatelessWidget {
 
 /// item value text
 class _ValueText extends StatelessWidget {
-  final String value;
+  final String? value;
 
   const _ValueText({required this.value});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      value,
+      value ?? '',
       style: const TextStyle(
         fontSize: 13,
         height: 15.5 / 13,
@@ -358,6 +387,10 @@ class _ItemWithDivider extends StatelessWidget {
         GestureDetector(
           onTap: () {
             onTap!();
+            final FocusScopeNode currentScope = FocusScope.of(context);
+            if (!currentScope.hasPrimaryFocus && currentScope.hasFocus) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
           },
           child: Container(
             constraints: const BoxConstraints(minHeight: 38),
@@ -390,9 +423,45 @@ class _ItemNoDivider extends StatelessWidget {
 
 /// below is basic information item
 
-class _SingleInfoItem extends StatefulWidget {
+class _TextInfoItem extends StatelessWidget {
+  final bool isEdit;
   final String name;
   final String value;
+
+  const _TextInfoItem({required this.name, required this.value, required this.isEdit});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget content = SizedBox(
+      height: 38,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 3,
+            child: _KeyText(value: name),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            flex: 5,
+            child: _ValueText(value: value),
+          ),
+        ],
+      ),
+    );
+    if (isEdit) {
+      return _ItemWithDivider(child: content);
+    } else {
+      return _ItemNoDivider(child: content);
+    }
+  }
+}
+
+class _SingleInfoItem extends StatefulWidget {
+  final String name;
+  final String? value;
   final bool isEdit;
   final ValueChanged<String>? onChanged;
 
@@ -403,12 +472,20 @@ class _SingleInfoItem extends StatefulWidget {
 }
 
 class _SingleInfoItemState extends State<_SingleInfoItem> {
-  late String _value;
+  late String? _value;
 
   @override
   void initState() {
     super.initState();
     _value = widget.value;
+  }
+
+  @override
+  void didUpdateWidget(covariant _SingleInfoItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value) {
+      _value = widget.value;
+    }
   }
 
   @override
@@ -482,6 +559,14 @@ class _TwoSelectItemState extends State<_TwoSelectItem> {
   }
 
   @override
+  void didUpdateWidget(covariant _TwoSelectItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value) {
+      _value = widget.value;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     Widget? arrow;
     if (widget.isEdit) {
@@ -532,7 +617,7 @@ class _TwoSelectItemState extends State<_TwoSelectItem> {
 
 class _SingleSelectItem extends StatefulWidget {
   final String name;
-  final String value;
+  final String? value;
   final bool isEdit;
   final ValueChanged<String>? onChanged;
   final List<String> items;
@@ -545,12 +630,20 @@ class _SingleSelectItem extends StatefulWidget {
 }
 
 class _SingleSelectItemState extends State<_SingleSelectItem> {
-  late String _value;
+  late String? _value;
 
   @override
   void initState() {
     super.initState();
     _value = widget.value;
+  }
+
+  @override
+  void didUpdateWidget(covariant _SingleSelectItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value) {
+      _value = widget.value;
+    }
   }
 
   @override
@@ -590,7 +683,7 @@ class _SingleSelectItemState extends State<_SingleSelectItem> {
     }
   }
 
-  _showBottomSheet(BuildContext context, String title, List<String> items, String value) async {
+  _showBottomSheet(BuildContext context, String title, List<String> items, String? value) async {
     final res = await showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -615,7 +708,7 @@ class _SingleSelectItemState extends State<_SingleSelectItem> {
 
 class _SingleTextFieldItem extends StatelessWidget {
   final String name;
-  final String value;
+  final String? value;
   final bool isEdit;
   final ValueChanged<String>? onChanged;
 
@@ -707,6 +800,14 @@ class _MultiSelectItemState extends State<_MultiSelectItem> {
   void initState() {
     super.initState();
     _value = widget.value;
+  }
+
+  @override
+  void didUpdateWidget(covariant _MultiSelectItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value) {
+      _value = widget.value;
+    }
   }
 
   @override

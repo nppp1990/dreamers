@@ -69,11 +69,11 @@ class ProfileInfo {
   int? birthday;
   String? about;
   String? nickname;
+  @JsonKey(includeFromJson: false, includeToJson: false)
   int? age;
-  @JsonKey(name: 'test')
-  List<String>? languages;
-  // @JsonKey(includeFromJson: false, includeToJson: false)
-  // List<String> languageList;
+  String? languages;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<String>? languageList;
   @JsonKey(name: 'living_country')
   String? livingCountry;
   @JsonKey(name: 'living_state')
@@ -94,8 +94,6 @@ class ProfileInfo {
   @JsonKey(name: 'deleted_at')
   final int? deletedAt;
 
-  factory ProfileInfo.fromJson(Map<String, dynamic> json) => _$ProfileInfoFromJson(json);
-
   ProfileInfo(
       {required this.id,
       this.user,
@@ -108,6 +106,7 @@ class ProfileInfo {
       this.nickname,
       this.age,
       this.languages,
+      this.languageList,
       this.livingCountry,
       this.livingState,
       this.education,
@@ -133,6 +132,7 @@ class ProfileInfo {
       nickname: nickname,
       age: age,
       languages: languages,
+      languageList: languageList,
       livingCountry: livingCountry,
       livingState: livingState,
       education: education,
@@ -147,29 +147,30 @@ class ProfileInfo {
     );
   }
 
-  // initLanguageList() {
-  //   // "["abc"]" null
-  //   if (languages == null) {
-  //     languageList = [];
-  //   } else {
-  //     languageList = jsonDecode(languages!);
-  //   }
-  // }
+  initLanguageList() {
+    // "["abc"]" null ["English"] ["English", "Chinese"]
+    if (languages == null) {
+      languageList = [];
+    } else {
+      languageList = (jsonDecode(languages!) as List).cast<String>();
+    }
+  }
 
   bool isDifferent(ProfileInfo other) {
     return jsonEncode(toJson()) != jsonEncode(other.toJson());
   }
 
+  factory ProfileInfo.fromJson(Map<String, dynamic> json) => _$ProfileInfoFromJson(json)..initLanguageList();
+
   Map<String, dynamic> toJson() => _$ProfileInfoToJson(this)
     ..removeNullValues()
-    // the backend expects the languages to list of strings
-    // ..['languages'] = languageList
+    // the backend expects the languages to json string
+    ..['languages'] = jsonEncode(languageList)
     // the backend expects the user to be
     ..['user'] = user?.id;
 
-  Map<String, dynamic> toJsonWithUser() => _$ProfileInfoToJson(this)
-    ..removeNullValues();
-    // ..['languages'] = languageList();
+
+  Map<String, dynamic> toJsonWithUser() => _$ProfileInfoToJson(this)..removeNullValues();
 
   @override
   String toString() {

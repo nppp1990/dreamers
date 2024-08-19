@@ -51,8 +51,7 @@ ProfileInfo _$ProfileInfoFromJson(Map<String, dynamic> json) => ProfileInfo(
       about: json['about'] as String?,
       nickname: json['nickname'] as String?,
       age: (json['age'] as num?)?.toInt(),
-      languages:
-          (json['test'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      languages: json['languages'] as String?,
       livingCountry: json['living_country'] as String?,
       livingState: json['living_state'] as String?,
       education: json['education'] as String?,
@@ -78,7 +77,7 @@ Map<String, dynamic> _$ProfileInfoToJson(ProfileInfo instance) =>
       'about': instance.about,
       'nickname': instance.nickname,
       'age': instance.age,
-      'test': instance.languages,
+      'languages': instance.languages,
       'living_country': instance.livingCountry,
       'living_state': instance.livingState,
       'education': instance.education,

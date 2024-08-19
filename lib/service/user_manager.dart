@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dreamer/common/utils/local_storage.dart';
 import 'package:dreamer/request/bean/auth.dart';
 import 'package:dreamer/request/bean/user_profile.dart';

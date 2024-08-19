@@ -59,8 +59,6 @@ class _ProfileDetailState extends State<ProfileDetail> {
         _profileInfo = res;
         print('ProfileInfo updated: ${_profileInfo.about}');
       });
-      // res.languages = '["Japanese", "Test1"]';
-      res.height = '200';
       RequestManager().updateProfile(res);
     }
   }
@@ -207,7 +205,7 @@ class _ProfileDetailEditState extends State<ProfileDetailEdit> {
                   // age no change here
                   break;
                 case BasicInfoKey.language:
-                  _profileInfo.languages = (bean.value as MultiSelectData).values;
+                  _profileInfo.languageList = (bean.value as MultiSelectData).values;
                   break;
                 case BasicInfoKey.living:
                   TwoSelectData regionData = bean.value as TwoSelectData;

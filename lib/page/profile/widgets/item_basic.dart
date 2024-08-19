@@ -188,7 +188,7 @@ class BasicInfoItem extends StatelessWidget {
         BasicInfoBean(key: BasicInfoKey.age, value: _getAge(profileInfo.birthday!), type: BasicType.text),
         BasicInfoBean(
           key: BasicInfoKey.language,
-          value: MultiSelectData(values: profileInfo.languages ?? []),
+          value: MultiSelectData(values: profileInfo.languageList ?? []),
           type: BasicType.multiSelect,
         ),
         BasicInfoBean(

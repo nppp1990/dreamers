@@ -1,6 +1,7 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
 import 'package:dreamer/common/widget/image.dart';
+import 'package:dreamer/common/widget/loading.dart';
 import 'package:dreamer/common/widget/tab_header.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
@@ -80,19 +81,10 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<BaseResult<ProfileInfo>>(
-        future: RequestManager().getProfile(widget.profileId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: DreamerColors.primary,
-            ));
-          }
-          final profileInfo = snapshot.data?.data;
-          if (snapshot.hasError || profileInfo == null) {
-            return const Center(child: Text('Error'));
-          }
+    return FutureLoading<BaseResult<ProfileInfo>, ProfileInfo>(
+        convert: (baseResult) => baseResult?.data,
+        futureBuilder: () => RequestManager().getProfile(widget.profileId),
+        contentBuilder: (context, profileInfo) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -133,6 +125,59 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
             ],
           );
         });
+    // return FutureBuilder<BaseResult<ProfileInfo>>(
+    //     future: RequestManager().getProfile(widget.profileId),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return const Center(
+    //             child: CircularProgressIndicator(
+    //           color: DreamerColors.primary,
+    //         ));
+    //       }
+    //       final profileInfo = snapshot.data?.data;
+    //       if (snapshot.hasError || profileInfo == null) {
+    //         return const Center(child: Text('Error'));
+    //       }
+    //       return Column(
+    //         mainAxisSize: MainAxisSize.min,
+    //         children: [
+    //           Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 16),
+    //             child: _ItemHeader(showSetting: widget.profileId == null),
+    //           ),
+    //           Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    //             child: _InfoHeader(
+    //               name: profileInfo.nickname!,
+    //               imageUrl: profileInfo.profileImage!,
+    //             ),
+    //           ),
+    //           TabHeader(tabController: _tabController, tabs: const ['Profile', 'Dreams']),
+    //           const SizedBox(height: 12),
+    //           Expanded(
+    //             child: Container(
+    //               decoration: const BoxDecoration(
+    //                 color: Colors.white,
+    //                 borderRadius: BorderRadius.only(
+    //                   topLeft: Radius.circular(24),
+    //                   topRight: Radius.circular(24),
+    //                 ),
+    //               ),
+    //               child: TabBarView(
+    //                 controller: _tabController,
+    //                 children: [
+    //                   ProfileDetail(
+    //                     isOthers: widget.profileId != null,
+    //                     profileInfo: profileInfo,
+    //                   ),
+    //                   const SingleChildScrollView(child: DreamList()),
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       );
+    //     });
   }
 }
 

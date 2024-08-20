@@ -93,7 +93,6 @@ class _PicturePickerState extends State<PicturePicker> {
         child: GestureDetector(
           onTap: _pickImage,
           child: Container(
-            // 圆形
             width: 120,
             height: 120,
             decoration: BoxDecoration(

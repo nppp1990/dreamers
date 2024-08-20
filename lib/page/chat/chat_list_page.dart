@@ -1,6 +1,7 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/chat/chat_page.dart';
+import 'package:dreamer/page/quiz/generate_loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,7 +24,10 @@ class HomeChatListPage extends StatelessWidget {
             padding: EdgeInsets.only(top: statusBarHeight),
             child: Column(
               children: [
-                _SearchView(),
+                GestureDetector(onTap: () {
+                  // todo just test
+                  Navigator.of(context).push(Right2LeftRouter(child: const GeneratingDreamPage()));
+                }, child: _SearchView()),
                 Expanded(
                   child: Container(
                     decoration: const BoxDecoration(
@@ -53,7 +57,6 @@ final class ChatItemInfo {
 }
 
 class _ChatListView extends StatelessWidget {
-
   List<ChatItemInfo> get data => TestData.chatItemList;
 
   @override
@@ -121,8 +124,7 @@ class _ChatListView extends StatelessWidget {
             Container(
               width: 24,
               height: 24,
-              // 圆形
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: DreamerColors.primary,
                 shape: BoxShape.circle,
               ),

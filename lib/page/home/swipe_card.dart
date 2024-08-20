@@ -212,7 +212,6 @@ class SwipeCard extends StatelessWidget {
       child: Container(
         width: 80,
         height: 80,
-        // 圆形的
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: backgroundColor,

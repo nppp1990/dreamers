@@ -46,8 +46,9 @@ class UserManager {
 
   void clearLoginInfo() {
     loginResult = null;
-    saveProfileComplete(null);
-    LocalStorage.removeData(keyLoginResult);
+    LocalStorage.clearAll();
+    // saveProfileComplete(null);
+    // LocalStorage.removeData(keyLoginResult);
   }
 
   isLogin() {

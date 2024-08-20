@@ -96,14 +96,6 @@ class _ProfileDetailState extends State<ProfileDetail> {
                 _Divider(),
                 BasicInfoItem(profileInfo: profileInfo),
                 _Divider(),
-                LayoutBuilder(builder: (context, builder) {
-                  print('builder: ${builder.maxHeight}----${builder.minHeight}');
-                  return const SizedBox(
-                    height: 0,
-                  );
-                }),
-                // 动态改变此处的height
-                // const SizedBox(height: 24 + 52,)
               ],
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/widget/bg_page.dart';
+import 'package:dreamer/common/widget/fix_page_child.dart';
 import 'package:dreamer/common/widget/image.dart';
 import 'package:dreamer/common/widget/loading.dart';
 import 'package:dreamer/common/widget/tab_header.dart';
@@ -113,11 +114,13 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      ProfileDetail(
-                        isOthers: widget.profileId != null,
-                        profileInfo: profileInfo,
+                      FixPageViewChild(
+                        child: ProfileDetail(
+                          isOthers: widget.profileId != null,
+                          profileInfo: profileInfo,
+                        ),
                       ),
-                      const SingleChildScrollView(child: DreamList()),
+                      const FixPageViewChild(child: SingleChildScrollView(child: DreamList())),
                     ],
                   ),
                 ),

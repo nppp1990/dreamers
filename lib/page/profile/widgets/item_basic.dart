@@ -208,7 +208,6 @@ class BasicInfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('BasicInfoItem build: ${profileInfo.nickname}');
     return DetailItem(
         title: 'Basic Information',
         child: Column(

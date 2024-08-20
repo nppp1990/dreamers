@@ -1,4 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/utils/local_storage.dart';
+import 'package:dreamer/common/widget/BubbleGuideDialog.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
 import 'package:dreamer/page/profile/widgets/dream_content_page.dart';
@@ -20,7 +22,7 @@ class DreamList extends StatelessWidget {
               // todo test
               Navigator.of(context).push(Right2LeftRouter(child: const DreamContentPage(index: 0)));
             },
-            child: const _DreamItem(index: 1, title: 'title1'),
+            child: const _DreamItem(index: 1, title: 'title1', showBubbleGuide: true),
           ),
           const SizedBox(height: 12),
           const _DreamItem(index: 2, title: 'title2', lock: true),
@@ -28,7 +30,6 @@ class DreamList extends StatelessWidget {
           const _DreamItem(index: 3, title: 'title3', lock: true),
           const SizedBox(height: 48),
           ElevatedButton(
-            // 设置padding
             style: ButtonStyle(
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -59,12 +60,55 @@ class DreamList extends StatelessWidget {
   }
 }
 
-class _DreamItem extends StatelessWidget {
+class _DreamItem extends StatefulWidget {
   final int index;
   final String title;
   final bool lock;
+  final bool showBubbleGuide;
 
-  const _DreamItem({required this.index, required this.title, this.lock = false});
+  const _DreamItem({required this.index, required this.title, this.lock = false, this.showBubbleGuide = false});
+
+  @override
+  State<StatefulWidget> createState() => _DreamItemState();
+}
+
+class _DreamItemState extends State<_DreamItem> {
+  static const String _bubbleGuideShowedKey = 'hasShowedBubbleGuide';
+
+  bool _hasShowedBubbleGuide = false;
+
+  int get index => widget.index;
+
+  String get title => widget.title;
+
+  bool get lock => widget.lock;
+
+  @override
+  void initState() {
+    super.initState();
+    _initBubbleGuide();
+  }
+
+  _initBubbleGuide() async {
+    if (!widget.showBubbleGuide) {
+      return;
+    }
+    final hasShowedBubbleGuide = await LocalStorage.getDataOrDefault<bool>(_bubbleGuideShowedKey, false);
+    if (hasShowedBubbleGuide || _hasShowedBubbleGuide) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (_hasShowedBubbleGuide) {
+        return;
+      }
+      _hasShowedBubbleGuide = true;
+      LocalStorage.saveData(_bubbleGuideShowedKey, true);
+      final renderBox = context.findRenderObject() as RenderBox;
+      final Offset offset = renderBox.localToGlobal(Offset.zero);
+      showBubbleGuideDialog(context, Offset(16, offset.dy - 12),
+          'We have 3 layers of Dream. Dream is a content generated  by AI based on questions and your answers.');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

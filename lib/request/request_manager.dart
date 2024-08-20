@@ -30,19 +30,14 @@ class RequestManager {
   factory RequestManager() => _instance;
 
   BaseResult<T> _handleError<T>(error) {
-    debugPrint('-----------error: ${error.toString()}');
     debugPrintStack(stackTrace: error.stackTrace, label: error.toString());
-    debugPrint('-----------XXXXXXerror: ${error.toString()}');
     switch (error.runtimeType) {
       case const (DioException):
-        print('-----1');
         final res = (error as DioException).response;
-        print('-----2');
         if (res?.data is String) {
           debugPrint('error1----: ${res?.data}');
           return BaseResult<T>(error: error, errMsg: res?.data);
         }
-        print('-----3: ${res?.data}');
         if (res?.data is Map) {
           if (res?.data['error'] is Map) {
             var errorRes = res?.data['error'];

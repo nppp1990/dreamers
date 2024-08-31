@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dreamer/request/base_result.dart';
 import 'package:dreamer/request/bean/auth.dart';
 import 'package:dreamer/request/bean/error_detail.dart';
+import 'package:dreamer/request/bean/quiz.dart';
 import 'package:dreamer/request/bean/status.dart';
 import 'package:dreamer/request/bean/user_profile.dart';
 import 'package:dreamer/request/index.dart';
@@ -156,6 +157,26 @@ class RequestManager {
       return BaseResult(data: res);
     } catch (error) {
       return _handleError(error);
+    }
+  }
+
+  Future<BaseResult<List<QuizInfo>>> getQuizzes() async {
+    final client = ApiClient(_dio);
+    try {
+      final List<QuizInfo> res = await client.getQuizzes();
+      return BaseResult(data: res);
+    } catch (error) {
+      return _handleError<List<QuizInfo>>(error);
+    }
+  }
+
+  Future<BaseResult<QuestionInfo>> getQuestions(String quizId) async {
+    final client = ApiClient(_dio);
+    try {
+      final QuestionInfo res = await client.getQuestions(quizId);
+      return BaseResult(data: res);
+    } catch (error) {
+      return _handleError<QuestionInfo>(error);
     }
   }
 }

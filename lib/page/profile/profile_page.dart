@@ -120,7 +120,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
                           profileInfo: profileInfo,
                         ),
                       ),
-                      const FixPageViewChild(child: SingleChildScrollView(child: DreamList())),
+                      const FixPageViewChild(child: DreamListView()),
                     ],
                   ),
                 ),
@@ -128,59 +128,6 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
             ],
           );
         });
-    // return FutureBuilder<BaseResult<ProfileInfo>>(
-    //     future: RequestManager().getProfile(widget.profileId),
-    //     builder: (context, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return const Center(
-    //             child: CircularProgressIndicator(
-    //           color: DreamerColors.primary,
-    //         ));
-    //       }
-    //       final profileInfo = snapshot.data?.data;
-    //       if (snapshot.hasError || profileInfo == null) {
-    //         return const Center(child: Text('Error'));
-    //       }
-    //       return Column(
-    //         mainAxisSize: MainAxisSize.min,
-    //         children: [
-    //           Padding(
-    //             padding: const EdgeInsets.symmetric(horizontal: 16),
-    //             child: _ItemHeader(showSetting: widget.profileId == null),
-    //           ),
-    //           Padding(
-    //             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    //             child: _InfoHeader(
-    //               name: profileInfo.nickname!,
-    //               imageUrl: profileInfo.profileImage!,
-    //             ),
-    //           ),
-    //           TabHeader(tabController: _tabController, tabs: const ['Profile', 'Dreams']),
-    //           const SizedBox(height: 12),
-    //           Expanded(
-    //             child: Container(
-    //               decoration: const BoxDecoration(
-    //                 color: Colors.white,
-    //                 borderRadius: BorderRadius.only(
-    //                   topLeft: Radius.circular(24),
-    //                   topRight: Radius.circular(24),
-    //                 ),
-    //               ),
-    //               child: TabBarView(
-    //                 controller: _tabController,
-    //                 children: [
-    //                   ProfileDetail(
-    //                     isOthers: widget.profileId != null,
-    //                     profileInfo: profileInfo,
-    //                   ),
-    //                   const SingleChildScrollView(child: DreamList()),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       );
-    //     });
   }
 }
 

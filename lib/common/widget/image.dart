@@ -8,8 +8,19 @@ class CachedImage extends StatelessWidget {
   final double? height;
   final ImageWidgetBuilder? imageBuilder;
   final PlaceholderWidgetBuilder? placeholder;
+  final bool showProgress;
+  final BoxFit? fit;
 
-  const CachedImage({super.key, required this.imageUrl, this.width, this.height, this.imageBuilder, this.placeholder});
+  const CachedImage({
+    super.key,
+    required this.imageUrl,
+    this.width,
+    this.height,
+    this.imageBuilder,
+    this.placeholder,
+    this.showProgress = true,
+    this.fit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +29,20 @@ class CachedImage extends StatelessWidget {
       imageUrl: imageUrl,
       width: width,
       height: height,
+      fit: fit,
       placeholder: placeholder ??
           (context, url) => Container(
                 width: width,
                 height: height,
                 color: DreamerColors.grey300,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                child: showProgress ? const Center(child: CircularProgressIndicator()) : null,
               ),
-      errorWidget: (context, url, error) => const Icon(Icons.broken_image_outlined),
+      errorWidget: (context, url, error) => Container(
+        width: width,
+        height: height,
+        color: DreamerColors.grey300,
+        child: const Center(child: Icon(Icons.broken_image_outlined)),
+      ),
     );
   }
 }

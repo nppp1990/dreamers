@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dreamer/request/bean/auth.dart';
+import 'package:dreamer/request/bean/quiz.dart';
 import 'package:dreamer/request/bean/status.dart';
 import 'package:dreamer/request/bean/user_profile.dart';
 import 'package:retrofit/retrofit.dart';
@@ -36,4 +37,10 @@ abstract class ApiClient {
 
   @POST('verify/check')
   Future<StatusResult> checkCode(@Body() Map<String, dynamic> param);
+
+  @GET('functions/quizzes')
+  Future<List<QuizInfo>> getQuizzes();
+
+  @GET('functions/quiz')
+  Future<QuestionInfo> getQuestions(@Query('id') String id);
 }

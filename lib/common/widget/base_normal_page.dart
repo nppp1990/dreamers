@@ -9,6 +9,7 @@ class NormalPage extends StatelessWidget {
   final AssetImage assetImage;
   final String? rightBtnStr;
   final VoidCallback? onRightBtn;
+  final bool bottomPadding;
 
   const NormalPage({
     super.key,
@@ -17,19 +18,19 @@ class NormalPage extends StatelessWidget {
     this.assetImage = const AssetImage('assets/images/bg_base1.png'),
     this.rightBtnStr,
     this.onRightBtn,
+    this.bottomPadding = true,
     required this.child,
   });
 
   @override
   Widget build(BuildContext context) {
-    final paddingBottom = MediaQuery.viewPaddingOf(context).bottom;
     return PageBackground(
       assetImage: assetImage,
       child: Column(
         children: [
           NormalHeader(title: title, onBack: onBack, rightBtnStr: rightBtnStr, onRightBtn: onRightBtn),
           Expanded(child: child),
-          SizedBox(height: paddingBottom),
+          if (bottomPadding) SizedBox(height: MediaQuery.viewPaddingOf(context).bottom),
         ],
       ),
     );

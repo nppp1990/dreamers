@@ -14,7 +14,14 @@ final class DialogUtils {
     ));
   }
 
-  static void showLoading(BuildContext context, String text, {VoidCallback? dismissCallback}) {}
+  static Future showLoading(BuildContext context, {String? text, VoidCallback? dismissCallback}) async {
+    return await showDialog(
+        useSafeArea: false,
+        context: context,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
+  }
 
   static Future<bool> showConfirmationDialog(
     BuildContext context,

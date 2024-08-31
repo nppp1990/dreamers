@@ -1,7 +1,9 @@
 import 'package:dreamer/common/router/router_utils.dart';
+import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/chat/chat_page.dart';
-import 'package:dreamer/page/quiz/generate_loading_page.dart';
+import 'package:dreamer/page/quiz/quiz_page.dart';
+import 'package:dreamer/request/bean/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,10 +26,12 @@ class HomeChatListPage extends StatelessWidget {
             padding: EdgeInsets.only(top: statusBarHeight),
             child: Column(
               children: [
-                GestureDetector(onTap: () {
-                  // todo just test
-                  Navigator.of(context).push(Right2LeftRouter(child: const GeneratingDreamPage()));
-                }, child: _SearchView()),
+                GestureDetector(
+                    onTap: () {
+                      // todo
+                      // DialogUtils.showLoading(context);
+                    },
+                    child: _SearchView()),
                 Expanded(
                   child: Container(
                     decoration: const BoxDecoration(

@@ -1,13 +1,55 @@
 import 'package:dreamer/common/router/router_utils.dart';
 import 'package:dreamer/common/utils/local_storage.dart';
 import 'package:dreamer/common/widget/BubbleGuideDialog.dart';
+import 'package:dreamer/common/widget/loading.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/data/dreamer_icons.dart';
-import 'package:dreamer/page/profile/widgets/dream_content_page.dart';
+import 'package:dreamer/page/quiz/quiz_page.dart';
+import 'package:dreamer/request/base_result.dart';
+import 'package:dreamer/request/bean/dream.dart';
 import 'package:flutter/material.dart';
 
-class DreamList extends StatelessWidget {
-  const DreamList({super.key});
+class DreamListView extends StatelessWidget {
+  const DreamListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureLoading<BaseResult<List<Dream>>, List<Dream>>(
+      convert: (baseResult) => baseResult?.data,
+      // todo
+      futureBuilder: () => Future.delayed(const Duration(seconds: 1), () => BaseResult(
+        data: [
+          Dream(id: '1', title: 'Dream 1', imageUrl: '', layer: 1),
+          Dream(id: '2', title: 'Dream 2', imageUrl: '', layer: 2),
+          Dream(id: '3', title: 'Dream 3', imageUrl: '', layer: 3),
+        ]
+      )),
+      contentBuilder: (context, data) {
+        // print('------data: $data');
+        // List<Quiz> list = [];
+        // list.addAll(data);
+        // list.sort((a, b) => a.layer.compareTo(b.layer));
+        // if (data.length < 3) {
+        //   for (int i = data.length; i < 3; i++) {
+        //     list.add(Quiz(id: 'empty_$i', title: 'title${i + 1}', imageUrl: '', layer: i + 1));
+        //   }
+        // }
+        return SingleChildScrollView(
+            child: _DreamList(
+          dreams: data,
+          openIndex: data.length - 1,
+        ));
+      },
+      emptyCheck: (data) => data.isNotEmpty,
+    );
+  }
+}
+
+class _DreamList extends StatelessWidget {
+  final List<Dream> dreams;
+  final int openIndex;
+
+  const _DreamList({required this.dreams, this.openIndex = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +59,27 @@ class DreamList extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: () {
-              // todo test
-              Navigator.of(context).push(Right2LeftRouter(child: const DreamContentPage(index: 0)));
-            },
-            child: const _DreamItem(index: 1, title: 'title1', showBubbleGuide: true),
-          ),
-          const SizedBox(height: 12),
-          const _DreamItem(index: 2, title: 'title2', lock: true),
-          const SizedBox(height: 12),
-          const _DreamItem(index: 3, title: 'title3', lock: true),
-          const SizedBox(height: 48),
+          for (int i = 0; i < dreams.length; i++)
+            // const SizedBox(height: 12),
+            ...[
+            GestureDetector(
+              onTap: () {
+                // todo test
+                // Navigator.of(context).push(Right2LeftRouter(child: DreamContentPage(index: i)));
+                // RequestManager().getQuestions(quizzes[i].id).then((value) {
+                //   print('------value: $value');
+                // });
+              },
+              child: _DreamItem(
+                index: i + 1,
+                title: dreams[i].title,
+                lock: i > openIndex,
+                showBubbleGuide: i == 0,
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
+          const SizedBox(height: 36),
           ElevatedButton(
             style: ButtonStyle(
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
@@ -52,7 +103,9 @@ class DreamList extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(Right2LeftRouter(child: const QuizListPage()));
+            },
           )
         ],
       ),

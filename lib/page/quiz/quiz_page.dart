@@ -144,7 +144,7 @@ class QuizQuestionPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            QuizStepIndicator(total: 7, current: index),
+            QuizStepIndicator(total: questionInfo.questions.length, current: index),
             const SizedBox(height: 24),
             QuizOptionListView(
               options: options,

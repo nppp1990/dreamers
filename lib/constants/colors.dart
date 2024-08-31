@@ -4,7 +4,7 @@ final class DreamerColors {
   DreamerColors._();
 
   static const primary = Color(0xFFA755FF);
-  static const secondary = Color(0xFFEAE8FF);
+  static const secondary = Color(0xFFE8D3FF);
   static const grey600 = Color(0xFF6A6A6A);
   static const grey800 = Color(0xFF1F2937);
   static const grey300 = Color(0xFF91989F);

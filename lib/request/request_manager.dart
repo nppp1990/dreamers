@@ -179,4 +179,24 @@ class RequestManager {
       return _handleError<QuestionInfo>(error);
     }
   }
+
+  Future<BaseResult<StatusResult>> submitQuizAnswers(List<QuestionAnswer> answers) async {
+    final client = ApiClient(_dio);
+    try {
+      final StatusResult res = await client.submitQuizAnswers(answers);
+      return BaseResult(data: res);
+    } catch (error) {
+      return _handleError<StatusResult>(error);
+    }
+  }
+
+  Future<BaseResult<PersonalityResult>> generateQuizResult(String quizId) async {
+    final client = ApiClient(_dio);
+    try {
+      final PersonalityResult res = await client.generateQuizResult(Id(id: quizId));
+      return BaseResult(data: res);
+    } catch (error) {
+      return _handleError<PersonalityResult>(error);
+    }
+  }
 }

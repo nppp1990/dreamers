@@ -74,3 +74,37 @@ Map<String, dynamic> _$QuestionOptionToJson(QuestionOption instance) =>
       'option': instance.content,
       'sort_order': instance.sort,
     };
+
+QuestionAnswer _$QuestionAnswerFromJson(Map<String, dynamic> json) =>
+    QuestionAnswer(
+      userId: json['user'] as String,
+      questionId: json['question'] as String,
+      optionId: json['answer'] as String,
+    );
+
+Map<String, dynamic> _$QuestionAnswerToJson(QuestionAnswer instance) =>
+    <String, dynamic>{
+      'user': instance.userId,
+      'question': instance.questionId,
+      'answer': instance.optionId,
+    };
+
+Id _$IdFromJson(Map<String, dynamic> json) => Id(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$IdToJson(Id instance) => <String, dynamic>{
+      'id': instance.id,
+    };
+
+PersonalityResult _$PersonalityResultFromJson(Map<String, dynamic> json) =>
+    PersonalityResult(
+      personality: json['personality'] as String,
+      level: (json['level'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$PersonalityResultToJson(PersonalityResult instance) =>
+    <String, dynamic>{
+      'personality': instance.personality,
+      'level': instance.level,
+    };

@@ -43,4 +43,10 @@ abstract class ApiClient {
 
   @GET('functions/quiz')
   Future<QuestionInfo> getQuestions(@Query('id') String id);
+
+  @POST('question-answers/multiple-create')
+  Future<StatusResult> submitQuizAnswers(@Body() List<QuestionAnswer> answers);
+
+  @POST('functions/quiz-done')
+  Future<PersonalityResult> generateQuizResult(@Body() Id id);
 }

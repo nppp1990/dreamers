@@ -332,6 +332,61 @@ class _ApiClient implements ApiClient {
     return value;
   }
 
+  @override
+  Future<StatusResult> submitQuizAnswers(List<QuestionAnswer> answers) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = answers.map((e) => e.toJson()).toList();
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<StatusResult>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'question-answers/multiple-create',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = StatusResult.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<PersonalityResult> generateQuizResult(Id id) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(id.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<PersonalityResult>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'functions/quiz-done',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = PersonalityResult.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

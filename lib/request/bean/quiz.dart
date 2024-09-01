@@ -71,3 +71,42 @@ class QuestionOption {
 
   Map<String, dynamic> toJson() => _$QuestionOptionToJson(this);
 }
+
+@JsonSerializable()
+class QuestionAnswer {
+  @JsonKey(name: 'user')
+  final String userId;
+  @JsonKey(name: 'question')
+  final String questionId;
+  @JsonKey(name: 'answer')
+  final String optionId;
+
+  QuestionAnswer({required this.userId, required this.questionId, required this.optionId});
+
+  factory QuestionAnswer.fromJson(Map<String, dynamic> json) => _$QuestionAnswerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$QuestionAnswerToJson(this);
+}
+
+@JsonSerializable()
+class Id {
+  final String id;
+
+  Id({required this.id});
+
+  factory Id.fromJson(Map<String, dynamic> json) => _$IdFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IdToJson(this);
+}
+
+@JsonSerializable()
+class PersonalityResult {
+  final String personality;
+  final int level;
+
+  PersonalityResult({required this.personality, required this.level});
+
+  factory PersonalityResult.fromJson(Map<String, dynamic> json) => _$PersonalityResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonalityResultToJson(this);
+}

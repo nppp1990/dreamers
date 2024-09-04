@@ -6,6 +6,7 @@ import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/quiz/quiz_category.dart';
 import 'package:dreamer/page/quiz/quiz_loading.dart';
 import 'package:dreamer/page/quiz/quiz_question.dart';
+import 'package:dreamer/page/quiz/quiz_result_card.dart';
 import 'package:dreamer/request/base_result.dart';
 import 'package:dreamer/request/bean/quiz.dart';
 import 'package:dreamer/request/request_manager.dart';
@@ -112,7 +113,8 @@ class QuizQuestionPage extends StatelessWidget {
                 const Spacer(),
                 _buildBtn('Next', DreamerColors.primary, () {
                   if (index + 1 < questionInfo.questions.length) {
-                    Navigator.of(context).push(Right2LeftRouter(child: QuizQuestionPage(
+                    Navigator.of(context).push(Right2LeftRouter(
+                        child: QuizQuestionPage(
                       questionInfo: questionInfo,
                       index: index + 1,
                       selectedOptions: selectedOptions,
@@ -363,5 +365,25 @@ class QuizListPage extends StatelessWidget {
             id: '10'),
       ]),
     ]);
+  }
+}
+
+class QuizResultPage extends StatelessWidget {
+  final String title;
+  final String content;
+  final String desc;
+
+  const QuizResultPage({super.key, required this.title, required this.content, required this.desc});
+
+  @override
+  Widget build(BuildContext context) {
+    return PageBackground(
+      assetImage: const AssetImage('assets/images/bg_base1.png'),
+      child: QuizResultContainer(
+        title: title,
+        content: content,
+        desc: desc,
+      ),
+    );
   }
 }

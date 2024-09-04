@@ -1,9 +1,6 @@
 import 'package:dreamer/common/router/router_utils.dart';
-import 'package:dreamer/common/utils/dialog_utils.dart';
 import 'package:dreamer/constants/colors.dart';
 import 'package:dreamer/page/chat/chat_page.dart';
-import 'package:dreamer/page/quiz/quiz_page.dart';
-import 'package:dreamer/request/bean/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

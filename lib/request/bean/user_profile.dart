@@ -149,7 +149,7 @@ class ProfileInfo {
 
   initLanguageList() {
     // "["abc"]" null ["English"] ["English", "Chinese"]
-    if (languages == null) {
+    if (languages == null || languages == 'null') {
       languageList = [];
     } else {
       languageList = (jsonDecode(languages!) as List).cast<String>();
